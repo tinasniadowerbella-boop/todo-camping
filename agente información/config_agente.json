@@ -1,0 +1,273 @@
+{
+  "agente": {
+    "id": "informativo-campers",
+    "nombre": "Agente Informativo de Campers",
+    "version": "1.0",
+    "descripcion": "Sistema de información sobre catálogo de campers con guardrails de seguridad",
+    "scope": "INFORMACIÓN SOLO"
+  },
+  
+  "base_datos": {
+    "campers": [
+      {
+        "id": "C001",
+        "modelo": "Roadtrip 2.5",
+        "tipo": "Autocaravana",
+        "año": 2022,
+        "capacidad": 5,
+        "camas": 2,
+        "largo_m": 7.5,
+        "combustible": "Diesel",
+        "consumo_l_100km": 8.5,
+        "precio_diario": 120,
+        "equipamiento": {
+          "AC": true,
+          "calefaccion": true,
+          "cocina": true,
+          "baño": true
+        },
+        "estado": "Activo",
+        "disponible": true
+      },
+      {
+        "id": "C002",
+        "modelo": "VanLife Pro",
+        "tipo": "Furgoneta",
+        "año": 2023,
+        "capacidad": 4,
+        "camas": 2,
+        "largo_m": 6.2,
+        "combustible": "Gasolina",
+        "consumo_l_100km": 7.8,
+        "precio_diario": 95,
+        "equipamiento": {
+          "AC": true,
+          "calefaccion": true,
+          "cocina": true,
+          "baño": false
+        },
+        "estado": "Activo",
+        "disponible": true
+      },
+      {
+        "id": "C003",
+        "modelo": "Nomad XL",
+        "tipo": "Autocaravana",
+        "año": 2021,
+        "capacidad": 6,
+        "camas": 3,
+        "largo_m": 8.1,
+        "combustible": "Diesel",
+        "consumo_l_100km": 9.2,
+        "precio_diario": 150,
+        "equipamiento": {
+          "AC": true,
+          "calefaccion": true,
+          "cocina": true,
+          "baño": true
+        },
+        "estado": "Mantenimiento",
+        "disponible": false
+      },
+      {
+        "id": "C004",
+        "modelo": "Explorer Mini",
+        "tipo": "Furgoneta",
+        "año": 2023,
+        "capacidad": 3,
+        "camas": 1,
+        "largo_m": 5.5,
+        "combustible": "Gasolina",
+        "consumo_l_100km": 6.9,
+        "precio_diario": 75,
+        "equipamiento": {
+          "AC": false,
+          "calefaccion": true,
+          "cocina": false,
+          "baño": false
+        },
+        "estado": "Activo",
+        "disponible": true
+      },
+      {
+        "id": "C005",
+        "modelo": "Comfort Home",
+        "tipo": "Autocaravana",
+        "año": 2020,
+        "capacidad": 7,
+        "camas": 3,
+        "largo_m": 8.8,
+        "combustible": "Diesel",
+        "consumo_l_100km": 10.1,
+        "precio_diario": 170,
+        "equipamiento": {
+          "AC": true,
+          "calefaccion": true,
+          "cocina": true,
+          "baño": true
+        },
+        "estado": "Activo",
+        "disponible": true
+      },
+      {
+        "id": "C006",
+        "modelo": "Urban Escape",
+        "tipo": "Furgoneta",
+        "año": 2022,
+        "capacidad": 4,
+        "camas": 2,
+        "largo_m": 6.0,
+        "combustible": "Gasolina",
+        "consumo_l_100km": 7.5,
+        "precio_diario": 85,
+        "equipamiento": {
+          "AC": true,
+          "calefaccion": false,
+          "cocina": true,
+          "baño": true
+        },
+        "estado": "Activo",
+        "disponible": true
+      },
+      {
+        "id": "C007",
+        "modelo": "Adventure Max",
+        "tipo": "Autocaravana",
+        "año": 2021,
+        "capacidad": 5,
+        "camas": 2,
+        "largo_m": 7.3,
+        "combustible": "Diesel",
+        "consumo_l_100km": 8.8,
+        "precio_diario": 135,
+        "equipamiento": {
+          "AC": true,
+          "calefaccion": true,
+          "cocina": true,
+          "baño": false
+        },
+        "estado": "Reparación",
+        "disponible": false
+      },
+      {
+        "id": "C008",
+        "modelo": "Compact Joy",
+        "tipo": "Furgoneta",
+        "año": 2023,
+        "capacidad": 2,
+        "camas": 1,
+        "largo_m": 5.0,
+        "combustible": "Gasolina",
+        "consumo_l_100km": 6.5,
+        "precio_diario": 65,
+        "equipamiento": {
+          "AC": false,
+          "calefaccion": false,
+          "cocina": false,
+          "baño": false
+        },
+        "estado": "Activo",
+        "disponible": true
+      },
+      {
+        "id": "C009",
+        "modelo": "Family Travel",
+        "tipo": "Autocaravana",
+        "año": 2019,
+        "capacidad": 8,
+        "camas": 4,
+        "largo_m": 9.2,
+        "combustible": "Diesel",
+        "consumo_l_100km": 11.0,
+        "precio_diario": 190,
+        "equipamiento": {
+          "AC": true,
+          "calefaccion": true,
+          "cocina": true,
+          "baño": true
+        },
+        "estado": "Activo",
+        "disponible": true
+      },
+      {
+        "id": "C010",
+        "modelo": "EcoVan Plus",
+        "tipo": "Furgoneta",
+        "año": 2022,
+        "capacidad": 3,
+        "camas": 1,
+        "largo_m": 5.8,
+        "combustible": "Hybrid",
+        "consumo_l_100km": 5.2,
+        "precio_diario": 80,
+        "equipamiento": {
+          "AC": true,
+          "calefaccion": true,
+          "cocina": true,
+          "baño": false
+        },
+        "estado": "Activo",
+        "disponible": true
+      }
+    ]
+  },
+
+  "guardrails_seguridad": {
+    "scope_autorizado": [
+      "especificaciones_tecnicas",
+      "disponibilidad",
+      "precios",
+      "equipamiento",
+      "comparativas",
+      "requisitos_legales",
+      "recomendaciones",
+      "restricciones_circulacion"
+    ],
+    "scope_denegado": [
+      "datos_personales",
+      "reservas_confirmadas",
+      "pagos_transacciones",
+      "informacion_corporativa",
+      "credenciales",
+      "temas_no_relacionados"
+    ],
+    "intentos_evasion_bloqueados": [
+      "prompt_injection",
+      "role_play_forzado",
+      "circumvencion_scope",
+      "solicitud_indirecta",
+      "explotacion_confianza",
+      "urgencia_artificial"
+    ]
+  },
+
+  "respuestas_estandar": {
+    "rechazo_general": "Solo puedo ayudarte con información sobre campers. ¿Tienes preguntas sobre especificaciones, disponibilidad o precios?",
+    "fuera_de_scope": "Eso está fuera de mi alcance. Solo proporciono información de campers. ¿Hay algo sobre nuestros modelos que quieras saber?",
+    "datos_personales": "No tengo acceso a datos personales. Para consultas sobre clientes, contacta a soporte@empresa.com",
+    "reservas": "No puedo procesar reservas. Contacta a reservas@empresa.com con el modelo que te interesa.",
+    "escalacion": "Si necesitas ayuda con esto, contacta a soporte@empresa.com o llama a +XX-XXX-XXXX"
+  },
+
+  "metricas": {
+    "registrar": [
+      "preguntas_aceptadas",
+      "preguntas_rechazadas",
+      "intentos_evasion",
+      "modelos_consultados",
+      "conversiones_a_reservas"
+    ],
+    "alertas": [
+      "3+ rechazos en conversación",
+      "intentos_repetidos_evasion",
+      "preguntas_fuera_scope_frecuentes"
+    ]
+  },
+
+  "integraciones": {
+    "agente_orquestador": "Para soporte general y escalación",
+    "agente_reservas": "Cuando usuario quiere confirmar camper",
+    "soporte_email": "soporte@empresa.com",
+    "soporte_telefono": "+XX-XXX-XXXX"
+  }
+}
