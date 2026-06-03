@@ -339,14 +339,15 @@ let CONFIG = {
 ═══════════════════════════════════════════════════════════════════ */
 const MOCK_DB = {
   campers: [
-    { id:'C001', modelo:'Adria Coral 670 SL',         tipo:'Autocaravana', año:2022, capacidad:4, camas:2, largo_m:6.90, combustible:'Diesel', consumo_l_100km:9.5,  precio_diario:95,  ac:true,  calefaccion:true,  cocina:true,  bano:true,  estado:'Activo',        disponible:true,  descripcion:'Autocaravana familiar con baño completo y salón amplio.' },
-    { id:'C002', modelo:'Weinsberg CaraBus 600 MQ',   tipo:'Furgoneta',    año:2023, capacidad:2, camas:1, largo_m:5.99, combustible:'Diesel', consumo_l_100km:7.2,  precio_diario:65,  ac:false, calefaccion:true,  cocina:true,  bano:false, estado:'Activo',        disponible:true,  descripcion:'Furgoneta compacta ideal para pareja, fácil de aparcar.' },
-    { id:'C003', modelo:'Knaus Sun I 650 MEG',        tipo:'Autocaravana', año:2021, capacidad:6, camas:3, largo_m:6.99, combustible:'Diesel', consumo_l_100km:10.2, precio_diario:110, ac:true,  calefaccion:true,  cocina:true,  bano:true,  estado:'Activo',        disponible:true,  descripcion:'Perfecta para familia grande. Tres zonas de cama independientes.' },
-    { id:'C004', modelo:'Carthago C-Tourer T143',     tipo:'Autocaravana', año:2020, capacidad:4, camas:2, largo_m:7.39, combustible:'Diesel', consumo_l_100km:11.0, precio_diario:130, ac:true,  calefaccion:true,  cocina:true,  bano:true,  estado:'Activo',        disponible:false, descripcion:'Gama premium con materiales de lujo y garaje trasero.' },
-    { id:'C005', modelo:'Carado CV600',                tipo:'Furgoneta',    año:2022, capacidad:2, camas:1, largo_m:5.99, combustible:'Diesel', consumo_l_100km:7.8,  precio_diario:58,  ac:false, calefaccion:true,  cocina:true,  bano:false, estado:'Mantenimiento', disponible:false, descripcion:'En revisión anual.' },
-    { id:'C006', modelo:'Bürstner Lyseo TD690',       tipo:'Autocaravana', año:2023, capacidad:4, camas:2, largo_m:6.99, combustible:'Diesel', consumo_l_100km:9.8,  precio_diario:105, ac:true,  calefaccion:true,  cocina:true,  bano:true,  estado:'Activo',        disponible:true,  descripcion:'Diseño moderno con techo elevable y cocina de inducción.' },
-    { id:'C007', modelo:'Hymer B-ML T580',            tipo:'Autocaravana', año:2019, capacidad:2, camas:1, largo_m:5.72, combustible:'Diesel', consumo_l_100km:8.9,  precio_diario:78,  ac:false, calefaccion:true,  cocina:true,  bano:true,  estado:'Activo',        disponible:true,  descripcion:'Autocaravana compacta para pareja con baño integrado.' },
-    { id:'C008', modelo:'Pössl Campster',              tipo:'Furgoneta',    año:2023, capacidad:2, camas:1, largo_m:4.99, combustible:'Diesel', consumo_l_100km:6.8,  precio_diario:55,  ac:false, calefaccion:false, cocina:true,  bano:false, estado:'Activo',        disponible:true,  descripcion:'La más compacta. Sin calefacción, ideal primavera-otoño.' },
+    // key: código único · unidades: flota disponible de ese modelo (< 10)
+    { id:'C001', key:'TC-ACS', modelo:'Adria Coral 670 SL',         unidades:3, tipo:'Autocaravana', año:2022, capacidad:4, camas:2, largo_m:6.90, combustible:'Diesel', consumo_l_100km:9.5,  precio_diario:95,  ac:true,  calefaccion:true,  cocina:true,  bano:true,  estado:'Activo',        disponible:true,  descripcion:'Autocaravana familiar con baño completo y salón amplio.' },
+    { id:'C002', key:'TC-WCB', modelo:'Weinsberg CaraBus 600 MQ',   unidades:5, tipo:'Furgoneta',    año:2023, capacidad:2, camas:1, largo_m:5.99, combustible:'Diesel', consumo_l_100km:7.2,  precio_diario:65,  ac:false, calefaccion:true,  cocina:true,  bano:false, estado:'Activo',        disponible:true,  descripcion:'Furgoneta compacta ideal para pareja, fácil de aparcar.' },
+    { id:'C003', key:'TC-KSI', modelo:'Knaus Sun I 650 MEG',        unidades:2, tipo:'Autocaravana', año:2021, capacidad:6, camas:3, largo_m:6.99, combustible:'Diesel', consumo_l_100km:10.2, precio_diario:110, ac:true,  calefaccion:true,  cocina:true,  bano:true,  estado:'Activo',        disponible:true,  descripcion:'Perfecta para familia grande. Tres zonas de cama independientes.' },
+    { id:'C004', key:'TC-CCT', modelo:'Carthago C-Tourer T143',     unidades:2, tipo:'Autocaravana', año:2020, capacidad:4, camas:2, largo_m:7.39, combustible:'Diesel', consumo_l_100km:11.0, precio_diario:130, ac:true,  calefaccion:true,  cocina:true,  bano:true,  estado:'Activo',        disponible:false, descripcion:'Gama premium con materiales de lujo y garaje trasero.' },
+    { id:'C005', key:'TC-CAR', modelo:'Carado CV600',                unidades:4, tipo:'Furgoneta',    año:2022, capacidad:2, camas:1, largo_m:5.99, combustible:'Diesel', consumo_l_100km:7.8,  precio_diario:58,  ac:false, calefaccion:true,  cocina:true,  bano:false, estado:'Mantenimiento', disponible:false, descripcion:'En revisión anual.' },
+    { id:'C006', key:'TC-BLD', modelo:'Bürstner Lyseo TD690',       unidades:3, tipo:'Autocaravana', año:2023, capacidad:4, camas:2, largo_m:6.99, combustible:'Diesel', consumo_l_100km:9.8,  precio_diario:105, ac:true,  calefaccion:true,  cocina:true,  bano:true,  estado:'Activo',        disponible:true,  descripcion:'Diseño moderno con techo elevable y cocina de inducción.' },
+    { id:'C007', key:'TC-HYM', modelo:'Hymer B-ML T580',            unidades:4, tipo:'Autocaravana', año:2019, capacidad:2, camas:1, largo_m:5.72, combustible:'Diesel', consumo_l_100km:8.9,  precio_diario:78,  ac:false, calefaccion:true,  cocina:true,  bano:true,  estado:'Activo',        disponible:true,  descripcion:'Autocaravana compacta para pareja con baño integrado.' },
+    { id:'C008', key:'TC-PCA', modelo:'Pössl Campster',              unidades:6, tipo:'Furgoneta',    año:2023, capacidad:2, camas:1, largo_m:4.99, combustible:'Diesel', consumo_l_100km:6.8,  precio_diario:55,  ac:false, calefaccion:false, cocina:true,  bano:false, estado:'Activo',        disponible:true,  descripcion:'La más compacta. Sin calefacción, ideal primavera-otoño.' },
   ],
   reservas: [],
   _nextId: 1,
@@ -622,48 +623,71 @@ async function execVerificarDisp({ modelo, fecha_inicio, fecha_fin }) {
     try {
       const { data: camper } = await sbClient.from('campers').select('*').ilike('modelo', `%${modelo}%`).limit(1).single();
       if (!camper) return { disponible: false, motivo: 'Modelo no encontrado.' };
-      if (!camper.disponible || camper.estado !== 'Activo') return { disponible: false, motivo: `Estado: ${camper.estado}` };
+      if (camper.estado !== 'Activo') return { disponible: false, motivo: `Estado: ${camper.estado}` };
       const { data: conflicts } = await sbClient.from('reservas')
-        .select('id').eq('camper_id', camper.id)
+        .select('id').eq('camper_key', camper.key)
         .neq('estado_reserva', 'Cancelada')
         .lte('fecha_inicio', fecha_fin).gte('fecha_fin', fecha_inicio);
-      return { disponible: !conflicts?.length, modelo: camper.modelo, precio_diario: camper.precio_diario };
+      const ocupadas = conflicts?.length || 0;
+      const disponibles = (camper.unidades || 1) - ocupadas;
+      return {
+        disponible: disponibles > 0,
+        modelo: camper.modelo,
+        key: camper.key,
+        precio_diario: camper.precio_diario,
+        unidades_totales: camper.unidades || 1,
+        unidades_disponibles: Math.max(0, disponibles),
+      };
     } catch(e) { /* fallback */ }
   }
+  // Mock
   const camper = MOCK_DB.campers.find(c => c.modelo.toLowerCase().includes(modelo.toLowerCase()));
   if (!camper) return { disponible: false, motivo: 'Modelo no encontrado en el catálogo.' };
-  if (!camper.disponible || camper.estado !== 'Activo') return { disponible: false, motivo: `El camper está en estado: ${camper.estado}.` };
-  const conflict = MOCK_DB.reservas.some(r =>
-    r.camper_id === camper.id && r.estado_reserva !== 'Cancelada' &&
+  if (camper.estado !== 'Activo') return { disponible: false, motivo: `El camper está en estado: ${camper.estado}.` };
+  const ocupadas = MOCK_DB.reservas.filter(r =>
+    r.camper_key === camper.key && r.estado_reserva !== 'Cancelada' &&
     r.fecha_inicio <= fecha_fin && r.fecha_fin >= fecha_inicio
-  );
-  return { disponible: !conflict, modelo: camper.modelo, precio_diario: camper.precio_diario };
+  ).length;
+  const disponibles = camper.unidades - ocupadas;
+  return {
+    disponible: disponibles > 0,
+    modelo: camper.modelo,
+    key: camper.key,
+    precio_diario: camper.precio_diario,
+    unidades_totales: camper.unidades,
+    unidades_disponibles: Math.max(0, disponibles),
+  };
 }
 
 async function execCrearReserva(args) {
   if (sbClient) {
     try {
-      const { data: camper } = await sbClient.from('campers').select('id,precio_diario').ilike('modelo', `%${args.camper_modelo}%`).limit(1).single();
+      const { data: camper } = await sbClient.from('campers').select('id,key,precio_diario,unidades').ilike('modelo', `%${args.camper_modelo}%`).limit(1).single();
       if (!camper) return { error: 'Modelo no encontrado.' };
       const dias = Math.ceil((new Date(args.fecha_fin) - new Date(args.fecha_inicio)) / 86400000);
       const { data, error } = await sbClient.from('reservas').insert({
-        camper_id: camper.id,
+        camper_id:  camper.id,
+        camper_key: camper.key,
         cliente_nombre: args.cliente_nombre, cliente_email: args.cliente_email,
         fecha_inicio: args.fecha_inicio, fecha_fin: args.fecha_fin,
         num_personas: args.num_personas, estado_reserva: 'Confirmada',
         precio_total: dias * camper.precio_diario, notas: args.notas,
       }).select().single();
       if (error) return { error: error.message };
-      return { ok: true, id_reserva: data.id, precio_total: dias * camper.precio_diario, dias };
+      return { ok: true, id_reserva: data.id, camper_key: camper.key, precio_total: dias * camper.precio_diario, dias };
     } catch(e) { /* fallback */ }
   }
+  // Mock
   const camper = MOCK_DB.campers.find(c => c.modelo.toLowerCase().includes(args.camper_modelo.toLowerCase()));
   if (!camper) return { error: 'Modelo no encontrado en el catálogo.' };
   const dias = Math.ceil((new Date(args.fecha_fin) - new Date(args.fecha_inicio)) / 86400000);
-  if (dias <= 0) return { error: 'Las fechas no son válidas.' };
+  if (dias <= 0) return { error: 'Las fechas no son válidas (la fecha de fin debe ser posterior a la de inicio).' };
   const id = `RES-${String(MOCK_DB._nextId++).padStart(4, '0')}`;
   MOCK_DB.reservas.push({
-    id, camper_id: camper.id, camper_modelo: camper.modelo,
+    id,
+    camper_id:  camper.id,
+    camper_key: camper.key,
+    camper_modelo: camper.modelo,
     cliente_nombre: args.cliente_nombre, cliente_email: args.cliente_email,
     fecha_inicio: args.fecha_inicio, fecha_fin: args.fecha_fin,
     num_personas: args.num_personas || null,
@@ -671,7 +695,7 @@ async function execCrearReserva(args) {
     precio_total: dias * camper.precio_diario,
     notas: args.notas || null,
   });
-  return { ok: true, id_reserva: id, precio_total: dias * camper.precio_diario, dias };
+  return { ok: true, id_reserva: id, camper_key: camper.key, precio_total: dias * camper.precio_diario, dias };
 }
 
 async function execConsultarReserva({ email, id_reserva }) {
@@ -976,30 +1000,4 @@ async function iniciar() {
 document.addEventListener('DOMContentLoaded', () => {
   const panel    = document.getElementById('config-panel');
   const saveBtn  = document.getElementById('config-save');
-  const sendBtn  = document.getElementById('send-btn');
-  const userInput = document.getElementById('user-input');
-
-  // Auto-start if key already hardcoded
-  if (CONFIG.ANTHROPIC_API_KEY) {
-    panel.classList.add('hidden');
-    iniciar();
-  }
-
-  saveBtn.addEventListener('click', () => {
-    const key = document.getElementById('cfg-anthropic').value.trim();
-    if (!key) { alert('La API key de Anthropic es obligatoria.'); return; }
-    CONFIG.ANTHROPIC_API_KEY = key;
-    CONFIG.SUPABASE_URL      = document.getElementById('cfg-sb-url').value.trim();
-    CONFIG.SUPABASE_ANON_KEY = document.getElementById('cfg-sb-key').value.trim();
-    panel.classList.add('hidden');
-    iniciar();
-  });
-
-  sendBtn.addEventListener('click', handleSend);
-  userInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
-  });
-});
-</script>
-</body>
-</html>
+  

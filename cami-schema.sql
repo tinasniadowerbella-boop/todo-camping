@@ -6,6 +6,7 @@
 -- ── Tabla principal de campers ────────────────────────────────
 CREATE TABLE IF NOT EXISTS public.campers (
   id              TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
+  key             TEXT UNIQUE NOT NULL,   -- código legible, ej: TC-ACS
   modelo          TEXT        NOT NULL,
   tipo            TEXT        NOT NULL CHECK (tipo IN ('Autocaravana', 'Furgoneta')),
   año             INTEGER,
@@ -15,6 +16,7 @@ CREATE TABLE IF NOT EXISTS public.campers (
   combustible     TEXT        CHECK (combustible IN ('Diesel', 'Gasolina', 'Eléctrico', 'Híbrido')),
   consumo_l_100km NUMERIC(4,1),
   precio_diario   NUMERIC(8,2) NOT NULL,
+  unidades        INTEGER     NOT NULL DEFAULT 1 CHECK (unidades BETWEEN 1 AND 9), -- flota disponible de este modelo
   -- Equipamiento (columnas booleanas para filtrado eficiente)
   ac              BOOLEAN DEFAULT FALSE,
   calefaccion     BOOLEAN DEFAULT FALSE,
@@ -36,6 +38,7 @@ CREATE TABLE IF NOT EXISTS public.campers (
 CREATE TABLE IF NOT EXISTS public.reservas (
   id              TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
   camper_id       TEXT NOT NULL REFERENCES public.campers(id) ON DELETE CASCADE,
+  camper_key      TEXT NOT NULL,          -- código legible del camper, ej: TC-ACS
   cliente_nombre  TEXT,
   cliente_email   TEXT,
   fecha_inicio    DATE NOT NULL,
@@ -55,7 +58,9 @@ CREATE INDEX IF NOT EXISTS idx_campers_disponible ON public.campers (disponible)
 CREATE INDEX IF NOT EXISTS idx_campers_tipo       ON public.campers (tipo);
 CREATE INDEX IF NOT EXISTS idx_campers_precio     ON public.campers (precio_diario);
 CREATE INDEX IF NOT EXISTS idx_campers_capacidad  ON public.campers (capacidad);
+CREATE INDEX IF NOT EXISTS idx_campers_key        ON public.campers (key);
 CREATE INDEX IF NOT EXISTS idx_reservas_camper    ON public.reservas (camper_id);
+CREATE INDEX IF NOT EXISTS idx_reservas_key       ON public.reservas (camper_key);
 CREATE INDEX IF NOT EXISTS idx_reservas_fechas    ON public.reservas (fecha_inicio, fecha_fin);
 
 -- ── Row Level Security (RLS) ──────────────────────────────────
@@ -86,16 +91,13 @@ CREATE TRIGGER trg_campers_updated_at
 -- ============================================================
 -- DATOS DE EJEMPLO — borra o adapta a tu catálogo real
 -- ============================================================
+-- key: código único del modelo · unidades: flota de ese modelo disponible (1-9)
 INSERT INTO public.campers
-  (modelo, tipo, año, capacidad, camas, largo_m, combustible, consumo_l_100km,
-   precio_diario, ac, calefaccion, cocina, bano, estado, disponible, descripcion)
+  (key, modelo, tipo, año, capacidad, camas, largo_m, combustible, consumo_l_100km,
+   precio_diario, unidades, ac, calefaccion, cocina, bano, estado, disponible, descripcion)
 VALUES
-  ('Adria Coral 670 SL',   'Autocaravana', 2022, 4, 2, 6.9,  'Diesel', 9.5,  95.00, TRUE,  TRUE,  TRUE, TRUE,  'Activo', TRUE,  'Autocaravana familiar con baño completo y zona salón amplia.'),
-  ('Weinsberg CaraBus 600 MQ', 'Furgoneta', 2023, 2, 1, 5.99, 'Diesel', 7.2,  65.00, FALSE, TRUE,  TRUE, FALSE, 'Activo', TRUE,  'Furgoneta compacta ideal para pareja, fácil de aparcar.'),
-  ('Knaus Sun I 650 MEG',  'Autocaravana', 2021, 6, 3, 6.99, 'Diesel', 10.2, 110.00, TRUE,  TRUE,  TRUE, TRUE,  'Activo', TRUE,  'Perfecta para familia grande. Tres zonas de cama independientes.'),
-  ('Carthago C-Tourer T143', 'Autocaravana', 2020, 4, 2, 7.39, 'Diesel', 11.0, 130.00, TRUE, TRUE, TRUE, TRUE, 'Activo', FALSE, 'Gama premium con materiales de lujo y garaje trasero.'),
-  ('Carado CV600',         'Furgoneta',    2022, 2, 1, 5.99, 'Diesel', 7.8,  58.00, FALSE, TRUE,  TRUE, FALSE, 'Mantenimiento', FALSE, 'Furgoneta polivalente, actualmente en revisión anual.'),
-  ('Bürstner Lyseo TD690', 'Autocaravana', 2023, 4, 2, 6.99, 'Diesel', 9.8,  105.00, TRUE, TRUE,  TRUE, TRUE,  'Activo', TRUE,  'Diseño moderno con techo elevable y cocina de inducción.'),
-  ('Hymer B-ML T580',      'Autocaravana', 2019, 2, 1, 5.72, 'Diesel', 8.9,  78.00, FALSE, TRUE,  TRUE, TRUE,  'Activo', TRUE,  'Autocaravana compacta para pareja viajera con baño integrado.'),
-  ('Pössl Campster',       'Furgoneta',    2023, 2, 1, 4.99, 'Diesel', 6.8,  55.00, FALSE, FALSE, TRUE, FALSE, 'Activo', TRUE,  'La más compacta del catálogo. Sin calefacción, ideal primavera-otoño.')
-ON CONFLICT (id) DO NOTHING;
+  ('TC-ACS', 'Adria Coral 670 SL',       'Autocaravana', 2022, 4, 2, 6.90, 'Diesel', 9.5,   95.00, 3, TRUE,  TRUE,  TRUE,  TRUE,  'Activo',        TRUE,  'Autocaravana familiar con baño completo y salón amplio.'),
+  ('TC-WCB', 'Weinsberg CaraBus 600 MQ', 'Furgoneta',    2023, 2, 1, 5.99, 'Diesel', 7.2,   65.00, 5, FALSE, TRUE,  TRUE,  FALSE, 'Activo',        TRUE,  'Furgoneta compacta ideal para pareja, fácil de aparcar.'),
+  ('TC-KSI', 'Knaus Sun I 650 MEG',      'Autocaravana', 2021, 6, 3, 6.99, 'Diesel', 10.2, 110.00, 2, TRUE,  TRUE,  TRUE,  TRUE,  'Activo',        TRUE,  'Perfecta para familia grande. Tres zonas de cama independientes.'),
+  ('TC-CCT', 'Carthago C-Tourer T143',   'Autocaravana', 2020, 4, 2, 7.39, 'Diesel', 11.0, 130.00, 2, TRUE,  TRUE,  TRUE,  TRUE,  'Activo',        FALSE, 'Gama premium con materiales de lujo y garaje trasero.'),
+  ('TC-CAR', 'Carado CV600',              'Furgoneta',    2022, 2, 1, 5.99, 'Diesel', 7.8,   58.00, 4, FALSE, TRUE,  TRUE,  FALSE, 'Mantenimiento', FALSE, 'Furgoneta polivalente, actualme
