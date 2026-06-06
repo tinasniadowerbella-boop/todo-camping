@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: todocamping
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false          # se pone a mano en el dashboard de Render
+      - key: SUPABASE_URL
+        value: https://wgrqkffxwzwbzgjmbtsd.supabase.co
+      - key: SUPABASE_ANON_KEY
+        sync: false          # se pone a mano en el dashboard de Render
+      - key: MODEL
+        value: claude-haiku-4-5-20251001
+      - key: NODE_ENV
+        value: production
