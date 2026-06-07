@@ -1076,34 +1076,7 @@
 </div>
 <button id="tc-chat-bubble" class="tc-hidden" title="Hablar con un asistente de TodoCamping">💬</button>
 
-<script>
-/* ═══════════════════════════════════════════
-   TODOCAMPING — WIDGET IA (Leo, Cami, Remi)
-═══════════════════════════════════════════ */
-(function() {
+<script src="/widget.js"></script>
 
-/* ── CONFIG ── */
-let TC_CONFIG = {
-  SUPABASE_URL:      'https://wgrqkffxwzwbzgjmbtsd.supabase.co',
-  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndncnFrZmZ4d3p3Ynpnam1idHNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwODYzMjUsImV4cCI6MjA5NTY2MjMyNX0.gwqy3kr-PKXJ0ovnVrV3eUhPvwSmOdtNSUd-oKQ6ZDw',
-  MODEL: 'claude-haiku-4-5-20251001',
-};
-
-fetch('/api/config').then(r => r.json()).then(cfg => {
-  if (cfg.supabaseUrl)     TC_CONFIG.SUPABASE_URL      = cfg.supabaseUrl;
-  if (cfg.supabaseAnonKey) TC_CONFIG.SUPABASE_ANON_KEY = cfg.supabaseAnonKey;
-  if (cfg.model)           TC_CONFIG.MODEL             = cfg.model;
-  tcInitSupabase();
-}).catch(() => { tcInitSupabase(); });
-
-/* ── MOCK DB ── */
-const TC_MOCK = {
-  campers: [
-    { id:'C001', key:'TC-ACS', modelo:'Adria Coral 670 SL',       unidades:3, tipo:'Autocaravana', año:2022, capacidad:4, precio_diario:95,  ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true,  descripcion:'Autocaravana familiar con baño completo y salón amplio.' },
-    { id:'C002', key:'TC-WCB', modelo:'Weinsberg CaraBus 600 MQ', unidades:5, tipo:'Furgoneta',    año:2023, capacidad:2, precio_diario:65,  ac:false, calefaccion:true,  cocina:true, bano:false, estado:'Activo',        disponible:true,  descripcion:'Furgoneta compacta ideal para pareja, fácil de aparcar.' },
-    { id:'C003', key:'TC-KSI', modelo:'Knaus Sun I 650 MEG',      unidades:2, tipo:'Autocaravana', año:2021, capacidad:6, precio_diario:110, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true,  descripcion:'Perfecta para familia grande. Tres zonas de cama independientes.' },
-    { id:'C004', key:'TC-CCT', modelo:'Carthago C-Tourer T143',   unidades:2, tipo:'Autocaravana', año:2020, capacidad:4, precio_diario:130, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:false, descripcion:'Gama premium con materiales de lujo y garaje trasero.' },
-    { id:'C005', key:'TC-CAR', modelo:'Carado CV600',              unidades:4, tipo:'Furgoneta',    año:2022, capacidad:2, precio_diario:58,  ac:false, calefaccion:true,  cocina:true, bano:false, estado:'Mantenimiento', disponible:false, descripcion:'En revisión anual.' },
-    { id:'C006', key:'TC-BLD', modelo:'Bürstner Lyseo TD690',     unidades:3, tipo:'Autocaravana', año:2023, capacidad:4, precio_diario:105, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true,  descripcion:'Diseño moderno con techo elevable y cocina de inducción.' },
-    { id:'C007', key:'TC-HYM', modelo:'Hymer B-ML T580',          unidades:4, tipo:'Autocaravana', año:2019, capacidad:2, precio_diario:78,  ac:false, calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true,  descripcion:'Autocaravana compacta para pareja con baño integrado.' },
-    { id:'C008', key:'TC-PCA', modelo:'Pössl C
+</body>
+</html>
