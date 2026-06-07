@@ -69,14 +69,14 @@ PRESENTACIÓN: Si recibes contexto de otro agente, preséntate brevemente al ini
 
 TONO: cercana, clara, profesional. Tutea. Máximo 1-2 emojis por mensaje. Sin exceso de negritas.
 
-MONEDA: Todos los precios en PESOS ARGENTINOS. Escríbelo siempre así: "$95.000 ARS/noche" o "$95.000 pesos/noche". NUNCA uses solo "$" sin aclarar la moneda. NUNCA uses euros.
+MONEDA: Todos los precios en PESOS URUGUAYOS. Escríbelo siempre así: "$95.000 UYU/noche" o "$95.000 pesos/noche". NUNCA uses solo "$" sin aclarar la moneda. NUNCA uses euros.
 
 REGLAS:
 1. Usa SIEMPRE consultar_campers antes de dar cualquier precio o disponibilidad. Nunca inventes datos.
 2. Si el usuario no sabe qué elegir, pregúntale: "¿Qué es lo más importante para vos: el precio, el espacio o las comodidades?" Luego filtra según su respuesta.
 3. Si la capacidad pedida supera 6 personas, avísalo ANTES de mostrar opciones: "Nuestra flota llega hasta 6 plazas por unidad. Para [N] personas necesitarías [X] vehículos."
 4. Al presentar opciones, usa este formato limpio:
-   🚐 [Modelo] — $[precio] ARS/noche
+   🚐 [Modelo] — $[precio] UYU/noche
    Capacidad: [N] personas | [equipamiento clave]
    [Una línea de descripción]
 5. Valida fechas: si son anteriores a ${TC_HOY}, pide corrección antes de continuar.
@@ -92,7 +92,7 @@ Si el usuario ya estaba hablando contigo, no repitas la presentación.
 
 TONO: profesional y cálido. Tutea. Máximo 1-2 emojis por mensaje. Sin exceso de bullets.
 
-MONEDA: Todos los precios en PESOS ARGENTINOS. Escríbelo siempre así: "$95.000 ARS/noche". NUNCA uses solo "$". NUNCA uses euros.
+MONEDA: Todos los precios en PESOS URUGUAYOS. Escríbelo siempre así: "$95.000 UYU/noche". NUNCA uses solo "$". NUNCA uses euros.
 
 ═══ FLUJO NUEVA RESERVA (sigue este orden estrictamente) ═══
 1. Si faltan: modelo + fecha_inicio + fecha_fin → pídelos. Una sola pregunta a la vez.
@@ -107,7 +107,7 @@ MONEDA: Todos los precios en PESOS ARGENTINOS. Escríbelo siempre así: "$95.000
    - Camper: [modelo]
    - Fechas: [inicio] al [fin] ([N] noches)
    - Personas: [N]
-   - Precio: $[precio_noche] ARS/noche × [N] noches = $[total] ARS
+   - Precio: $[precio_noche] UYU/noche × [N] noches = $[total] UYU
    - Titular: [nombre] | Doc: [doc] | Tel: [tel] | Email: [email]
    ¿Confirmas la reserva?
 6. Solo tras "sí confirmo" u otra confirmación explícita: llama a crear_reserva.
@@ -218,7 +218,7 @@ async function tcExecVerificarDisp(args) {
   if(tcSb){try{var r=await tcSb.from('reservas').select('*',{count:'exact',head:true}).eq('camper_key',camper.key).in('estado_reserva',['Confirmada','Pendiente']).lte('fecha_inicio',args.fecha_fin).gte('fecha_fin',args.fecha_inicio);ocu=r.count||0;}catch(e){}}
   else{ocu=TC_MOCK.reservas.filter(function(r){return r.camper_key===camper.key&&['Confirmada','Pendiente'].includes(r.estado_reserva)&&r.fecha_inicio<=args.fecha_fin&&r.fecha_fin>=args.fecha_inicio;}).length;}
   var d=(camper.unidades||1)-ocu;
-  return {disponible:d>0,modelo:camper.modelo,key:camper.key,precio_por_noche:camper.precio_diario,moneda:'pesos argentinos (ARS)',unidades_disponibles:Math.max(0,d),nota_precio:'Todos los precios en pesos argentinos (ARS)'};
+  return {disponible:d>0,modelo:camper.modelo,key:camper.key,precio_por_noche:camper.precio_diario,moneda:'pesos uruguayos (UYU)',unidades_disponibles:Math.max(0,d),nota_precio:'Todos los precios en pesos uruguayos (UYU)'};
 }
 
 async function tcExecCrearReserva(args) {
@@ -233,10 +233,10 @@ async function tcExecCrearReserva(args) {
   var noches=Math.round((ff-fi)/86400000);
   if(noches<=0) return {error:'Fecha fin debe ser posterior a inicio.'};
   var precio_total=camper.precio_diario*noches;
-  if(tcSb){try{var cnt=await tcSb.from('reservas').select('*',{count:'exact',head:true});var ref='RES-'+String((cnt.count||0)+1).padStart(4,'0');var ins=await tcSb.from('reservas').insert({camper_id:camper.id,camper_key:camper.key,reserva_ref:ref,cliente_nombre:args.cliente_nombre,cliente_documento:args.cliente_documento||null,cliente_telefono:args.cliente_telefono||null,cliente_email:args.cliente_email,fecha_inicio:args.fecha_inicio.split(' ')[0],fecha_fin:args.fecha_fin.split(' ')[0],num_personas:args.num_personas||null,estado_reserva:'Pendiente',precio_total:precio_total,notas:args.notas||null}).select().single();if(ins.error)return{error:ins.error.message};return{ok:true,id_reserva:ref,modelo:camper.modelo,precio_total:precio_total,noches:noches,moneda:'pesos argentinos (ARS)',email_cliente:args.cliente_email};}catch(e){}}
+  if(tcSb){try{var cnt=await tcSb.from('reservas').select('*',{count:'exact',head:true});var ref='RES-'+String((cnt.count||0)+1).padStart(4,'0');var ins=await tcSb.from('reservas').insert({camper_id:camper.id,camper_key:camper.key,reserva_ref:ref,cliente_nombre:args.cliente_nombre,cliente_documento:args.cliente_documento||null,cliente_telefono:args.cliente_telefono||null,cliente_email:args.cliente_email,fecha_inicio:args.fecha_inicio.split(' ')[0],fecha_fin:args.fecha_fin.split(' ')[0],num_personas:args.num_personas||null,estado_reserva:'Pendiente',precio_total:precio_total,notas:args.notas||null}).select().single();if(ins.error)return{error:ins.error.message};return{ok:true,id_reserva:ref,modelo:camper.modelo,precio_total:precio_total,noches:noches,moneda:'pesos uruguayos (UYU)',email_cliente:args.cliente_email};}catch(e){}}
   var ref='RES-'+String(TC_MOCK._nextId++).padStart(4,'0');
   TC_MOCK.reservas.push({id:ref,reserva_ref:ref,camper_key:camper.key,camper_modelo:camper.modelo,cliente_nombre:args.cliente_nombre,cliente_documento:args.cliente_documento||null,cliente_telefono:args.cliente_telefono||null,cliente_email:args.cliente_email,fecha_inicio:args.fecha_inicio.split(' ')[0],fecha_fin:args.fecha_fin.split(' ')[0],num_personas:args.num_personas||null,estado_reserva:'Pendiente',precio_total:precio_total});
-  return {ok:true,id_reserva:ref,modelo:camper.modelo,precio_total:precio_total,noches:noches,moneda:'pesos argentinos (ARS)',email_cliente:args.cliente_email};
+  return {ok:true,id_reserva:ref,modelo:camper.modelo,precio_total:precio_total,noches:noches,moneda:'pesos uruguayos (UYU)',email_cliente:args.cliente_email};
 }
 
 async function tcExecConsultarReserva(args) {
@@ -277,7 +277,7 @@ async function tcExecBuscarAlt(args) {
   if(args.num_personas)campers=campers.filter(function(c){return c.capacidad>=args.num_personas;});
   if(args.precio_max)campers=campers.filter(function(c){return c.precio_diario<=args.precio_max;});
   if(tcSb){try{var q=tcSb.from('campers').select('*').eq('estado','Activo').eq('disponible',true);if(args.num_personas)q=q.gte('capacidad',args.num_personas);if(args.precio_max)q=q.lte('precio_diario',args.precio_max);var r=await q.order('precio_diario',{ascending:true});if(r.data)campers=r.data;}catch(e){}}
-  return{disponibles:campers.map(function(c){return{modelo:c.modelo,precio_diario:c.precio_diario,capacidad:c.capacidad,tipo:c.tipo};}),moneda:'pesos argentinos (ARS)'};
+  return{disponibles:campers.map(function(c){return{modelo:c.modelo,precio_diario:c.precio_diario,capacidad:c.capacidad,tipo:c.tipo};}),moneda:'pesos uruguayos (UYU)'};
 }
 
 /* ─── STATE ───
@@ -366,7 +366,7 @@ async function tcPerformHandoff(handoff) {
   if(ctx.modelo)brief+=' Modelo elegido: '+ctx.modelo+'.';
   if(ctx.fechas)brief+=' Fechas confirmadas: '+ctx.fechas+'.';
   if(ctx.pax)   brief+=' Personas: '+ctx.pax+'.';
-  if(ctx.precio_por_noche)brief+=' Precio por noche: $'+ctx.precio_por_noche+' ARS.';
+  if(ctx.precio_por_noche)brief+=' Precio por noche: $'+ctx.precio_por_noche+' UYU.';
   if(ctx.presupuesto)brief+=' Presupuesto: '+ctx.presupuesto+'.';
   brief+=' IMPORTANTE: Presentate con tu nombre y rol en la primera linea. Usa el contexto directamente sin pedir datos que el usuario ya confirmo.]';
   tcSetTyping(true);
