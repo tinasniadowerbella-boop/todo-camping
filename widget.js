@@ -230,6 +230,10 @@ async function tcExecCrearReserva(args) {
   if(args.cliente_telefono&&!tcValidarTel(args.cliente_telefono)) return {error:'Telefono invalido: "'+args.cliente_telefono+'". Debe tener entre 7 y 15 digitos.'};
   var camper=await tcFindCamper(args.camper_modelo);
   if(!camper) return {error:'Camper "'+args.camper_modelo+'" no encontrado.'};
+  // VERIFICACIÓN DE DISPONIBILIDAD OBLIGATORIA antes de insertar
+  // Esto evita doble-reserva aunque Remi se haya saltado el paso anterior
+  var dispCheck = await tcExecVerificarDisp({modelo:args.camper_modelo, fecha_inicio:args.fecha_inicio, fecha_fin:args.fecha_fin});
+  if(!dispCheck.disponible) return {error:'No se puede crear la reserva: '+( dispCheck.error || dispCheck.motivo || 'Sin disponibilidad para esas fechas.')+' Por favor verificá las fechas o elegí otro camper.'};
   var fi=tcParseFecha(args.fecha_inicio),ff=tcParseFecha(args.fecha_fin);
   var noches=Math.round((ff-fi)/86400000);
   if(noches<=0) return {error:'Fecha fin debe ser posterior a inicio.'};
