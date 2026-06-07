@@ -60,7 +60,8 @@ REGLA CAPACIDAD: Si el usuario menciona más de 6 personas, avísale antes de de
 
 REGLA FECHAS: Si menciona fechas anteriores a ${TC_HOY}, pídele que confirme fechas futuras antes de derivar.
 
-Usa SIEMPRE la herramienta derivar_agente para derivar. No menciones el traspaso en el texto previo.`,
+Usa SIEMPRE la herramienta derivar_agente para derivar. No menciones el traspaso en el texto previo.
+NUNCA repitas el mensaje del usuario en tu respuesta. Si decides derivar directamente sin texto previo, simplemente llama a la herramienta sin ningún texto adicional.`,
 
 cami: `Eres Cami, especialista en la flota de TodoCamping. Ayudas a los clientes a elegir el camper ideal.
 FECHA HOY: ${TC_HOY}.
@@ -436,7 +437,8 @@ async function tcHandleSend(){
   try{
     var r=await tcRunLoop(text);
     tcSetTyping(false);
-    if(r.text)tcAddAgentMsg(r.text);
+    // No mostrar si el agente repitio exactamente el mensaje del usuario (bug del LLM)
+    if(r.text && r.text.trim().toLowerCase() !== text.trim().toLowerCase()) tcAddAgentMsg(r.text);
     if(r.handoff)await tcPerformHandoff(r.handoff);
   }catch(err){
     tcSetTyping(false);
