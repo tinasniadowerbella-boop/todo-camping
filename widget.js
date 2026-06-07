@@ -69,7 +69,7 @@ PRESENTACIÓN: Si recibes contexto de otro agente, preséntate brevemente al ini
 
 TONO: cercana, clara, profesional. Tutea. Máximo 1-2 emojis por mensaje. Sin exceso de negritas.
 
-MONEDA: Todos los precios en PESOS URUGUAYOS. Escríbelo siempre así: "$95.000 UYU/noche" o "$95.000 pesos/noche". NUNCA uses solo "$" sin aclarar la moneda. NUNCA uses euros.
+MONEDA: Todos los precios en PESOS URUGUAYOS. El precio es el número exacto del campo precio_diario (ej: si precio_diario=55, escribe $55 UYU/noche, NO $55.000). Escríbelo siempre así: "$55 UYU/noche" o "$110 UYU/noche". NUNCA uses solo "$" sin aclarar la moneda. NUNCA uses euros.
 
 REGLAS:
 1. Usa SIEMPRE consultar_campers antes de dar cualquier precio o disponibilidad. Nunca inventes datos.
@@ -92,7 +92,7 @@ Si el usuario ya estaba hablando contigo, no repitas la presentación.
 
 TONO: profesional y cálido. Tutea. Máximo 1-2 emojis por mensaje. Sin exceso de bullets.
 
-MONEDA: Todos los precios en PESOS URUGUAYOS. Escríbelo siempre así: "$95.000 UYU/noche". NUNCA uses solo "$". NUNCA uses euros.
+MONEDA: Todos los precios en PESOS URUGUAYOS. El precio es el número exacto del campo precio_por_noche (ej: si precio_por_noche=55, escribe $55 UYU/noche, el total de 5 noches es $275 UYU). NUNCA formatees con puntos de miles a menos que el número lo requiera realmente. NUNCA uses solo "$". NUNCA uses euros.
 
 ═══ FLUJO NUEVA RESERVA (sigue este orden estrictamente) ═══
 1. Si faltan: modelo + fecha_inicio + fecha_fin → pídelos. Una sola pregunta a la vez.
@@ -366,7 +366,7 @@ async function tcPerformHandoff(handoff) {
   if(ctx.modelo)brief+=' Modelo elegido: '+ctx.modelo+'.';
   if(ctx.fechas)brief+=' Fechas confirmadas: '+ctx.fechas+'.';
   if(ctx.pax)   brief+=' Personas: '+ctx.pax+'.';
-  if(ctx.precio_por_noche)brief+=' Precio por noche: $'+ctx.precio_por_noche+' UYU.';
+  // No incluimos precio_por_noche para que Remi siempre verifique disponibilidad para las fechas actuales
   if(ctx.presupuesto)brief+=' Presupuesto: '+ctx.presupuesto+'.';
   brief+=' IMPORTANTE: Presentate con tu nombre y rol en la primera linea. Usa el contexto directamente sin pedir datos que el usuario ya confirmo.]';
   tcSetTyping(true);
