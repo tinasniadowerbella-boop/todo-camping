@@ -437,19 +437,40 @@ async function tcIniciar() {
 }
 
 document.getElementById('tc-send-btn').addEventListener('click', tcHandleSend);
-document.getElementById('tc-user-input').addEventListener('keydown', function(e){
-  if (e.key==='Enter'&&!e.shiftKey) { e.preventDefault(); tcHandleSend(); }
-});
-document.getElementById('tc-chat-close').addEventListener('click', function(){
-  document.getElementById('tc-chat-widget').classList.add('tc-hidden');
-  document.getElementById('tc-chat-bubble').classList.remove('tc-hidden');
-});
-document.getElementById('tc-chat-bubble').addEventListener('click', function(){
-  document.getElementById('tc-chat-widget').classList.remove('tc-hidden');
-  document.getElementById('tc-chat-bubble').classList.add('tc-hidden');
-  document.getElementById('tc-user-input').focus();
-});
 
-tcIniciar();
+function tcSetupListeners() {
+  var sendBtn   = document.getElementById('tc-send-btn');
+  var userInput = document.getElementById('tc-user-input');
+  var closeBtn  = document.getElementById('tc-chat-close');
+  var bubble    = document.getElementById('tc-chat-bubble');
+
+  if (!sendBtn || !userInput) {
+    // DOM no está listo, reintentar
+    setTimeout(tcSetupListeners, 100);
+    return;
+  }
+
+  sendBtn.addEventListener('click', tcHandleSend);
+  userInput.addEventListener('keydown', function(e){
+    if (e.key==='Enter'&&!e.shiftKey) { e.preventDefault(); tcHandleSend(); }
+  });
+  if (closeBtn) closeBtn.addEventListener('click', function(){
+    document.getElementById('tc-chat-widget').classList.add('tc-hidden');
+    document.getElementById('tc-chat-bubble').classList.remove('tc-hidden');
+  });
+  if (bubble) bubble.addEventListener('click', function(){
+    document.getElementById('tc-chat-widget').classList.remove('tc-hidden');
+    document.getElementById('tc-chat-bubble').classList.add('tc-hidden');
+    document.getElementById('tc-user-input').focus();
+  });
+
+  tcIniciar();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', tcSetupListeners);
+} else {
+  tcSetupListeners();
+}
 
 })();
