@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TodoCamping â Alquiler de Campers y Autocaravanas</title>
+  <title>TodoCamping — Alquiler de Campers y Autocaravanas</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -32,7 +32,7 @@
       line-height: 1.6;
     }
 
-    /* ââ NAV âââââââââââââââââââââââââââââââââââââââââ */
+    /* ── NAV ───────────────────────────────────────── */
     nav {
       position: sticky; top: 0; z-index: 100;
       background: rgba(255,255,255,.95);
@@ -80,7 +80,7 @@
     }
     .nav-cta:hover { background: var(--green-dark) !important; }
 
-    /* ââ HERO ââââââââââââââââââââââââââââââââââââââââ */
+    /* ── HERO ──────────────────────────────────────── */
     .hero {
       background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 60%, var(--green-mid) 100%);
       color: var(--white);
@@ -176,7 +176,7 @@
     }
     .stat-label { font-size: 13px; opacity: .7; margin-top: 4px; }
 
-    /* ââ SECTION COMMON ââââââââââââââââââââââââââââââ */
+    /* ── SECTION COMMON ────────────────────────────── */
     section { padding: 80px 24px; }
 
     .section-label {
@@ -210,7 +210,7 @@
 
     .container { max-width: 1120px; margin: 0 auto; }
 
-    /* ââ FLEET âââââââââââââââââââââââââââââââââââââââ */
+    /* ── FLEET ─────────────────────────────────────── */
     #flota { background: var(--sand); }
 
     .fleet-filters {
@@ -347,7 +347,7 @@
     }
     .btn-card:hover { background: var(--green-dark); }
 
-    /* ââ HOW IT WORKS ââââââââââââââââââââââââââââââââ */
+    /* ── HOW IT WORKS ──────────────────────────────── */
     #como-funciona { background: var(--white); }
 
     .steps-grid {
@@ -379,7 +379,7 @@
     .step h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
     .step p { font-size: 14px; color: var(--gray-text); line-height: 1.6; }
 
-    /* ââ AGENTS SECTION ââââââââââââââââââââââââââââââ */
+    /* ── AGENTS SECTION ────────────────────────────── */
     #agentes { background: var(--sand); }
 
     .agents-grid {
@@ -418,7 +418,7 @@
     }
     .agent-info p { font-size: 13px; color: var(--gray-text); line-height: 1.55; }
 
-    /* ââ CHAT SECTION ââââââââââââââââââââââââââââââââ */
+    /* ── CHAT SECTION ──────────────────────────────── */
     #chat { background: var(--green-dark); padding: 80px 24px; }
 
     .chat-wrapper {
@@ -453,166 +453,7 @@
     .feat-text h4 { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
     .feat-text p  { font-size: 13px; color: rgba(255,255,255,.6); }
 
-    /* Chat widget */
-    .chat-widget-container {
-      background: var(--white);
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 24px 64px rgba(0,0,0,.3);
-      height: 540px;
-      display: flex; flex-direction: column;
-    }
-
-    .widget-header {
-      background: var(--green);
-      padding: 16px 20px;
-      display: flex; align-items: center; gap: 12px;
-      flex-shrink: 0;
-    }
-
-    .widget-avatar {
-      width: 40px; height: 40px;
-      background: var(--green-dark);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 16px; color: var(--white);
-    }
-
-    .widget-header-info { flex: 1; }
-    .widget-header-info strong { display: block; font-size: 15px; color: var(--white); }
-    .widget-header-info span   { font-size: 12px; color: rgba(255,255,255,.75); }
-
-    .widget-status {
-      width: 9px; height: 9px;
-      background: #4ade80;
-      border-radius: 50%;
-      border: 2px solid var(--green);
-    }
-
-    #chat-messages-embed {
-      flex: 1;
-      overflow-y: auto;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      background: var(--gray-bg);
-      scroll-behavior: smooth;
-    }
-
-    #chat-messages-embed::-webkit-scrollbar { width: 3px; }
-    #chat-messages-embed::-webkit-scrollbar-thumb { background: var(--gray-border); border-radius: 4px; }
-
-    .msg-embed {
-      max-width: 82%;
-      display: flex; gap: 8px; align-items: flex-end;
-    }
-
-    .msg-embed.user { align-self: flex-end; flex-direction: row-reverse; }
-    .msg-embed.cami { align-self: flex-start; }
-
-    .bubble-avatar {
-      width: 26px; height: 26px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 700;
-      flex-shrink: 0;
-    }
-    .msg-embed.cami .bubble-avatar { background: var(--green-light); color: var(--green); }
-    .msg-embed.user .bubble-avatar { background: var(--green); color: var(--white); }
-
-    .bubble-embed {
-      padding: 9px 13px;
-      border-radius: 16px;
-      font-size: 13px;
-      line-height: 1.55;
-    }
-
-    .msg-embed.cami .bubble-embed {
-      background: var(--white);
-      color: var(--dark);
-      border: 1px solid var(--gray-border);
-      border-bottom-left-radius: 4px;
-    }
-
-    .msg-embed.user .bubble-embed {
-      background: var(--green);
-      color: var(--white);
-      border-bottom-right-radius: 4px;
-    }
-
-    #typing-embed {
-      display: none; align-self: flex-start;
-      padding: 10px 14px;
-      background: var(--white);
-      border: 1px solid var(--gray-border);
-      border-radius: 16px; border-bottom-left-radius: 4px;
-      gap: 4px; align-items: center;
-    }
-    #typing-embed.visible { display: flex; }
-    .dot {
-      width: 6px; height: 6px;
-      background: var(--gray-text); border-radius: 50%;
-      animation: bounce .9s infinite;
-    }
-    .dot:nth-child(2) { animation-delay: .15s; }
-    .dot:nth-child(3) { animation-delay: .30s; }
-    @keyframes bounce {
-      0%,80%,100% { transform: translateY(0); }
-      40%          { transform: translateY(-5px); }
-    }
-
-    .widget-input-area {
-      padding: 12px 14px;
-      border-top: 1px solid var(--gray-border);
-      display: flex; gap: 8px;
-      background: var(--white);
-      flex-shrink: 0;
-    }
-
-    #embed-input {
-      flex: 1;
-      border: 1.5px solid var(--gray-border);
-      border-radius: 24px;
-      padding: 9px 14px;
-      font-size: 13px;
-      font-family: var(--font);
-      outline: none;
-      transition: border-color .2s;
-    }
-    #embed-input:focus { border-color: var(--green); }
-
-    #embed-send {
-      width: 36px; height: 36px;
-      background: var(--green);
-      border: none; border-radius: 50%;
-      color: var(--white);
-      font-size: 15px;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background .2s;
-      flex-shrink: 0;
-    }
-    #embed-send:hover { background: var(--green-dark); }
-
-    .quick-replies {
-      display: flex; gap: 6px; flex-wrap: wrap;
-      padding: 8px 14px 0;
-      background: var(--white);
-    }
-    .quick-btn {
-      padding: 5px 12px;
-      border: 1.5px solid var(--gray-border);
-      border-radius: 999px;
-      background: var(--white);
-      font-size: 12px;
-      color: var(--gray-text);
-      cursor: pointer;
-      transition: all .18s;
-    }
-    .quick-btn:hover { border-color: var(--green); color: var(--green); }
-
-    /* ââ CONTACT âââââââââââââââââââââââââââââââââââââ */
+    /* ── CONTACT ───────────────────────────────────── */
     #contacto { background: var(--white); }
 
     .contact-grid {
@@ -635,7 +476,7 @@
     .contact-card p  { font-size: 14px; color: var(--green); font-weight: 500; }
     .contact-card span { font-size: 12px; color: var(--gray-text); display: block; margin-top: 4px; }
 
-    /* ââ FOOTER ââââââââââââââââââââââââââââââââââââââ */
+    /* ── FOOTER ────────────────────────────────────── */
     footer {
       background: var(--dark);
       color: rgba(255,255,255,.6);
@@ -661,7 +502,7 @@
     footer a { color: rgba(255,255,255,.5); text-decoration: none; }
     footer a:hover { color: var(--white); }
 
-    /* ââ RESPONSIVE ââââââââââââââââââââââââââââââââââ */
+    /* ── RESPONSIVE ────────────────────────────────── */
     @media (max-width: 768px) {
       .chat-wrapper { grid-template-columns: 1fr; gap: 40px; }
       .nav-links { display: none; }
@@ -676,25 +517,25 @@
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">
-    <div class="logo-icon">ðï¸</div>
+    <div class="logo-icon">🏕️</div>
     TodoCamping
   </a>
   <ul class="nav-links">
     <li><a href="#flota">Flota</a></li>
-    <li><a href="#como-funciona">CÃ³mo funciona</a></li>
+    <li><a href="#como-funciona">Cómo funciona</a></li>
     <li><a href="#agentes">Asistentes</a></li>
     <li><a href="#contacto">Contacto</a></li>
-    <li><a href="#chat" class="nav-cta">Reservar ahora â</a></li>
+    <li><a href="#chat" class="nav-cta">Reservar ahora →</a></li>
   </ul>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="inicio">
-  <div class="hero-badge">ð Alquiler de campers desde Madrid</div>
+  <div class="hero-badge">🚐 Alquiler de campers desde Madrid</div>
   <h1>Tu aventura empieza<br/><span>en la carretera</span></h1>
   <p>Flota de campers y autocaravanas para todos los viajes. Desde escapadas en pareja hasta aventuras familiares.</p>
   <div class="hero-buttons">
-    <a href="#chat" class="btn-primary">ðï¸ Consultar disponibilidad</a>
+    <a href="#chat" class="btn-primary">🗓️ Consultar disponibilidad</a>
     <a href="#flota" class="btn-ghost">Ver toda la flota</a>
   </div>
   <div class="hero-stats">
@@ -707,8 +548,8 @@
       <div class="stat-label">Unidades en flota</div>
     </div>
     <div class="stat">
-      <span class="stat-num">55â¬</span>
-      <div class="stat-label">Precio desde / dÃ­a</div>
+      <span class="stat-num">55€</span>
+      <div class="stat-label">Precio desde / día</div>
     </div>
     <div class="stat">
       <span class="stat-num">3</span>
@@ -745,31 +586,31 @@
     <div class="section-header">
       <div class="section-label">Proceso</div>
       <h2 class="section-title">Reservar en 4 pasos</h2>
-      <p class="section-sub">Sin complicaciones. Nuestros agentes IA te guÃ­an en todo momento.</p>
+      <p class="section-sub">Sin complicaciones. Nuestros agentes IA te guían en todo momento.</p>
     </div>
     <div class="steps-grid">
       <div class="step">
         <div class="step-num">1</div>
-        <div class="step-icon">ð¬</div>
-        <h3>CuÃ©ntanos tu viaje</h3>
-        <p>Habla con Cami, nuestra asistente. Dinos fechas, cuÃ¡ntos sois y quÃ© tipo de escapada buscÃ¡is.</p>
+        <div class="step-icon">💬</div>
+        <h3>Cuéntanos tu viaje</h3>
+        <p>Habla con Cami, nuestra asistente. Dinos fechas, cuántos sois y qué tipo de escapada buscáis.</p>
       </div>
       <div class="step">
         <div class="step-num">2</div>
-        <div class="step-icon">ð</div>
+        <div class="step-icon">🔍</div>
         <h3>Recibe recomendaciones</h3>
         <p>Cami busca en tiempo real la flota disponible y te presenta las mejores opciones con precios.</p>
       </div>
       <div class="step">
         <div class="step-num">3</div>
-        <div class="step-icon">ð</div>
+        <div class="step-icon">📋</div>
         <h3>Confirma tu reserva</h3>
         <p>Elige tu camper y Remi, el agente de reservas, gestiona todos los detalles contigo.</p>
       </div>
       <div class="step">
         <div class="step-num">4</div>
-        <div class="step-icon">ðºï¸</div>
-        <h3>Â¡A rodar!</h3>
+        <div class="step-icon">🗺️</div>
+        <h3>¡A rodar!</h3>
         <p>Recoge el camper en nuestras instalaciones de Madrid y empieza tu aventura.</p>
       </div>
     </div>
@@ -786,7 +627,7 @@
     </div>
     <div class="agents-grid">
       <div class="agent-card">
-        <div class="agent-avatar" style="background:#e8f5ee;">ð¤</div>
+        <div class="agent-avatar" style="background:#e8f5ee;">🤖</div>
         <div class="agent-info">
           <div class="agent-role">Orquestador</div>
           <h3>Leo</h3>
@@ -794,19 +635,19 @@
         </div>
       </div>
       <div class="agent-card">
-        <div class="agent-avatar" style="background:#dbeafe;">ð</div>
+        <div class="agent-avatar" style="background:#dbeafe;">💚</div>
         <div class="agent-info">
-          <div class="agent-role">InformaciÃ³n</div>
+          <div class="agent-role">Información</div>
           <h3>Cami</h3>
           <p>Experta en la flota. Te ayuda a comparar modelos, consultar precios y encontrar el camper ideal para tu viaje.</p>
         </div>
       </div>
       <div class="agent-card">
-        <div class="agent-avatar" style="background:#fef3c7;">ð</div>
+        <div class="agent-avatar" style="background:#fef3c7;">📋</div>
         <div class="agent-info">
           <div class="agent-role">Reservas</div>
           <h3>Remi</h3>
-          <p>Gestiona toda la parte de reservas: creaciÃ³n, modificaciones, cancelaciones y consultas de estado.</p>
+          <p>Gestiona toda la parte de reservas: creación, modificaciones, cancelaciones y consultas de estado.</p>
         </div>
       </div>
     </div>
@@ -818,65 +659,64 @@
   <div class="chat-wrapper">
     <div class="chat-copy">
       <div class="section-label">Asistente IA</div>
-      <h2 class="section-title">Habla con Cami ahora</h2>
-      <p class="section-sub">Pregunta por disponibilidad, precios o pide que te recomiende el camper perfecto.</p>
+      <h2 class="section-title">Habla con Leo ahora</h2>
+      <p class="section-sub">Tres agentes especializados listos para ayudarte: info, precios y reservas.</p>
       <div class="chat-features">
         <div class="chat-feat">
-          <div class="feat-icon">â¡</div>
+          <div class="feat-icon">⚡</div>
           <div class="feat-text">
-            <h4>Respuestas instantÃ¡neas</h4>
+            <h4>Respuestas instantáneas</h4>
             <p>Consultas respondidas en segundos, con datos reales de la flota.</p>
           </div>
         </div>
         <div class="chat-feat">
-          <div class="feat-icon">ð¯</div>
+          <div class="feat-icon">🎯</div>
           <div class="feat-text">
             <h4>Recomendaciones personalizadas</h4>
             <p>Cami aprende tus preferencias y filtra la flota para ti.</p>
           </div>
         </div>
         <div class="chat-feat">
-          <div class="feat-icon">ð</div>
+          <div class="feat-icon">🔒</div>
           <div class="feat-text">
             <h4>Reserva segura</h4>
             <p>Cuando quieras reservar, Remi toma el relevo y gestiona todo el proceso.</p>
           </div>
         </div>
       </div>
+      <div style="margin-top:32px;">
+        <button class="btn-primary" style="background:var(--green);color:#fff;border:none;cursor:pointer;"
+          onclick="document.getElementById('tc-chat-widget').classList.remove('tc-hidden');document.getElementById('tc-chat-bubble').classList.add('tc-hidden');document.getElementById('tc-user-input').focus();">
+          💬 Abrir el chat
+        </button>
+      </div>
     </div>
 
-    <!-- Chat widget embed -->
-    <div class="chat-widget-container">
-      <div class="widget-header">
-        <div class="widget-avatar">C</div>
-        <div class="widget-header-info">
-          <strong>Cami</strong>
-          <span>Asistente TodoCamping Â· IA</span>
-        </div>
-        <div class="widget-status"></div>
-      </div>
-
-      <div class="quick-replies" id="quick-replies">
-        <button class="quick-btn" onclick="sendQuick('Â¿QuÃ© campers tenÃ©is disponibles?')">ð Ver flota</button>
-        <button class="quick-btn" onclick="sendQuick('Quiero una furgoneta para 2 personas')">ð« Para pareja</button>
-        <button class="quick-btn" onclick="sendQuick('Busco algo para familia con niÃ±os')">ð¨âð©âð§ Familiar</button>
-        <button class="quick-btn" onclick="sendQuick('Â¿CuÃ¡les tienen aire acondicionado?')">âï¸ Con A/C</button>
-      </div>
-
-      <div id="chat-messages-embed">
-        <div class="msg-embed cami">
-          <div class="bubble-avatar">C</div>
-          <div class="bubble-embed">Â¡Hola! Soy Cami ð Â¿En quÃ© puedo ayudarte hoy? Puedo asesorarte sobre nuestra flota, precios y disponibilidad.</div>
+    <!-- Preview del equipo de agentes -->
+    <div style="display:flex;flex-direction:column;gap:16px;align-self:center;">
+      <div style="background:#fff;border:1px solid var(--gray-border);border-radius:16px;padding:20px;display:flex;gap:14px;align-items:center;">
+        <div style="width:48px;height:48px;background:#dbeafe;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;color:#1e40af;flex-shrink:0;">L</div>
+        <div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--green);margin-bottom:3px;">Orquestador</div>
+          <div style="font-weight:700;font-size:15px;color:var(--dark);">Leo</div>
+          <div style="font-size:13px;color:var(--gray-text);">Te recibe y te conecta con el agente correcto.</div>
         </div>
       </div>
-
-      <div id="typing-embed">
-        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <div style="background:#fff;border:1px solid var(--gray-border);border-radius:16px;padding:20px;display:flex;gap:14px;align-items:center;">
+        <div style="width:48px;height:48px;background:#e8f5ee;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;color:#2d7a4f;flex-shrink:0;">C</div>
+        <div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--green);margin-bottom:3px;">Informacion</div>
+          <div style="font-weight:700;font-size:15px;color:var(--dark);">Cami</div>
+          <div style="font-size:13px;color:var(--gray-text);">Precios, modelos, disponibilidad y recomendaciones.</div>
+        </div>
       </div>
-
-      <div class="widget-input-area">
-        <input id="embed-input" type="text" placeholder="Escribe tu consultaâ¦" autocomplete="off" />
-        <button id="embed-send" onclick="sendMessage()">â¤</button>
+      <div style="background:#fff;border:1px solid var(--gray-border);border-radius:16px;padding:20px;display:flex;gap:14px;align-items:center;">
+        <div style="width:48px;height:48px;background:#fef3c7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;color:#b45309;flex-shrink:0;">R</div>
+        <div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--green);margin-bottom:3px;">Reservas</div>
+          <div style="font-weight:700;font-size:15px;color:var(--dark);">Remi</div>
+          <div style="font-size:13px;color:var(--gray-text);">Crear, consultar, modificar y cancelar reservas.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -887,33 +727,33 @@
   <div class="container">
     <div class="section-header">
       <div class="section-label">Contacto</div>
-      <h2 class="section-title">Â¿Prefieres hablar con nosotros?</h2>
-      <p class="section-sub">Estamos en Madrid de lunes a sÃ¡bado.</p>
+      <h2 class="section-title">¿Prefieres hablar con nosotros?</h2>
+      <p class="section-sub">Estamos en Madrid de lunes a sábado.</p>
     </div>
     <div class="contact-grid">
       <div class="contact-card">
-        <div class="contact-icon">ð</div>
-        <h3>DirecciÃ³n</h3>
+        <div class="contact-icon">📍</div>
+        <h3>Dirección</h3>
         <p>C/ del Turismo 45</p>
         <span>28001 Madrid</span>
       </div>
       <div class="contact-card">
-        <div class="contact-icon">ð</div>
-        <h3>TelÃ©fono</h3>
+        <div class="contact-icon">📞</div>
+        <h3>Teléfono</h3>
         <p>+34 91 234 56 78</p>
-        <span>LunâVie 9:00â19:00</span>
+        <span>Lun–Vie 9:00–19:00</span>
       </div>
       <div class="contact-card">
-        <div class="contact-icon">âï¸</div>
+        <div class="contact-icon">✉️</div>
         <h3>Email</h3>
         <p>hola@todocamping.es</p>
         <span>Te respondemos en &lt;2h</span>
       </div>
       <div class="contact-card">
-        <div class="contact-icon">ð</div>
+        <div class="contact-icon">🕐</div>
         <h3>Horario</h3>
-        <p>LunâVie 9:00â19:00</p>
-        <span>SÃ¡bados 10:00â14:00</span>
+        <p>Lun–Vie 9:00–19:00</p>
+        <span>Sábados 10:00–14:00</span>
       </div>
     </div>
   </div>
@@ -922,30 +762,30 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">
-    <div class="logo-icon">ðï¸</div>
+    <div class="logo-icon">🏕️</div>
     TodoCamping
   </div>
-  <p>Â© 2026 TodoCamping â Alquiler de Campers y Autocaravanas, Madrid</p>
+  <p>© 2026 TodoCamping — Alquiler de Campers y Autocaravanas, Madrid</p>
   <p style="margin-top:8px;">
-    <a href="mailto:hola@todocamping.es">hola@todocamping.es</a> Â·
+    <a href="mailto:hola@todocamping.es">hola@todocamping.es</a> ·
     <a href="tel:+34912345678">+34 91 234 56 78</a>
   </p>
 </footer>
 
 <script>
-  // ââ FLEET DATA âââââââââââââââââââââââââââââââââââââââ
+  // ── FLEET DATA ───────────────────────────────────────
   const CAMPERS = [
-    { key:"TC-ACS", modelo:"Adria Coral 670 SL",      tipo:"Autocaravana", aÃ±o:2022, cap:4, precio:95,  unidades:3, disponible:true,  ac:true,  bano:true,  calef:true, cocina:true,  desc:"Familiar con baÃ±o completo y salÃ³n amplio." },
-    { key:"TC-WCB", modelo:"Weinsberg CaraBus 600 MQ", tipo:"Furgoneta",    aÃ±o:2023, cap:2, precio:65,  unidades:5, disponible:true,  ac:false, bano:false, calef:true, cocina:true,  desc:"Compacta ideal para pareja. FÃ¡cil de aparcar." },
-    { key:"TC-KSI", modelo:"Knaus Sun I 650 MEG",      tipo:"Autocaravana", aÃ±o:2021, cap:6, precio:110, unidades:2, disponible:true,  ac:true,  bano:true,  calef:true, cocina:true,  desc:"Para familia grande. Tres zonas de cama." },
-    { key:"TC-CCT", modelo:"Carthago C-Tourer T143",   tipo:"Autocaravana", aÃ±o:2020, cap:4, precio:130, unidades:2, disponible:false, ac:true,  bano:true,  calef:true, cocina:true,  desc:"Gama premium con materiales de lujo y garaje." },
-    { key:"TC-BLD", modelo:"BÃ¼rstner Lyseo TD690",     tipo:"Autocaravana", aÃ±o:2023, cap:4, precio:105, unidades:3, disponible:true,  ac:true,  bano:true,  calef:true, cocina:true,  desc:"DiseÃ±o moderno con techo elevable." },
-    { key:"TC-HYM", modelo:"Hymer B-ML T580",          tipo:"Autocaravana", aÃ±o:2019, cap:2, precio:78,  unidades:4, disponible:true,  ac:false, bano:true,  calef:true, cocina:true,  desc:"Compacta para pareja con baÃ±o integrado." },
-    { key:"TC-CAR", modelo:"Carado CV600",              tipo:"Furgoneta",    aÃ±o:2022, cap:2, precio:58,  unidades:4, disponible:false, ac:false, bano:false, calef:true, cocina:true,  desc:"En revisiÃ³n anual.", estado:"Mantenimiento" },
-    { key:"TC-PCA", modelo:"PÃ¶ssl Campster",            tipo:"Furgoneta",    aÃ±o:2023, cap:2, precio:55,  unidades:6, disponible:true,  ac:false, bano:false, calef:false,cocina:true,  desc:"La mÃ¡s compacta. Ideal primaveraâotoÃ±o." },
+    { key:"TC-ACS", modelo:"Adria Coral 670 SL",      tipo:"Autocaravana", año:2022, cap:4, precio:95,  unidades:3, disponible:true,  ac:true,  bano:true,  calef:true, cocina:true,  desc:"Familiar con baño completo y salón amplio." },
+    { key:"TC-WCB", modelo:"Weinsberg CaraBus 600 MQ", tipo:"Furgoneta",    año:2023, cap:2, precio:65,  unidades:5, disponible:true,  ac:false, bano:false, calef:true, cocina:true,  desc:"Compacta ideal para pareja. Fácil de aparcar." },
+    { key:"TC-KSI", modelo:"Knaus Sun I 650 MEG",      tipo:"Autocaravana", año:2021, cap:6, precio:110, unidades:2, disponible:true,  ac:true,  bano:true,  calef:true, cocina:true,  desc:"Para familia grande. Tres zonas de cama." },
+    { key:"TC-CCT", modelo:"Carthago C-Tourer T143",   tipo:"Autocaravana", año:2020, cap:4, precio:130, unidades:2, disponible:false, ac:true,  bano:true,  calef:true, cocina:true,  desc:"Gama premium con materiales de lujo y garaje." },
+    { key:"TC-BLD", modelo:"Bürstner Lyseo TD690",     tipo:"Autocaravana", año:2023, cap:4, precio:105, unidades:3, disponible:true,  ac:true,  bano:true,  calef:true, cocina:true,  desc:"Diseño moderno con techo elevable." },
+    { key:"TC-HYM", modelo:"Hymer B-ML T580",          tipo:"Autocaravana", año:2019, cap:2, precio:78,  unidades:4, disponible:true,  ac:false, bano:true,  calef:true, cocina:true,  desc:"Compacta para pareja con baño integrado." },
+    { key:"TC-CAR", modelo:"Carado CV600",              tipo:"Furgoneta",    año:2022, cap:2, precio:58,  unidades:4, disponible:false, ac:false, bano:false, calef:true, cocina:true,  desc:"En revisión anual.", estado:"Mantenimiento" },
+    { key:"TC-PCA", modelo:"Pössl Campster",            tipo:"Furgoneta",    año:2023, cap:2, precio:55,  unidades:6, disponible:true,  ac:false, bano:false, calef:false,cocina:true,  desc:"La más compacta. Ideal primavera–otoño." },
   ];
 
-  const EMOJIS = { Autocaravana: 'ð', Furgoneta: 'ð' };
+  const EMOJIS = { Autocaravana: '🚌', Furgoneta: '🚐' };
 
   function getBadge(c) {
     if (c.estado === 'Mantenimiento') return '<span class="card-badge badge-mant">Mantenimiento</span>';
@@ -962,25 +802,25 @@
     grid.innerHTML = list.map(c => `
       <div class="camper-card" data-tipo="${c.tipo}" data-disponible="${c.disponible}">
         <div class="card-thumb">
-          ${EMOJIS[c.tipo] || 'ð'}
+          ${EMOJIS[c.tipo] || '🚐'}
           ${getBadge(c)}
         </div>
         <div class="card-body">
-          <div class="card-type">${c.tipo} Â· ${c.aÃ±o}</div>
+          <div class="card-type">${c.tipo} · ${c.año}</div>
           <div class="card-name">${c.modelo}</div>
           <div class="card-specs">
-            <div class="spec-tag">ð¥ ${c.cap} personas</div>
-            <div class="spec-tag">ð hasta 7m</div>
-            <div class="spec-tag">â½ Diesel</div>
+            <div class="spec-tag">👥 ${c.cap} personas</div>
+            <div class="spec-tag">📏 hasta 7m</div>
+            <div class="spec-tag">⛽ Diesel</div>
           </div>
           <div class="card-equip">
-            ${equipDot(c.ac,    'âï¸')}
-            ${equipDot(c.bano,  'ð¿')}
-            ${equipDot(c.calef, 'ð¥')}
-            ${equipDot(c.cocina,'ð³')}
+            ${equipDot(c.ac,    '❄️')}
+            ${equipDot(c.bano,  '🚿')}
+            ${equipDot(c.calef, '🔥')}
+            ${equipDot(c.cocina,'🍳')}
           </div>
           <div class="card-footer">
-            <div class="card-price">${c.precio}â¬ <span>/ dÃ­a</span></div>
+            <div class="card-price">${c.precio}€ <span>/ día</span></div>
             <button class="btn-card" onclick="askAbout('${c.modelo}')">Consultar</button>
           </div>
         </div>
@@ -999,31 +839,42 @@
 
   renderCards(CAMPERS);
 
-  // ââ CHAT ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ── CHAT — redirige al widget IA real ──────────────────
 
-  // Ficha detallada de cada camper para respuestas concretas
+  function askAbout(modelo) {
+    // Abrir el widget real y pre-llenar el mensaje
+    document.getElementById('tc-chat-widget').classList.remove('tc-hidden');
+    document.getElementById('tc-chat-bubble').classList.add('tc-hidden');
+    const inp = document.getElementById('tc-user-input');
+    if (inp) {
+      inp.value = `Cuéntame más sobre el ${modelo}`;
+      inp.focus();
+    }
+  }
+
+  // ── CAMPER_INFO (solo para referencias internas — ya no se usa en chat) ──
   const CAMPER_INFO = {
-    'pÃ¶ssl campster':     { key:'TC-PCA', precio:55,  cap:2, tipo:'Furgoneta',    aÃ±o:2023, ac:false, bano:false, calef:false, cocina:true,  disponible:true,  desc:"La mÃ¡s compacta de la flota (4,99 m). Perfecta para escapadas de primavera y otoÃ±o en pareja. Sin calefacciÃ³n, por lo que no es ideal para invierno. Cocina integrada, muy fÃ¡cil de aparcar en ciudad." },
-    'weinsberg carabus':  { key:'TC-WCB', precio:65,  cap:2, tipo:'Furgoneta',    aÃ±o:2023, ac:false, bano:false, calef:true,  cocina:true,  disponible:true,  desc:"Furgoneta 2023 muy maniobrable (5,99 m). CalefacciÃ³n incluida. Sin baÃ±o propio, pero con cocina completa. La favorita para parejas que viajan por Europa." },
-    'adria coral':        { key:'TC-ACS', precio:95,  cap:4, tipo:'Autocaravana', aÃ±o:2022, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"Autocaravana familiar (6,90 m) con baÃ±o completo, salÃ³n amplio y A/C. CÃ³moda para 4 personas con mucho espacio de almacenaje. Muy buenas valoraciones de clientes." },
-    'hymer':              { key:'TC-HYM', precio:78,  cap:2, tipo:'Autocaravana', aÃ±o:2019, ac:false, bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"Autocaravana compacta (5,72 m) con baÃ±o integrado. Ideal para pareja que quiere comodidad sin el tamaÃ±o de una autocaravana grande. Sin A/C pero con calefacciÃ³n." },
-    'knaus sun':          { key:'TC-KSI', precio:110, cap:6, tipo:'Autocaravana', aÃ±o:2021, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"La mejor opciÃ³n para grupos grandes (hasta 6 personas, 3 camas independientes). Autocaravana espaciosa de 6,99 m con todo el equipamiento: A/C, baÃ±o, cocina y calefacciÃ³n." },
-    'bÃ¼rstner':           { key:'TC-BLD', precio:105, cap:4, tipo:'Autocaravana', aÃ±o:2023, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"DiseÃ±o moderno con techo elevable y cocina de inducciÃ³n. Una de las mÃ¡s nuevas de la flota (2023). Perfecta para 4 personas que buscan confort y estÃ©tica cuidada." },
-    'carthago':           { key:'TC-CCT', precio:130, cap:4, tipo:'Autocaravana', aÃ±o:2020, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:false, desc:"Nuestra gama mÃ¡s premium (130â¬/dÃ­a) con materiales de lujo y garaje trasero para llevar bicicletas o motos. Actualmente sin stock disponible. Â¿Te aviso cuando estÃ© libre?" },
-    'carado':             { key:'TC-CAR', precio:58,  cap:2, tipo:'Furgoneta',    aÃ±o:2022, ac:false, bano:false, calef:true,  cocina:true,  disponible:false, desc:"Furgoneta en revisiÃ³n anual, no disponible en este momento. Si te interesa este rango de precio, el PÃ¶ssl Campster (55â¬/dÃ­a) es una alternativa muy similar." },
+    'pössl campster':     { key:'TC-PCA', precio:55,  cap:2, tipo:'Furgoneta',    año:2023, ac:false, bano:false, calef:false, cocina:true,  disponible:true,  desc:"La más compacta de la flota (4,99 m). Perfecta para escapadas de primavera y otoño en pareja. Sin calefacción, por lo que no es ideal para invierno. Cocina integrada, muy fácil de aparcar en ciudad." },
+    'weinsberg carabus':  { key:'TC-WCB', precio:65,  cap:2, tipo:'Furgoneta',    año:2023, ac:false, bano:false, calef:true,  cocina:true,  disponible:true,  desc:"Furgoneta 2023 muy maniobrable (5,99 m). Calefacción incluida. Sin baño propio, pero con cocina completa. La favorita para parejas que viajan por Europa." },
+    'adria coral':        { key:'TC-ACS', precio:95,  cap:4, tipo:'Autocaravana', año:2022, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"Autocaravana familiar (6,90 m) con baño completo, salón amplio y A/C. Cómoda para 4 personas con mucho espacio de almacenaje. Muy buenas valoraciones de clientes." },
+    'hymer':              { key:'TC-HYM', precio:78,  cap:2, tipo:'Autocaravana', año:2019, ac:false, bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"Autocaravana compacta (5,72 m) con baño integrado. Ideal para pareja que quiere comodidad sin el tamaño de una autocaravana grande. Sin A/C pero con calefacción." },
+    'knaus sun':          { key:'TC-KSI', precio:110, cap:6, tipo:'Autocaravana', año:2021, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"La mejor opción para grupos grandes (hasta 6 personas, 3 camas independientes). Autocaravana espaciosa de 6,99 m con todo el equipamiento: A/C, baño, cocina y calefacción." },
+    'bürstner':           { key:'TC-BLD', precio:105, cap:4, tipo:'Autocaravana', año:2023, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"Diseño moderno con techo elevable y cocina de inducción. Una de las más nuevas de la flota (2023). Perfecta para 4 personas que buscan confort y estética cuidada." },
+    'carthago':           { key:'TC-CCT', precio:130, cap:4, tipo:'Autocaravana', año:2020, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:false, desc:"Nuestra gama más premium (130€/día) con materiales de lujo y garaje trasero para llevar bicicletas o motos. Actualmente sin stock disponible. ¿Te aviso cuando esté libre?" },
+    'carado':             { key:'TC-CAR', precio:58,  cap:2, tipo:'Furgoneta',    año:2022, ac:false, bano:false, calef:true,  cocina:true,  disponible:false, desc:"Furgoneta en revisión anual, no disponible en este momento. Si te interesa este rango de precio, el Pössl Campster (55€/día) es una alternativa muy similar." },
   };
 
-  // Contexto de conversaciÃ³n
+  // Contexto de conversación
   const ctx = { personas: null, fechaInicio: null, fechaFin: null, modeloMencionado: null };
 
   function extractContext(text) {
     // personas
-    const mPax = text.match(/(\d+)\s*(persona|pax|viajero|adulto|gente|somos|Ã©ramos)/i)
+    const mPax = text.match(/(\d+)\s*(persona|pax|viajero|adulto|gente|somos|éramos)/i)
                 || text.match(/somos\s+(\d+)/i)
                 || text.match(/para\s+(\d+)/i);
     if (mPax) ctx.personas = parseInt(mPax[1]);
 
-    // fechas â busca dÃ­a + mes (opcionalmente aÃ±o)
+    // fechas — busca día + mes (opcionalmente año)
     const MESES = { enero:1, febrero:2, marzo:3, abril:4, mayo:5, junio:6,
                     julio:7, agosto:8, septiembre:9, octubre:10, noviembre:11, diciembre:12 };
     const mFecha = text.match(/(\d{1,2})\s+de\s+(\w+)(?:\s+de\s+(\d{4}))?/gi);
@@ -1032,8 +883,8 @@
         const p = s.match(/(\d{1,2})\s+de\s+(\w+)(?:\s+de\s+(\d{4}))?/i);
         if (!p) return null;
         const mes = MESES[p[2].toLowerCase()];
-        const aÃ±o = p[3] ? parseInt(p[3]) : new Date().getFullYear();
-        return mes ? new Date(aÃ±o, mes-1, parseInt(p[1])) : null;
+        const año = p[3] ? parseInt(p[3]) : new Date().getFullYear();
+        return mes ? new Date(año, mes-1, parseInt(p[1])) : null;
       };
       if (mFecha[0]) ctx.fechaInicio = parse(mFecha[0]);
       if (mFecha[1]) ctx.fechaFin    = parse(mFecha[1]);
@@ -1045,162 +896,214 @@
     }
   }
 
-  function formatDate(d) {
-    if (!d) return null;
-    return d.toLocaleDateString('es-ES', { day:'numeric', month:'long', year:'numeric' });
-  }
-
-  function nightsBetween(a, b) {
-    if (!a || !b) return null;
-    return Math.round((b - a) / 86400000);
-  }
-
-  function buildReply(text) {
-    const t = text.toLowerCase();
-    extractContext(text);
-
-    // ââ Pregunta por un modelo concreto ââ
-    for (const [key, info] of Object.entries(CAMPER_INFO)) {
-      if (t.includes(key)) {
-        const noches = nightsBetween(ctx.fechaInicio, ctx.fechaFin);
-        let r = `ð **${info.tipo} Â· ${info.aÃ±o} Â· ${info.precio}â¬/dÃ­a**\n\n${info.desc}\n\n`;
-        r += `â¢ Capacidad: ${info.cap} personas\n`;
-        r += `â¢ A/C: ${info.ac ? 'â' : 'â'}  BaÃ±o: ${info.bano ? 'â' : 'â'}  CalefacciÃ³n: ${info.calef ? 'â' : 'â'}\n`;
-        r += `â¢ Estado: ${info.disponible ? 'ð¢ Disponible' : 'ð´ No disponible ahora'}`;
-        if (noches && info.disponible) r += `\n\nPara ${noches} noches el coste serÃ­a **${noches * info.precio}â¬**. Â¿Te la reservo?`;
-        else if (info.disponible) r += `\n\nÂ¿Para quÃ© fechas la necesitas?`;
-        return r;
-      }
-    }
-
-    // ââ Consulta de flota general ââ
-    if (t.match(/flota|disponible|quÃ© tenÃ©is|quÃ© camper|cuÃ¡les tenÃ©is|modelos/)) {
-      return `Tenemos **8 modelos** en flota ð\n\n**Furgonetas** (para 2 personas):\nâ¢ PÃ¶ssl Campster â 55â¬/dÃ­a â\nâ¢ Weinsberg CaraBus â 65â¬/dÃ­a â\nâ¢ Carado CV600 â 58â¬/dÃ­a (en mantenimiento)\n\n**Autocaravanas**:\nâ¢ Hymer B-ML T580 â 78â¬/dÃ­a, 2 pax â\nâ¢ Adria Coral 670 SL â 95â¬/dÃ­a, 4 pax â\nâ¢ BÃ¼rstner Lyseo TD690 â 105â¬/dÃ­a, 4 pax â\nâ¢ Knaus Sun I 650 MEG â 110â¬/dÃ­a, 6 pax â\nâ¢ Carthago C-Tourer T143 â 130â¬/dÃ­a (sin stock)\n\nÂ¿CuÃ¡ntas personas serÃ©is?`;
-    }
-
-    // ââ NÃºmero de personas + quizÃ¡s fechas ââ
-    if (ctx.personas !== null) {
-      const pax = ctx.personas;
-      const noches = nightsBetween(ctx.fechaInicio, ctx.fechaFin);
-      let r = '';
-
-      if (pax <= 2) {
-        r = `Para ${pax} persona${pax>1?'s':''} mis recomendaciones son:\n\nð¥ **Weinsberg CaraBus 600 MQ** â 65â¬/dÃ­a, furgoneta 2023, calefacciÃ³n incluida\nð¥ **Hymer B-ML T580** â 78â¬/dÃ­a, autocaravana compacta con baÃ±o\nð¥ **PÃ¶ssl Campster** â 55â¬/dÃ­a, la mÃ¡s econÃ³mica (sin calefacciÃ³n)`;
-      } else if (pax <= 4) {
-        r = `Para ${pax} personas te recomiendo:\n\nð¥ **Adria Coral 670 SL** â 95â¬/dÃ­a, baÃ±o completo y A/C\nð¥ **BÃ¼rstner Lyseo TD690** â 105â¬/dÃ­a, diseÃ±o moderno 2023 con A/C`;
-      } else if (pax <= 6) {
-        r = `Para ${pax} personas la Ãºnica opciÃ³n cÃ³moda de la flota es:\n\nð **Knaus Sun I 650 MEG** â 110â¬/dÃ­a, 6 plazas, 3 camas independientes, A/C, baÃ±o y calefacciÃ³n. Â¡Perfecta!`;
-      } else {
-        r = `Vaya, sois un grupo grande ð Nuestra flota llega hasta 6 plazas (Knaus Sun I). Para mÃ¡s personas necesitarÃ­ais alquilar dos unidades. Â¿Te ayudo con eso?`;
-      }
-
-      if (ctx.fechaInicio) {
-        const f = formatDate(ctx.fechaInicio);
-        r += `\n\nVeo que mencionas el **${f}**`;
-        if (noches) r += ` â **${noches} noches**`;
-        r += `. Â¿Confirmo disponibilidad para esas fechas?`;
-      } else {
-        r += `\n\nÂ¿Para quÃ© fechas lo necesitas?`;
-      }
-      return r;
-    }
-
-    // ââ Fechas sin modelo ni personas ââ
-    if (ctx.fechaInicio && !ctx.personas) {
-      return `Anotado, para el **${formatDate(ctx.fechaInicio)}** ð\n\nÂ¿CuÃ¡ntas personas serÃ©is? Con eso te doy las opciones disponibles para esa fecha.`;
-    }
-
-    // ââ Aire acondicionado ââ
-    if (t.match(/aire|a\/c|\bac\b|acondicionado/)) {
-      return `Los modelos con A/C son:\n\nâï¸ **Adria Coral 670 SL** â 95â¬/dÃ­a, 4 pax â\nâï¸ **Knaus Sun I 650 MEG** â 110â¬/dÃ­a, 6 pax â\nâï¸ **BÃ¼rstner Lyseo TD690** â 105â¬/dÃ­a, 4 pax â\nâï¸ **Carthago C-Tourer T143** â 130â¬/dÃ­a (sin stock ahora)\n\nÂ¿CuÃ¡ntas personas serÃ©is?`;
-    }
-
-    // ââ Para pareja ââ
-    if (t.match(/pareja|dos|2\s*person/)) {
-      ctx.personas = 2;
-      return buildReply('somos 2 personas');
-    }
-
-    // ââ Familia / niÃ±os ââ
-    if (t.match(/familia|niÃ±o|hijo|pequeÃ±o/)) {
-      return `Para familias con niÃ±os lo mejor es tener baÃ±o propio y espacio. Te recomiendo:\n\nð¥ **Knaus Sun I 650 MEG** â 110â¬/dÃ­a, hasta 6 plazas, 3 camas, A/C y baÃ±o â\nð¥ **Adria Coral 670 SL** â 95â¬/dÃ­a, 4 plazas, salÃ³n amplio, A/C y baÃ±o â\n\nÂ¿CuÃ¡ntos sois en total?`;
-    }
-
-    // ââ Reservar ââ
-    if (t.match(/reservar|reserva|contratar|quiero|confirmar/)) {
-      return `Â¡Perfecto, vamos a por ello! ð Para gestionar la reserva necesito:\n\nâ¢ Nombre completo\nâ¢ DNI/Pasaporte\nâ¢ TelÃ©fono de contacto\nâ¢ Email\n\nY confirmar: modelo, fecha de recogida y fecha de devoluciÃ³n. Â¿Empezamos?`;
-    }
-
-    // ââ Precio / coste ââ
-    if (t.match(/precio|cuÃ¡nto|cuesta|cueste|coste|costar/)) {
-      return `Los precios de nuestra flota van de **55â¬ a 130â¬ por dÃ­a** segÃºn el modelo:\n\nâ¢ PÃ¶ssl Campster: 55â¬/dÃ­a\nâ¢ Carado CV600: 58â¬/dÃ­a\nâ¢ Weinsberg CaraBus: 65â¬/dÃ­a\nâ¢ Hymer B-ML T580: 78â¬/dÃ­a\nâ¢ Adria Coral 670 SL: 95â¬/dÃ­a\nâ¢ BÃ¼rstner Lyseo TD690: 105â¬/dÃ­a\nâ¢ Knaus Sun I 650 MEG: 110â¬/dÃ­a\nâ¢ Carthago C-Tourer T143: 130â¬/dÃ­a\n\nTodos incluyen seguro bÃ¡sico. Â¿Hay alguno que te interese?`;
-    }
-
-    // ââ Default sensato ââ
-    return `Entendido ð Para ayudarte mejor, cuÃ©ntame:\n\nâ¢ Â¿CuÃ¡ntas personas serÃ©is?\nâ¢ Â¿QuÃ© fechas estÃ¡is mirando?\nâ¢ Â¿PreferÃ­s furgoneta compacta o autocaravana con mÃ¡s espacio?\n\nCon eso os busco las mejores opciones de la flota.`;
-  }
-
-  function addMsg(text, who) {
-    const wrap = document.getElementById('chat-messages-embed');
-    const div = document.createElement('div');
-    div.className = `msg-embed ${who}`;
-    div.innerHTML = `
-      <div class="bubble-avatar">${who === 'cami' ? 'C' : 'TÃº'[0]}</div>
-      <div class="bubble-embed">${text.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div>
-    `;
-    wrap.appendChild(div);
-    wrap.scrollTop = wrap.scrollHeight;
-  }
-
-  function showTyping() {
-    const el = document.getElementById('typing-embed');
-    el.classList.add('visible');
-    document.getElementById('chat-messages-embed').scrollTop = 9999;
-  }
-  function hideTyping() {
-    document.getElementById('typing-embed').classList.remove('visible');
-  }
-
-  function sendMessage() {
-    const input = document.getElementById('embed-input');
-    const text = input.value.trim();
-    if (!text) return;
-    input.value = '';
-    document.getElementById('quick-replies').style.display = 'none';
-    addMsg(text, 'user');
-    showTyping();
-    const delay = 800 + Math.random() * 500;
-    setTimeout(() => {
-      hideTyping();
-      addMsg(buildReply(text), 'cami');
-    }, delay);
-  }
-
-  function sendQuick(text) {
-    document.getElementById('embed-input').value = text;
-    sendMessage();
-  }
-
-  function askAbout(modelo) {
-    document.getElementById('chat').scrollIntoView({ behavior: 'smooth' });
-    setTimeout(() => {
-      document.getElementById('embed-input').value = `CuÃ©ntame mÃ¡s sobre el ${modelo}`;
-      sendMessage();
-    }, 600);
-  }
-
-  document.getElementById('embed-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') sendMessage();
-  });
+  // Chat falso eliminado — se usa el widget IA real (tc-chat-widget)
 </script>
 
-<!-- Widget IA real (Leo, Cami, Remi) -->
-<iframe
-  src="/chat.html"
-  style="position:fixed;bottom:0;right:0;width:440px;height:720px;border:none;z-index:9999;background:transparent;"
-  allow="clipboard-write"
-  title="Asistente TodoCamping"
-></iframe>
+<!-- Widget IA real (Leo, Cami, Remi) — embebido directamente -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-</body>
-</html>
+<!-- Estilos del widget IA -->
+<style>
+  #tc-chat-widget {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    width: 400px; height: 680px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(0,0,0,.12);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    z-index: 9999;
+    transition: opacity .25s, transform .25s;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+  #tc-chat-widget.tc-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(16px);
+  }
+  #tc-chat-bubble {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    width: 62px; height: 62px;
+    background: var(--tc-primary, #1e40af);
+    color: #fff;
+    border: none; border-radius: 50%;
+    cursor: pointer; font-size: 26px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,.28);
+    z-index: 9998;
+    transition: background .3s, transform .15s;
+  }
+  #tc-chat-bubble:hover { transform: scale(1.07); }
+  #tc-chat-bubble.tc-hidden { display: none; }
+  #tc-chat-header {
+    background: var(--tc-primary, #1e40af);
+    color: #fff;
+    padding: 14px 18px;
+    display: flex; align-items: center; gap: 12px;
+    flex-shrink: 0;
+    transition: background .4s;
+    font-family: inherit;
+  }
+  #tc-header-avatar {
+    width: 42px; height: 42px;
+    background: var(--tc-dark, #1e3a8a);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700; flex-shrink: 0;
+    transition: background .4s;
+  }
+  #tc-header-info { flex: 1; }
+  #tc-header-info strong { display: block; font-size: 15px; }
+  #tc-header-info span   { font-size: 12px; opacity: .8; }
+  #tc-status-dot {
+    width: 9px; height: 9px; background: #4ade80;
+    border-radius: 50%; border: 2px solid rgba(255,255,255,.3); flex-shrink: 0;
+  }
+  #tc-chat-close {
+    background: none; border: none; color: #fff; font-size: 18px;
+    cursor: pointer; opacity: .75; padding: 0 0 0 6px; line-height: 1;
+  }
+  #tc-chat-close:hover { opacity: 1; }
+  #tc-chat-messages {
+    flex: 1; overflow-y: auto; padding: 16px;
+    display: flex; flex-direction: column; gap: 10px;
+    scroll-behavior: smooth; background: #f4f6f8;
+  }
+  #tc-chat-messages::-webkit-scrollbar { width: 4px; }
+  #tc-chat-messages::-webkit-scrollbar-thumb { background: #dde1e7; border-radius: 4px; }
+  .tc-msg-row { display: flex; gap: 8px; max-width: 86%; }
+  .tc-msg-row.user  { align-self: flex-end; flex-direction: row-reverse; }
+  .tc-msg-row.agent { align-self: flex-start; }
+  .tc-msg-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; flex-shrink: 0; align-self: flex-end;
+  }
+  .tc-msg-avatar[data-agent="leo"]      { background: #dbeafe; color: #1e40af; }
+  .tc-msg-avatar[data-agent="cami"]     { background: #e8f5ee; color: #2d7a4f; }
+  .tc-msg-avatar[data-agent="reservas"] { background: #fef3c7; color: #b45309; }
+  .tc-bubble {
+    padding: 10px 14px; border-radius: 18px;
+    font-size: 14px; line-height: 1.55; word-break: break-word; white-space: pre-wrap;
+  }
+  .tc-msg-row.user .tc-bubble {
+    background: var(--tc-primary, #1e40af); color: #fff;
+    border-bottom-right-radius: 4px; transition: background .4s;
+  }
+  .tc-msg-row.agent .tc-bubble {
+    background: #fff; color: #1f2937;
+    border: 1px solid #dde1e7; border-bottom-left-radius: 4px;
+  }
+  .tc-bubble table { border-collapse: collapse; font-size: 13px; margin-top: 6px; width: 100%; }
+  .tc-bubble th, .tc-bubble td { border: 1px solid #dde1e7; padding: 4px 8px; }
+  .tc-bubble th { background: #eff6ff; font-weight: 600; }
+  .tc-bubble strong { font-weight: 600; }
+  .tc-bubble em { font-style: italic; }
+  .tc-handoff-event {
+    align-self: center; background: #f4f6f8; border: 1px solid #dde1e7;
+    border-radius: 20px; padding: 5px 14px; font-size: 12px; color: #6b7280;
+  }
+  #tc-typing {
+    display: none; align-self: flex-start;
+    padding: 10px 14px; background: #fff; border: 1px solid #dde1e7;
+    border-radius: 18px; border-bottom-left-radius: 4px; gap: 4px; align-items: center;
+  }
+  #tc-typing.visible { display: flex; }
+  .tc-dot {
+    width: 7px; height: 7px; background: #6b7280; border-radius: 50%;
+    animation: tc-bounce .9s infinite;
+  }
+  .tc-dot:nth-child(2) { animation-delay: .15s; }
+  .tc-dot:nth-child(3) { animation-delay: .30s; }
+  @keyframes tc-bounce { 0%,80%,100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
+  #tc-chat-input-area {
+    padding: 12px 14px; border-top: 1px solid #dde1e7;
+    display: flex; gap: 8px; flex-shrink: 0; background: #fff;
+  }
+  #tc-user-input {
+    flex: 1; border: 1px solid #dde1e7; border-radius: 24px;
+    padding: 10px 16px; font-size: 14px; font-family: inherit; outline: none;
+    transition: border-color .2s;
+  }
+  #tc-user-input:focus { border-color: var(--tc-primary, #1e40af); }
+  #tc-send-btn {
+    background: var(--tc-primary, #1e40af); color: #fff;
+    border: none; border-radius: 50%; width: 40px; height: 40px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: background .4s;
+  }
+  #tc-send-btn:hover    { filter: brightness(.9); }
+  #tc-send-btn:disabled { background: #dde1e7; cursor: not-allowed; }
+  #tc-send-btn svg { width: 17px; height: 17px; }
+  .tc-error-banner {
+    background: #fef2f2; color: #dc2626; border: 1px solid #fecaca;
+    border-radius: 10px; padding: 10px 14px; font-size: 13px;
+    align-self: center; max-width: 90%; text-align: center;
+  }
+  @media (max-width: 520px) {
+    #tc-chat-widget { bottom: 0; right: 0; width: 100%; height: 92dvh; border-radius: 20px 20px 0 0; }
+    #tc-chat-bubble { bottom: 16px; right: 16px; }
+  }
+</style>
+
+<!-- Widget HTML -->
+<div id="tc-chat-widget">
+  <div id="tc-chat-header">
+    <div id="tc-header-avatar">L</div>
+    <div id="tc-header-info">
+      <strong id="tc-header-name">Leo</strong>
+      <span id="tc-header-role">Bienvenida · TodoCamping</span>
+    </div>
+    <div id="tc-status-dot"></div>
+    <button id="tc-chat-close" title="Minimizar">✕</button>
+  </div>
+  <div id="tc-chat-messages">
+    <div id="tc-typing">
+      <div class="tc-dot"></div><div class="tc-dot"></div><div class="tc-dot"></div>
+    </div>
+  </div>
+  <div id="tc-chat-input-area">
+    <input type="text" id="tc-user-input" placeholder="Escribe tu mensaje..." autocomplete="off" />
+    <button id="tc-send-btn" aria-label="Enviar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"></line>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+      </svg>
+    </button>
+  </div>
+</div>
+<button id="tc-chat-bubble" class="tc-hidden" title="Hablar con un asistente de TodoCamping">💬</button>
+
+<script>
+/* ═══════════════════════════════════════════
+   TODOCAMPING — WIDGET IA (Leo, Cami, Remi)
+═══════════════════════════════════════════ */
+(function() {
+
+/* ── CONFIG ── */
+let TC_CONFIG = {
+  SUPABASE_URL:      'https://wgrqkffxwzwbzgjmbtsd.supabase.co',
+  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndncnFrZmZ4d3p3Ynpnam1idHNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwODYzMjUsImV4cCI6MjA5NTY2MjMyNX0.gwqy3kr-PKXJ0ovnVrV3eUhPvwSmOdtNSUd-oKQ6ZDw',
+  MODEL: 'claude-haiku-4-5-20251001',
+};
+
+fetch('/api/config').then(r => r.json()).then(cfg => {
+  if (cfg.supabaseUrl)     TC_CONFIG.SUPABASE_URL      = cfg.supabaseUrl;
+  if (cfg.supabaseAnonKey) TC_CONFIG.SUPABASE_ANON_KEY = cfg.supabaseAnonKey;
+  if (cfg.model)           TC_CONFIG.MODEL             = cfg.model;
+  tcInitSupabase();
+}).catch(() => { tcInitSupabase(); });
+
+/* ── MOCK DB ── */
+const TC_MOCK = {
+  campers: [
+    { id:'C001', key:'TC-ACS', modelo:'Adria Coral 670 SL',       unidades:3, tipo:'Autocaravana', año:2022, capacidad:4, precio_diario:95,  ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true,  descripcion:'Autocaravana familiar con baño completo y salón amplio.' },
+    { id:'C002', key:'TC-WCB', modelo:'Weinsberg CaraBus 600 MQ', unidades:5, tipo:'Furgoneta',    año:2023, capacidad:2, precio_diario:65,  ac:false, calefaccion:true,  cocina:true, bano:false, estado:'Activo',        disponible:true,  descripcion:'Furgoneta compacta ideal para pareja, fácil de aparcar.' },
+    { id:'C003', key:'TC-KSI', modelo:'Knaus Sun I 650 MEG',      unidades:2, tipo:'Autocaravana', año:2021, capacidad:6, precio_diario:110, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true,  descripcion:'Perfecta para familia grande. Tres zonas de cama independientes.' },
+    { id:'C004', key:'TC-CCT', modelo:'Carthago C-Tourer T143',   unidades:2, tipo:'Autocaravana', año:2020, capacidad:4, precio_diario:130, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:false, descripcion:'Gama premium con materiales de lujo y garaje trasero.' },
+    { id:'C005', key:'TC-CAR', modelo:'Carado CV600',              unidades:4, tipo:'Furgoneta',    año:2022, capacidad:2, precio_diario:58,  ac:false, calefaccion:true,  cocina:true, bano:false, estado:'Mantenimiento', disponible:false, descripcion:'En revisión anual.' },
+    { id:'C006', key:'TC-BLD', modelo:'Bürstner Lyseo TD690',     unidades:3, tipo:'Autocaravana', año:2023, capacidad:4, precio_diario:105, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true,  descripcion:'Diseño moderno con techo elevable y cocina de inducción.' },
+    { id:'C007', key:'TC-HYM', modelo:'Hymer B-ML T580',          unidades:4, tipo:'Autocaravana', año:2019, capacidad:2, precio_diario:78,  ac:false, calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true,  descripcion:'Autocaravana compacta para pareja con baño integrado.' },
+    { id:'C008', key:'TC-PCA', modelo:'Pössl C
