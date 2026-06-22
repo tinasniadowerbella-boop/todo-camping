@@ -548,7 +548,7 @@
       <div class="stat-label">Unidades en flota</div>
     </div>
     <div class="stat">
-      <span class="stat-num">55â¬</span>
+      <span class="stat-num">$3.500</span>
       <div class="stat-label">Precio desde / dÃ­a</div>
     </div>
     <div class="stat">
@@ -820,7 +820,7 @@
             ${equipDot(c.cocina,'ð³')}
           </div>
           <div class="card-footer">
-            <div class="card-price">${c.precio}â¬ <span>/ dÃ­a</span></div>
+            <div class="card-price">$${c.precio.toLocaleString()} <span>/ día</span></div>
             <button class="btn-card" onclick="askAbout('${c.modelo}')">Consultar</button>
           </div>
         </div>
@@ -860,8 +860,8 @@
     'hymer':              { key:'TC-HYM', precio:4800,  cap:2, tipo:'Autocaravana', aÃ±o:2019, ac:false, bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"Autocaravana compacta (5,72 m) con baÃ±o integrado. Ideal para pareja que quiere comodidad sin el tamaÃ±o de una autocaravana grande. Sin A/C pero con calefacciÃ³n." },
     'knaus sun':          { key:'TC-KSI', precio:7200, cap:6, tipo:'Autocaravana', aÃ±o:2021, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"La mejor opciÃ³n para grupos grandes (hasta 6 personas, 3 camas independientes). Autocaravana espaciosa de 6,99 m con todo el equipamiento: A/C, baÃ±o, cocina y calefacciÃ³n." },
     'bÃ¼rstner':           { key:'TC-BLD', precio:6500, cap:4, tipo:'Autocaravana', aÃ±o:2023, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"DiseÃ±o moderno con techo elevable y cocina de inducciÃ³n. Una de las mÃ¡s nuevas de la flota (2023). Perfecta para 4 personas que buscan confort y estÃ©tica cuidada." },
-    'carthago':           { key:'TC-CCT', precio:8500, cap:4, tipo:'Autocaravana', aÃ±o:2020, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:false, desc:"Nuestra gama mÃ¡s premium (130â¬/dÃ­a) con materiales de lujo y garaje trasero para llevar bicicletas o motos. Actualmente sin stock disponible. Â¿Te aviso cuando estÃ© libre?" },
-    'carado':             { key:'TC-CAR', precio:3800,  cap:2, tipo:'Furgoneta',    aÃ±o:2022, ac:false, bano:false, calef:true,  cocina:true,  disponible:false, desc:"Furgoneta en revisiÃ³n anual, no disponible en este momento. Si te interesa este rango de precio, el PÃ¶ssl Campster (55â¬/dÃ­a) es una alternativa muy similar." },
+    'carthago':           { key:'TC-CCT', precio:8500, cap:4, tipo:'Autocaravana', aÃ±o:2020, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:false, desc:"Nuestra gama mÃ¡s premium (130$/día) con materiales de lujo y garaje trasero para llevar bicicletas o motos. Actualmente sin stock disponible. Â¿Te aviso cuando estÃ© libre?" },
+    'carado':             { key:'TC-CAR', precio:3800,  cap:2, tipo:'Furgoneta',    aÃ±o:2022, ac:false, bano:false, calef:true,  cocina:true,  disponible:false, desc:"Furgoneta en revisiÃ³n anual, no disponible en este momento. Si te interesa este rango de precio, el PÃ¶ssl Campster ($3.500/dÃ­a) es una alternativa muy similar." },
   };
 
   // Contexto de conversaciÃ³n
