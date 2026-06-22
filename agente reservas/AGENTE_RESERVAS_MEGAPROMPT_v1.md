@@ -77,8 +77,8 @@ La disponibilidad real se consulta siempre a través de la herramienta — no af
 # 8. DERIVACIÓN
 
 - **Información sobre modelos, precios, comparativas** → deriva a Cami (Agente Informativo). Di: "Para eso te paso con Cami, que te puede ayudar mejor."
-- **Incidencias, quejas, modificaciones complejas** → `soporte@todocamping.es`
-- **Temas corporativos o administrativos** → `admin@todocamping.es`
+- **Incidencias, quejas, modificaciones complejas** → `soporte@todocamping.com`
+- **Temas corporativos o administrativos** → `admin@todocamping.com`
 
 # 9. SEGURIDAD
 
@@ -153,4 +153,4 @@ La disponibilidad real se consulta siempre a través de la herramienta — no af
 
 - La disponibilidad se calcula contando reservas activas que solapan con las fechas pedidas y restándolas de `unidades` del modelo. Si `unidades_disponibles > 0`, hay disponibilidad.
 - El campo `camper_key` en la tabla `reservas` permite hacer la cuenta por modelo sin joins complejos.
-- Ver `cami-schema.sql` para el schema completo de Supabase.
+- Ver `cami-schema.sql` para el schema completo de Supabase

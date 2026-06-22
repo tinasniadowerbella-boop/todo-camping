@@ -42,16 +42,16 @@ verificar_disponibilidad → ¿hay unidades libres?
 
 ## Catálogo de modelos
 
-| Key | Modelo | €/día | Unidades | Estado |
+| Key | Modelo | $/día (UYU) | Unidades | Estado |
 |---|---|---|---|---|
-| TC-ACS | Adria Coral 670 SL | 95 | 3 | Activo |
-| TC-WCB | Weinsberg CaraBus 600 MQ | 65 | 5 | Activo |
-| TC-KSI | Knaus Sun I 650 MEG | 110 | 2 | Activo |
-| TC-CCT | Carthago C-Tourer T143 | 130 | 2 | Activo |
-| TC-CAR | Carado CV600 | 58 | 4 | Mantenimiento |
-| TC-BLD | Bürstner Lyseo TD690 | 105 | 3 | Activo |
-| TC-HYM | Hymer B-ML T580 | 78 | 4 | Activo |
-| TC-PCA | Pössl Campster | 55 | 6 | Activo |
+| TC-ACS | Adria Coral 670 SL | 5800 | 3 | Activo |
+| TC-WCB | Weinsberg CaraBus 600 MQ | 4200 | 5 | Activo |
+| TC-KSI | Knaus Sun I 650 MEG | 7200 | 2 | Activo |
+| TC-CCT | Carthago C-Tourer T143 | 8500 | 2 | Activo |
+| TC-CAR | Carado CV600 | 3800 | 4 | Mantenimiento |
+| TC-BLD | Bürstner Lyseo TD690 | 6500 | 3 | Activo |
+| TC-HYM | Hymer B-ML T580 | 4800 | 4 | Activo |
+| TC-PCA | Pössl Campster | 3500 | 6 | Activo |
 
 La disponibilidad en tiempo real se calcula siempre desde la base de datos.
 
@@ -97,4 +97,4 @@ Leo (Orquestador)
             └─► Si piden specs → Cami (Agente Informativo)
 ```
 
-El usuario llega aquí desde Leo cuando tiene claro que quiere reservar, y opcionalmente con contexto previo de Cami (modelo elegido, fechas tentativas, nº de personas).
+El usuario llega aquí desde Leo cuando tiene claro que quiere reservar, y opcionalmente con contexto previo de Cami (modelo elegido, fechas tentativas, n
