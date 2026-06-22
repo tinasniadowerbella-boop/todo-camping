@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TodoCamping Admin</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green:       #2d7a4f;
+      --green-dark:  #1e5534;
+      --green-light: #e8f5ee;
+      --gray-bg:     #f4f6f8;
+      --gray-border: #dde1e7;
+      --gray-text:   #6b7280;
+      --white:       #ffffff;
+      --red:         #dc2626;
+      --yellow:      #d97706;
+      --blue:        #2563eb;
+    }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--gray-bg); color: #1f2937; }
+
+    /* ── LOGIN ── */
+    #login-screen {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px;
+    }
+    .login-box {
+      background: var(--white); border-radius: 20px; padding: 40px 36px;
+      max-width: 420px; width: 100%; box-shadow: 0 8px 40px rgba(0,0,0,.12);
+    }
+    .login-logo { text-align: center; margin-bottom: 28px; }
+    .login-logo .emoji { font-size: 48px; }
+    .login-logo h1 { font-size: 22px; color: var(--green); margin-top: 8px; }
+    .login-logo p  { font-size: 13px; color: var(--gray-text); }
+    .field { margin-bottom: 16px; }
+    .field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+    .field input  {
+      width: 100%; border: 1px solid var(--gray-border); border-radius: 8px;
+      padding: 10px 12px; font-size: 14px; outline: none; transition: border-color .2s;
+    }
+    .field input:focus { border-color: var(--green); }
+    .btn-primary {
+      width: 100%; background: var(--green); color: var(--white); border: none;
+      border-radius: 10px; padding: 12px; font-size: 15px; font-weight: 600;
+      cursor: pointer; transition: background .2s; margin-top: 4px;
+    }
+    .btn-primary:hover { background: var(--green-dark); }
+    .btn-primary:disabled { background: var(--gray-border); cursor: not-allowed; }
+    .error-msg { color: var(--red); font-size: 13px; margin-top: 10px; text-align: center; display: none; }
+    .block-msg { color: var(--yellow); font-size: 13px; margin-top: 10px; text-align: center; display: none; }
+
+    /* ── DASHBOARD ── */
+    #dashboard { display: none; }
+    .top-bar {
+      background: var(--green); color: var(--white); padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .top-bar h1 { font-size: 18px; font-weight: 700; }
+    .top-bar span { font-size: 13px; opacity: .8; }
+    .btn-logout {
+      background: rgba(255,255,255,.2); color: var(--white); border: none;
+      border-radius: 8px; padding: 7px 14px; cursor: pointer; font-size: 13px;
+    }
+    .btn-logout:hover { background: rgba(255,255,255,.3); }
+
+    .tabs {
+      display: flex; gap: 4px; padding: 16px 24px 0; background: var(--white);
+      border-bottom: 1px solid var(--gray-border);
+    }
+    .tab {
+      padding: 10px 20px; border-radius: 8px 8px 0 0; cursor: pointer;
+      font-size: 14px; font-weight: 500; color: var(--gray-text);
+      border: 1px solid transparent; border-bottom: none;
+    }
+    .tab.active { background: var(--gray-bg); color: var(--green); border-color: var(--gray-border); font-weight: 600; }
+
+    .tab-content { display: none; padding: 24px; }
+    .tab-content.active { display: block; }
+
+    /* ── KPI cards ── */
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .kpi-card {
+      background: var(--white); border-radius: 12px; padding: 20px;
+      border: 1px solid var(--gray-border); box-shadow: 0 2px 8px rgba(0,0,0,.04);
+    }
+    .kpi-card .label { font-size: 12px; color: var(--gray-text); font-weight: 500; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .5px; }
+    .kpi-card .value { font-size: 28px; font-weight: 700; color: var(--green); }
+    .kpi-card .sub   { font-size: 12px; color: var(--gray-text); margin-top: 4px; }
+    .kpi-card.alert  { border-color: var(--red); }
+    .kpi-card.alert .value { color: var(--red); }
+
+    /* ── Tablas ── */
+    .section-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: #1f2937; }
+    .table-wrap { background: var(--white); border-radius: 12px; border: 1px solid var(--gray-border); overflow: hidden; margin-bottom: 24px; }
+    .filter-bar { padding: 12px 16px; border-bottom: 1px solid var(--gray-border); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .filter-bar select, .filter-bar input {
+      border: 1px solid var(--gray-border); border-radius: 6px; padding: 6px 10px;
+      font-size: 13px; outline: none;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { background: var(--green-light); color: var(--green-dark); font-weight: 600; padding: 10px 12px; text-align: left; }
+    td { padding: 9px 12px; border-bottom: 1px solid var(--gray-border); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f9fafb; }
+
+    .badge {
+      display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600;
+    }
+    .badge.Confirmada  { background: #d1fae5; color: #065f46; }
+    .badge.Pendiente   { background: #fef3c7; color: #92400e; }
+    .badge.Cancelada   { background: #fee2e2; color: #991b1b; }
+    .badge.Completada  { background: #dbeafe; color: #1e40af; }
+
+    select.estado-select { border-radius: 6px; font-size: 12px; padding: 3px 6px; cursor: pointer; }
+
+    /* ── Alertas ── */
+    .alertas-box { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
+    .alerta {
+      padding: 12px 16px; border-radius: 10px; font-size: 13px; font-weight: 500;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .alerta.rojo   { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+    .alerta.amarillo { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+    .alerta.azul   { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+
+    /* ── Grafico ── */
+    .chart-box { background: var(--white); border-radius: 12px; border: 1px solid var(--gray-border); padding: 20px; margin-bottom: 24px; }
+
+    /* ── Logs ── */
+    .log-datos { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: monospace; font-size: 11px; color: var(--gray-text); cursor: pointer; }
+    .btn-export { background: var(--green); color: var(--white); border: none; border-radius: 6px; padding: 7px 14px; font-size: 13px; cursor: pointer; }
+
+    .loading { text-align: center; padding: 40px; color: var(--gray-text); }
+    .empty   { text-align: center; padding: 30px; color: var(--gray-text); font-size: 13px; }
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="emoji">🏕️</div>
+      <h1>TodoCamping Admin</h1>
+      <p>Panel interno — solo para el equipo</p>
+    </div>
+    <div class="field">
+      <label>Email corporativo</label>
+      <input type="email" id="login-email" placeholder="tu@todocamping.com.uy" autocomplete="username" />
+    </div>
+    <div class="field">
+      <label>Contraseña</label>
+      <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+    <button class="btn-primary" id="login-btn">Ingresar</button>
+    <div class="error-msg" id="login-error"></div>
+    <div class="block-msg" id="login-block">⏳ Demasiados intentos fallidos. Esperá <span id="block-countdown">5:00</span> min.</div>
+  </div>
+</div>
+
+<!-- ── DASHBOARD ── -->
+<div id="dashboard">
+  <div class="top-bar">
+    <div>
+      <h1>🏕️ TodoCamping Admin</h1>
+      <span id="admin-email-label"></span>
+    </div>
+    <button class="btn-logout" id="logout-btn">Cerrar sesión</button>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="reservas">📋 Reservas</div>
+    <div class="tab" data-tab="monitoreo">📊 Monitoreo</div>
+    <div class="tab" data-tab="logs">🔍 Logs</div>
+  </div>
+
+  <!-- TAB RESERVAS -->
+  <div class="tab-content active" id="tab-reservas">
+    <div class="kpi-grid" id="kpi-reservas">
+      <div class="kpi-card"><div class="label">Reservas este mes</div><div class="value" id="kpi-total">—</div></div>
+      <div class="kpi-card"><div class="label">Tasa de confirmación</div><div class="value" id="kpi-tasa">—</div><div class="sub" id="kpi-tasa-sub"></div></div>
+      <div class="kpi-card"><div class="label">Camper más reservado</div><div class="value" id="kpi-camper" style="font-size:16px">—</div></div>
+      <div class="kpi-card"><div class="label">Ingresos del mes ($)</div><div class="value" id="kpi-ingresos">—</div></div>
+    </div>
+
+    <p class="section-title">Reservas recientes</p>
+    <div class="table-wrap">
+      <div class="filter-bar">
+        <select id="filtro-estado">
+          <option value="">Todos los estados</option>
+          <option>Pendiente</option><option>Confirmada</option>
+          <option>Cancelada</option><option>Completada</option>
+        </select>
+        <input type="text" id="filtro-buscar" placeholder="Buscar cliente o camper..." style="min-width:200px" />
+      </div>
+      <div id="tabla-reservas-wrap"><div class="loading">Cargando reservas…</div></div>
+    </div>
+  </div>
+
+  <!-- TAB MONITOREO -->
+  <div class="tab-content" id="tab-monitoreo">
+    <div id="alertas-box" class="alertas-box"></div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="label">Usuarios activos ahora</div><div class="value" id="m-activos">—</div><div class="sub">Últimos 15 min</div></div>
+      <div class="kpi-card"><div class="label">Chats hoy</div><div class="value" id="m-chats">—</div></div>
+      <div class="kpi-card"><div class="label">Reservas creadas hoy</div><div class="value" id="m-reservas-hoy">—</div></div>
+      <div class="kpi-card" id="kpi-errores"><div class="label">Errores API (última hora)</div><div class="value" id="m-errores">—</div></div>
+      <div class="kpi-card"><div class="label">Tiempo promedio respuesta</div><div class="value" id="m-tiempo">—</div><div class="sub">ms (últimos 100 msgs)</div></div>
+    </div>
+
+    <p class="section-title">Actividad últimas 24 horas</p>
+    <div class="chart-box"><canvas id="grafico-actividad" height="100"></canvas></div>
+
+    <p class="section-title">Sesiones de hoy</p>
+    <div class="table-wrap">
+      <div id="tabla-sesiones-wrap"><div class="loading">Cargando sesiones…</div></div>
+    </div>
+  </div>
+
+  <!-- TAB LOGS -->
+  <div class="tab-content" id="tab-logs">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <p class="section-title" style="margin:0">Log de errores recientes</p>
+      <button class="btn-export" id="btn-export-csv">⬇️ Exportar CSV</button>
+    </div>
+    <div class="table-wrap">
+      <div id="tabla-logs-wrap"><div class="loading">Cargando logs…</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── Config ── */
+let SB = null;
+let adminEmail = null;
+
+// Intentos fallidos de login
+let intentosFallidos = 0;
+let bloqueadoHasta   = 0;
+let graficoChart     = null;
+
+/* ── Inicializar Supabase desde /api/config ── */
+async function initSB() {
+  const cfg = await fetch('/api/config').then(r => r.json());
+  SB = supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
+}
+
+/* ── LOGIN ── */
+document.getElementById('login-btn').addEventListener('click', async () => {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-pass').value;
+  const errDiv   = document.getElementById('login-error');
+  const blockDiv = document.getElementById('login-block');
+  errDiv.style.display = 'none';
+
+  // Verificar bloqueo
+  if (Date.now() < bloqueadoHasta) {
+    blockDiv.style.display = 'block';
+    return;
+  }
+
+  // Validar dominio
+  if (!email.endsWith('@todocamping.com.uy')) {
+    errDiv.textContent = 'Solo se permite acceso con email @todocamping.com.uy';
+    errDiv.style.display = 'block';
+    return;
+  }
+
+  document.getElementById('login-btn').disabled = true;
+
+  try {
+    await initSB();
+    const { data, error } = await SB.auth.signInWithPassword({ email, password: pass });
+
+    // Registrar intento en logs_acceso_empresa
+    await SB.from('logs_acceso_empresa').insert({
+      email_intento: email,
+      exitoso: !error,
+      user_agent: navigator.userAgent.substring(0, 200),
+    });
+
+    if (error) {
+      intentosFallidos++;
+      if (intentosFallidos >= 3) {
+        bloqueadoHasta = Date.now() + 5 * 60 * 1000;
+        iniciarCountdown();
+        blockDiv.style.display = 'block';
+        errDiv.style.display = 'none';
+      } else {
+        errDiv.textContent = `Credenciales incorrectas. Intento ${intentosFallidos} de 3.`;
+        errDiv.style.display = 'block';
+      }
+    } else {
+      intentosFallidos = 0;
+      adminEmail = data.user.email;
+      mostrarDashboard();
+    }
+  } catch(e) {
+    errDiv.textContent = 'Error de conexión. Intentá de nuevo.';
+    errDiv.style.display = 'block';
+  }
+
+  document.getElementById('login-btn').disabled = false;
+});
+
+document.getElementById('login-pass').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('login-btn').click();
+});
+
+function iniciarCountdown() {
+  const span = document.getElementById('block-countdown');
+  const interval = setInterval(() => {
+    const restante = Math.max(0, bloqueadoHasta - Date.now());
+    const m = Math.floor(restante / 60000);
+    const s = Math.floor((restante % 60000) / 1000);
+    span.textContent = `${m}:${String(s).padStart(2,'0')}`;
+    if (restante <= 0) {
+      clearInterval(interval);
+      document.getElementById('login-block').style.display = 'none';
+      intentosFallidos = 0;
+    }
+  }, 1000);
+}
+
+/* ── LOGOUT ── */
+document.getElementById('logout-btn').addEventListener('click', async () => {
+  await SB.auth.signOut();
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-pass').value = '';
+});
+
+/* ── TABS ── */
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+    if (tab.dataset.tab === 'monitoreo') cargarMonitoreo();
+    if (tab.dataset.tab === 'logs') cargarLogs();
+  });
+});
+
+/* ── MOSTRAR DASHBOARD ── */
+async function mostrarDashboard() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  document.getElementById('admin-email-label').textContent = adminEmail;
+  await cargarKPIsReservas();
+  await cargarTablaReservas();
+}
+
+/* ── KPIs RESERVAS ── */
+async function cargarKPIsReservas() {
+  const hoy   = new Date();
+  const inicio = new Date(hoy.getFullYear(), hoy.getMonth(), 1).toISOString().split('T')[0];
+  const fin    = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0).toISOString().split('T')[0];
+
+  const { data } = await SB.from('reservas').select('*').gte('created_at', inicio).lte('created_at', fin + 'T23:59:59');
+  if (!data) return;
+
+  document.getElementById('kpi-total').textContent = data.length;
+
+  const confirmadas = data.filter(r => r.estado_reserva === 'Confirmada' || r.estado_reserva === 'Completada');
+  const canceladas  = data.filter(r => r.estado_reserva === 'Cancelada');
+  const tasa = data.length ? Math.round(confirmadas.length / data.length * 100) : 0;
+  document.getElementById('kpi-tasa').textContent = tasa + '%';
+  document.getElementById('kpi-tasa-sub').textContent = `${confirmadas.length} confirmadas / ${canceladas.length} canceladas`;
+
+  // Camper más reservado
+  const count = {};
+  data.forEach(r => { count[r.camper_key] = (count[r.camper_key] || 0) + 1; });
+  const top = Object.entries(count).sort((a,b) => b[1]-a[1])[0];
+  document.getElementById('kpi-camper').textContent = top ? `${top[0]} (${top[1]})` : '—';
+
+  const ingresos = confirmadas.reduce((s, r) => s + (parseFloat(r.precio_total) || 0), 0);
+  document.getElementById('kpi-ingresos').textContent = '$' + ingresos.toLocaleString('es-UY', { maximumFractionDigits: 0 });
+}
+
+/* ── TABLA RESERVAS ── */
+let todasReservas = [];
+
+async function cargarTablaReservas() {
+  const { data } = await SB.from('reservas').select('*').order('created_at', { ascending: false }).limit(100);
+  todasReservas = data || [];
+  renderTablaReservas();
+}
+
+function renderTablaReservas() {
+  const filtroEstado = document.getElementById('filtro-estado').value;
+  const filtroBuscar = document.getElementById('filtro-buscar').value.toLowerCase();
+
+  let datos = todasReservas;
+  if (filtroEstado) datos = datos.filter(r => r.estado_reserva === filtroEstado);
+  if (filtroBuscar) datos = datos.filter(r =>
+    (r.cliente_nombre||'').toLowerCase().includes(filtroBuscar) ||
+    (r.cliente_email||'').toLowerCase().includes(filtroBuscar) ||
+    (r.camper_key||'').toLowerCase().includes(filtroBuscar)
+  );
+
+  const wrap = document.getElementById('tabla-reservas-wrap');
+  if (!datos.length) { wrap.innerHTML = '<div class="empty">No hay reservas con ese filtro.</div>'; return; }
+
+  wrap.innerHTML = `<table>
+    <thead><tr>
+      <th>ID</th><th>Cliente</th><th>Email</th><th>Camper</th>
+      <th>Fechas</th><th>Personas</th><th>Estado</th><th>Precio ($)</th><th>Creada</th>
+    </tr></thead>
+    <tbody>${datos.slice(0,20).map(r => `
+      <tr>
+        <td style="font-size:11px;font-family:monospace">${(r.reserva_ref||r.id).substring(0,10)}</td>
+        <td>${r.cliente_nombre || '—'}</td>
+        <td>${r.cliente_email || '—'}</td>
+        <td><strong>${r.camper_key}</strong></td>
+        <td>${r.fecha_inicio} → ${r.fecha_fin}</td>
+        <td>${r.num_personas || '—'}</td>
+        <td>
+          <select class="estado-select" data-id="${r.id}" onchange="cambiarEstado(this)">
+            ${['Pendiente','Confirmada','Cancelada','Completada'].map(e =>
+              `<option ${r.estado_reserva===e?'selected':''}>${e}</option>`).join('')}
+          </select>
+        </td>
+        <td>${r.precio_total ? '$' + parseFloat(r.precio_total).toLocaleString('es-UY',{maximumFractionDigits:0}) : '—'}</td>
+        <td>${new Date(r.created_at).toLocaleDateString('es-UY')}</td>
+      </tr>`).join('')}
+    </tbody>
+  </table>`;
+}
+
+document.getElementById('filtro-estado').addEventListener('change', renderTablaReservas);
+document.getElementById('filtro-buscar').addEventListener('input',  renderTablaReservas);
+
+async function cambiarEstado(sel) {
+  const id     = sel.dataset.id;
+  const estado = sel.value;
+  await SB.from('reservas').update({ estado_reserva: estado }).eq('id', id);
+  const r = todasReservas.find(x => x.id === id);
+  if (r) r.estado_reserva = estado;
+}
+
+/* ── MONITOREO ── */
+async function cargarMonitoreo() {
+  await Promise.all([cargarKPIsMonitoreo(), cargarGrafico(), cargarSesiones()]);
+  verificarAlertas();
+}
+
+async function cargarKPIsMonitoreo() {
+  const ahora    = new Date();
+  const hace15m  = new Date(ahora - 15*60*1000).toISOString();
+  const hoyInicio= new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate()).toISOString();
+  const hace1h   = new Date(ahora - 60*60*1000).toISOString();
+
+  const [activos, chatsHoy, reservasHoy, errores, tiempos] = await Promise.all([
+    SB.from('logs_sistema').select('session_id', {count:'exact'}).eq('tipo_evento','chat_inicio').gte('timestamp', hace15m),
+    SB.from('logs_sistema').select('id', {count:'exact'}).eq('tipo_evento','chat_inicio').gte('timestamp', hoyInicio),
+    SB.from('reservas').select('id', {count:'exact'}).gte('created_at', hoyInicio),
+    SB.from('logs_sistema').select('id', {count:'exact'}).eq('tipo_evento','error_api').gte('timestamp', hace1h),
+    SB.from('logs_sistema').select('duracion_ms').eq('tipo_evento','chat_mensaje').order('timestamp', {ascending:false}).limit(100),
+  ]);
+
+  document.getElementById('m-activos').textContent = activos.count ?? '—';
+  document.getElementById('m-chats').textContent   = chatsHoy.count ?? '—';
+  document.getElementById('m-reservas-hoy').textContent = reservasHoy.count ?? '—';
+
+  const numErrores = errores.count ?? 0;
+  document.getElementById('m-errores').textContent = numErrores;
+  if (numErrores > 5) document.getElementById('kpi-errores').classList.add('alert');
+
+  const durs = (tiempos.data || []).map(r => r.duracion_ms).filter(Boolean);
+  const prom = durs.length ? Math.round(durs.reduce((a,b) => a+b, 0) / durs.length) : null;
+  document.getElementById('m-tiempo').textContent = prom ? prom + ' ms' : '—';
+}
+
+async function cargarGrafico() {
+  const hace24h = new Date(Date.now() - 24*60*60*1000).toISOString();
+  const { data: msgs }   = await SB.from('logs_sistema').select('timestamp').eq('tipo_evento','chat_mensaje').gte('timestamp', hace24h);
+  const { data: errores} = await SB.from('logs_sistema').select('timestamp').eq('tipo_evento','error_api').gte('timestamp', hace24h);
+
+  const horas = Array.from({length:24}, (_,i) => i);
+  const contar = (arr, h) => (arr||[]).filter(r => new Date(r.timestamp).getHours() === h).length;
+
+  const ctx = document.getElementById('grafico-actividad').getContext('2d');
+  if (graficoChart) graficoChart.destroy();
+  graficoChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: horas.map(h => h + ':00'),
+      datasets: [
+        { label: 'Mensajes', data: horas.map(h => contar(msgs, h)), borderColor: '#2d7a4f', backgroundColor: 'rgba(45,122,79,.1)', tension: .3, fill: true },
+        { label: 'Errores API', data: horas.map(h => contar(errores, h)), borderColor: '#dc2626', backgroundColor: 'rgba(220,38,38,.05)', tension: .3 },
+      ]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+  });
+}
+
+async function cargarSesiones() {
+  const hoy = new Date();
+  const hoyInicio = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate()).toISOString();
+
+  const { data: inicios } = await SB.from('logs_sistema').select('*').eq('tipo_evento','chat_inicio').gte('timestamp', hoyInicio).order('timestamp', {ascending:false});
+  const { data: fines }   = await SB.from('logs_sistema').select('*').eq('tipo_evento','chat_fin').gte('timestamp', hoyInicio);
+  const { data: mensajes} = await SB.from('logs_sistema').select('session_id').eq('tipo_evento','chat_mensaje').gte('timestamp', hoyInicio);
+
+  const wrap = document.getElementById('tabla-sesiones-wrap');
+  if (!inicios?.length) { wrap.innerHTML = '<div class="empty">Sin sesiones hoy.</div>'; return; }
+
+  wrap.innerHTML = `<table>
+    <thead><tr><th>Session ID</th><th>Nombre</th><th>Email</th><th>Hora inicio</th><th>Duración</th><th>Mensajes</th><th>Estado</th></tr></thead>
+    <tbody>${inicios.map(s => {
+      const fin = (fines||[]).find(f => f.session_id === s.session_id);
+      const nMsgs = (mensajes||[]).filter(m => m.session_id === s.session_id).length;
+      const durMs = fin ? (fin.datos?.duracion_total_ms || 0) : null;
+      const durStr = durMs ? Math.round(durMs/60000) + ' min' : '—';
+      return `<tr>
+        <td style="font-family:monospace;font-size:11px">${(s.session_id||'').substring(0,14)}</td>
+        <td>${s.cliente_nombre||'—'}</td>
+        <td>${s.cliente_email||'—'}</td>
+        <td>${new Date(s.timestamp).toLocaleTimeString('es-UY')}</td>
+        <td>${durStr}</td>
+        <td>${nMsgs}</td>
+        <td><span style="color:${fin?'#6b7280':'#2d7a4f'};font-weight:600">${fin?'Terminado':'🟢 Activo'}</span></td>
+      </tr>`;
+    }).join('')}
+    </tbody></table>`;
+}
+
+async function verificarAlertas() {
+  const box = document.getElementById('alertas-box');
+  box.innerHTML = '';
+  const ahora = new Date();
+  const hace30m = new Date(ahora - 30*60*1000).toISOString();
+  const hace2h  = new Date(ahora - 2*60*60*1000).toISOString();
+
+  const { count: errores } = await SB.from('logs_sistema').select('id',{count:'exact'}).eq('tipo_evento','error_api').gte('timestamp',hace30m);
+  const { count: chats2h }  = await SB.from('logs_sistema').select('id',{count:'exact'}).eq('tipo_evento','chat_inicio').gte('timestamp',hace2h);
+  const { data: tiempos }   = await SB.from('logs_sistema').select('duracion_ms').eq('tipo_evento','chat_mensaje').order('timestamp',{ascending:false}).limit(20);
+
+  if (errores > 5)
+    box.innerHTML += `<div class="alerta rojo">⚠️ Alta tasa de errores de API: ${errores} errores en los últimos 30 minutos.</div>`;
+
+  const durs = (tiempos||[]).map(r=>r.duracion_ms).filter(Boolean);
+  const prom = durs.length ? durs.reduce((a,b)=>a+b,0)/durs.length : 0;
+  if (prom > 8000)
+    box.innerHTML += `<div class="alerta amarillo">⚠️ API lenta: tiempo promedio de respuesta ${Math.round(prom)}ms (umbral: 8000ms).</div>`;
+
+  const hora = ahora.getHours();
+  const esHorarioLaboral = hora >= 9 && hora < 19 && ahora.getDay() >= 1 && ahora.getDay() <= 5;
+  if (chats2h === 0 && esHorarioLaboral)
+    box.innerHTML += `<div class="alerta azul">ℹ️ Sin actividad en el chat en las últimas 2 horas (horario laboral).</div>`;
+
+  if (!box.innerHTML) box.innerHTML = '<div class="alerta azul" style="color:#065f46;background:#d1fae5;border-color:#6ee7b7">✅ Sistema funcionando con normalidad.</div>';
+}
+
+/* ── LOGS DE ERRORES ── */
+async function cargarLogs() {
+  const { data } = await SB.from('logs_sistema')
+    .select('*').in('tipo_evento', ['error_api','error_supabase'])
+    .order('timestamp', {ascending:false}).limit(20);
+
+  const wrap = document.getElementById('tabla-logs-wrap');
+  if (!data?.length) { wrap.innerHTML = '<div class="empty">Sin errores registrados. 🎉</div>'; return; }
+
+  wrap.innerHTML = `<table>
+    <thead><tr><th>Timestamp</th><th>Tipo</th><th>Agente</th><th>Session</th><th>Datos</th></tr></thead>
+    <tbody>${data.map(l => `<tr>
+      <td>${new Date(l.timestamp).toLocaleString('es-UY')}</td>
+      <td><span class="badge Cancelada">${l.tipo_evento}</span></td>
+      <td>${l.agente||'—'}</td>
+      <td style="font-family:monospace;font-size:11px">${(l.session_id||'—').substring(0,12)}</td>
+      <td class="log-datos" title="${JSON.stringify(l.datos||{})}">${JSON.stringify(l.datos||{})}</td>
+    </tr>`).join('')}
+    </tbody></table>`;
+}
+
+/* ── EXPORT CSV ── */
+document.getElementById('btn-export-csv').addEventListener('click', async () => {
+  const { data } = await SB.from('logs_sistema')
+    .select('*').in('tipo_evento',['error_api','error_supabase'])
+    .order('timestamp',{ascending:false}).limit(500);
+
+  if (!data?.length) return alert('No hay errores para exportar.');
+  const headers = ['timestamp','tipo_evento','agente','session_id','cliente_email','duracion_ms','datos'];
+  const rows = data.map(r => headers.map(h => {
+    const v = h === 'datos' ? JSON.stringify(r[h]||{}) : (r[h]||'');
+    return `"${String(v).replace(/"/g,'""')}"`;
+  }).join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
+  a.download = `todocamping_errores_${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+});
+
+/* ── AUTO-REFRESH monitoreo cada 30s ── */
+setInterval(() => {
+  if (document.querySelector('.tab[data-tab="monitoreo"]')?.classList.contains('active')) {
+    cargarKPIsMonitoreo();
+    verificarAlertas();
+  }
+}, 30000);
+</script>
+</body>
+</html>
