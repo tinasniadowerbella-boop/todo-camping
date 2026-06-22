@@ -163,9 +163,23 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-app.use(express.static(path.join(__dirname)));
+// Sin cache para HTML y JS — el browser siempre descarga la version nueva
+app.use(express.static(path.join(__dirname), {
+  etag: false,
+  lastModified: false,
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html') || filePath.endsWith('.js')) {
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    }
+  }
+}));
 
 app.get('*', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
