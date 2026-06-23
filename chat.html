@@ -445,8 +445,9 @@ const HOY = (() => {
 ═══════════════════════════════════════════════════════════════════ */
 const PROMPTS = {
 
-leo: `Eres Leo, el asistente de bienvenida de TodoCamping — empresa uruguaya de alquiler de campers y autocaravanas.
-Datos del negocio: Montevideo, Av. del Turismo 45 · L-V 9-19h · Sáb 10-14h · +598 2 234 56 78 · hola@todocamping.com.uy.
+leo: `Eres Leo, el asistente de bienvenida de TodoCamping — empresa URUGUAYA de alquiler de campers y autocaravanas con sede en MONTEVIDEO, URUGUAY.
+⛔ PROHIBIDO ABSOLUTO: NUNCA menciones Madrid, España, €, euros, ni ninguna ciudad o país que no sea Uruguay. Si lo hacés, es un error grave.
+Dirección: Montevideo, Av. del Turismo 45 · Horario: L-V 9-19h · Sáb 10-14h · Tel: +598 2 234 56 78 · Email: hola@todocamping.com.uy · Moneda: PESOS URUGUAYOS ($UY).
 
 ⚠️ FECHA DE HOY: ${HOY}. Cualquier fecha anterior a esta ES DEL PASADO.
 
@@ -532,7 +533,9 @@ UPDATE → localiza → muestra estado → si cambian fechas/camper: "verificar_
 DELETE → localiza → muestra resumen → confirma → "cancelar_reserva" o "eliminar_reserva".
 
 DERIVACIÓN: Si el usuario pide specs, equipamiento, comparativas → usá INMEDIATAMENTE "pasar_a_cami".
-NO gestionas pagos ni datos de otros clientes.`,
+NO gestionas pagos ni datos de otros clientes.
+
+SI "crear_reserva" devuelve error: NO muestres el error técnico. Di simplemente: "Hubo un inconveniente al registrar la reserva. Por favor intentá de nuevo en un momento o contactanos a soporte@todocamping.com.uy con tus datos."`,
 
 };
 
@@ -979,7 +982,7 @@ async function execCrearReserva(args) {
     return { error: `Email inválido: "${args.cliente_email}". Formato esperado: nombre@dominio.com` };
 
   if (args.cliente_documento && !validarDocumento(args.cliente_documento))
-    return { error: `Documento inválido: "${args.cliente_documento}". Formatos válidos: DNI, NIE, Pasaporte o cédula alfanumérica.` };
+    return { error: `Documento inválido: "${args.cliente_documento}". Formatos válidos: cédula uruguaya (6-8 dígitos) o pasaporte.` };
 
   if (args.cliente_telefono && !validarTelefono(args.cliente_telefono))
     return { error: mensajeErrorTelefono(args.cliente_telefono) };
@@ -997,8 +1000,16 @@ async function execCrearReserva(args) {
     try {
       const { count } = await sbClient.from('reservas').select('*', { count:'exact', head:true });
       const reserva_ref = `RES-${String((count || 0) + 1).padStart(4, '0')}`;
+      // Obtener el ID real del camper desde Supabase
+      let camper_id_real = camper.id || null;
+      if (!camper_id_real) {
+        try {
+          const { data: cdata } = await sbClient.from('campers').select('id').eq('key', camper.key).single();
+          camper_id_real = cdata?.id || null;
+        } catch(e2) {}
+      }
       const { data, error } = await sbClient.from('reservas').insert({
-        camper_id: camper.id, camper_key: camper.key, reserva_ref,
+        camper_id: camper_id_real, camper_key: camper.key, reserva_ref,
         cliente_nombre: args.cliente_nombre,
         cliente_documento: args.cliente_documento || null,
         cliente_telefono:  args.cliente_telefono  || null,
@@ -1009,9 +1020,15 @@ async function execCrearReserva(args) {
         estado_reserva: 'Pendiente',
         precio_total, notas: args.notas || null,
       }).select().single();
-      if (error) return { error: error.message };
+      if (error) {
+        console.error('[crear_reserva] Supabase error:', error);
+        return { error: 'Error al guardar la reserva: ' + error.message };
+      }
       return { ok:true, id_reserva:reserva_ref, modelo:camper.modelo, precio_total, noches, moneda:'$UY' };
-    } catch(e) { /* fallback a mock */ }
+    } catch(e) {
+      console.error('[crear_reserva] excepcion:', e.message, e);
+      /* fallback a mock en caso de error de conexion */
+    }
   }
 
   const reserva_ref = `RES-${String(MOCK_DB._nextId++).padStart(4, '0')}`;
@@ -1439,6 +1456,8 @@ function addAgentMsg(text, agentId) {
 }
 
 function addHandoffEvent(text) {
+  // Transición silenciosa — no mostrar al usuario
+  return;
   const msgs = document.getElementById('chat-messages');
   const tip  = document.getElementById('typing-indicator');
   const div  = document.createElement('div');
