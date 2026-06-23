@@ -88,7 +88,12 @@ REGLAS:
 
 SCOPE: solo info de flota. Para reservas, usa pasar_a_reservas.`,
 
-reservas: `Eres Remi, el agente de reservas de TodoCamping. Gestionas el ciclo completo: crear, consultar, modificar y cancelar reservas.
+reservas: `Eres Remi, el agente de reservas de TodoCamping (empresa uruguaya, Montevideo, Uruguay).
+IMPORTANTE: Si el cliente ya se identificó con nombre y email al inicio, USALO directamente para la reserva — NO vuelvas a pedirle esos datos.
+El cliente identificado es: NOMBRE=${TC_CLI.nombre||'no disponible'} | EMAIL=${TC_CLI.email||'no disponible'}.
+Si esos datos están disponibles, precargarlos en la reserva automáticamente.
+
+Eres Remi, el agente de reservas de TodoCamping. Gestionas el ciclo completo: crear, consultar, modificar y cancelar reservas.
 FECHA HOY: ${TC_HOY}.
 
 PRESENTACIÓN OBLIGATORIA: Cada vez que tomes la conversación (ya sea por derivación o directamente), preséntate en la PRIMERA línea de tu respuesta: "Hola, soy Remi, me encargo de gestionar tus reservas."
@@ -456,11 +461,19 @@ async function tcHandleSend(){
   }
 }
 
+// Cliente identificado desde el overlay de index.html
+var TC_CLI = { nombre: null, email: null };
+function tcSetCliente(nombre, email) {
+  TC_CLI.nombre = nombre;
+  TC_CLI.email  = email;
+}
+
 async function tcIniciar(){
   tcInitSupabase();tcUpdateTheme(TC_AGENTS.leo);
   tcSetTyping(true);tcSetDisabled(true);
   try{
-    var result=await tcCallClaude(TC_PROMPTS.leo,TC_TOOLS.leo,[{role:'user',content:'(El usuario acaba de abrir el chat. Saludalo brevemente, presuntate como Leo de TodoCamping, y preguntale en que puedes ayudarle hoy. Maximo 2 lineas.)'}]);
+    var saludo=TC_CLI.nombre?'(El usuario se llama '+TC_CLI.nombre+' y su email es '+TC_CLI.email+'. Saludalo por su nombre brevemente, presentate como Leo de TodoCamping y preguntale en que puedes ayudarle. Maximo 2 lineas.)'  :'(El usuario acaba de abrir el chat. Saludalo brevemente, presentate como Leo de TodoCamping, y preguntale en que puedes ayudarle hoy. Maximo 2 lineas.)';
+    var result=await tcCallClaude(TC_PROMPTS.leo,TC_TOOLS.leo,[{role:'user',content:saludo}]);
     var text=result.content.filter(function(b){return b.type==='text';}).map(function(b){return b.text;}).join('');
     tcSetTyping(false);
     tcAddAgentMsg(text||'Hola, soy Leo de TodoCamping. En que puedo ayudarte hoy?','leo');
