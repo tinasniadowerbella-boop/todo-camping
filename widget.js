@@ -40,7 +40,8 @@ var TC_AGENTS = {
 };
 
 var TC_HOY = (function(){
-  var d = new Date();
+  // Zona horaria Uruguay (UTC-3)
+  var d = new Date(new Date().toLocaleString('en-US', {timeZone:'America/Montevideo'}));
   return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 })();
 
@@ -62,7 +63,7 @@ MISIÓN: Entender la necesidad del usuario y derivarlo al agente correcto.
 
 REGLA CAPACIDAD: Si el usuario menciona más de 6 personas, avísale antes de derivar que la flota llega hasta 6 plazas por unidad, y que para más personas necesitaría 2 vehículos.
 
-REGLA FECHAS: Si menciona fechas anteriores a \${TC_HOY}, pídele que confirme fechas futuras antes de derivar.
+REGLA FECHAS: Una fecha es pasada SOLO si es estrictamente anterior a \${TC_HOY}. Si es hoy o posterior, es válida. NO corrijas fechas válidas.
 
 Usa SIEMPRE la herramienta derivar_agente para derivar. No menciones el traspaso en el texto previo.
 NUNCA repitas el mensaje del usuario en tu respuesta. Si decides derivar directamente sin texto previo, simplemente llama a la herramienta sin ningún texto adicional.`,
@@ -84,10 +85,10 @@ REGLAS:
    🚐 [Modelo] — $[precio] UYU/noche
    Capacidad: [N] personas | [equipamiento clave]
    [Una línea de descripción]
-5. Valida fechas: si son anteriores a ${TC_HOY}, pide corrección antes de continuar.
-6. Cuando el usuario quiera reservar, usa pasar_a_reservas con todo el contexto (modelo elegido, fechas, personas).
+5. Valida fechas: son inválidas SOLO si fecha_inicio es estrictamente anterior a ${TC_HOY}. Fechas de hoy en adelante son válidas. No corrijas fechas correctas.
+6. Cuando el usuario quiera reservar, derivalo internamente con derivar_agente a 'reservas' pasando todo el contexto (modelo, fechas, personas, precio). El cliente NO debe saber que cambió de módulo — simplemente seguí la conversación.
 
-SCOPE: solo info de flota. Para reservas, usa pasar_a_reservas.`,
+SCOPE: info de flota y derivación interna a reservas cuando corresponda.`,
 
 reservas: function() { return `Eres Flo, asistente de TodoCamping. Gestionás reservas. Gestionas el ciclo completo: crear, consultar, modificar y cancelar reservas.
 FECHA HOY: \${TC_HOY}.
@@ -137,7 +138,7 @@ Si el usuario quiere cambiar algo de una reserva ya confirmada:
 - Email: debe contener @ y dominio (ej: usuario@dominio.com). Rechaza cualquier string sin @ o sin punto después del @.
 - Documento: entre 5 y 20 caracteres alfanuméricos.
 - Teléfono: entre 7 y 15 dígitos.
-- Fechas: deben ser iguales o posteriores a ${TC_HOY}. fecha_fin > fecha_inicio.
+- Fechas: fecha_inicio debe ser >= ${TC_HOY} (hoy o futuro). fecha_fin > fecha_inicio. IMPORTANTE: si la fecha_inicio es igual a hoy (${TC_HOY}) o posterior, ES VÁLIDA. No la rechaces.
 
 ═══ CONTEXTO ENTRE AGENTES ═══
 Si recibes contexto de otro agente (modelo, fechas, personas ya confirmados), úsalo directamente. No le pidas al usuario datos que ya confirmó.
@@ -160,7 +161,7 @@ var TC_TOOLS = {
   }],
   cami:[
     {name:'consultar_campers',description:'Consulta el catalogo de campers. Usa SIEMPRE antes de dar precios o disponibilidad.',input_schema:{type:'object',properties:{estado:{type:'string'},disponible:{type:'boolean'},tipo:{type:'string'},capacidad_min:{type:'integer'},capacidad_max:{type:'integer'},precio_max:{type:'number'},precio_min:{type:'number'},tiene_ac:{type:'boolean'},tiene_bano:{type:'boolean'},tiene_calefaccion:{type:'boolean'}}}},
-    {name:'pasar_a_reservas',description:'Transfiere al agente de reservas cuando el usuario quiere hacer una reserva.',input_schema:{type:'object',properties:{mensaje_usuario:{type:'string'},contexto:{type:'object',properties:{resumen:{type:'string'},modelo:{type:'string'},fechas:{type:'string'},pax:{type:'integer'},precio_por_noche:{type:'number'}},required:['resumen']}},required:['mensaje_usuario','contexto']}},
+    
   ],
   reservas:[
     {name:'verificar_disponibilidad',description:'Verifica si un camper esta disponible para un rango de fechas. Llama SIEMPRE antes de pedir datos personales o confirmar.',input_schema:{type:'object',properties:{modelo:{type:'string'},fecha_inicio:{type:'string',description:'YYYY-MM-DD'},fecha_fin:{type:'string',description:'YYYY-MM-DD'}},required:['modelo','fecha_inicio','fecha_fin']}},
@@ -232,6 +233,9 @@ async function tcExecVerificarDisp(args) {
 }
 
 async function tcExecCrearReserva(args) {
+  // Autocompletar con datos del login si el agente no los pasó
+  if(!args.cliente_nombre && TC_CLI.nombre) args.cliente_nombre = TC_CLI.nombre;
+  if(!args.cliente_email  && TC_CLI.email)  args.cliente_email  = TC_CLI.email;
   var fv=tcValidarFechas(args.fecha_inicio,args.fecha_fin);
   if(!fv.ok) return {error:fv.error};
   if(!tcValidarEmail(args.cliente_email)) return {error:'Email invalido: "'+args.cliente_email+'". Debe tener formato usuario@dominio.com'};
