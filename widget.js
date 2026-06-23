@@ -65,8 +65,8 @@ REGLA CAPACIDAD: Si el usuario menciona más de 6 personas, avísale antes de de
 
 REGLA FECHAS: Una fecha es pasada SOLO si es estrictamente anterior a \${TC_HOY}. Si es hoy o posterior, es válida. NO corrijas fechas válidas.
 
-Usa SIEMPRE la herramienta derivar_agente para derivar. No menciones el traspaso en el texto previo.
-NUNCA repitas el mensaje del usuario en tu respuesta. Si decides derivar directamente sin texto previo, simplemente llama a la herramienta sin ningún texto adicional.`,
+Usa SIEMPRE la herramienta derivar_agente para derivar. NUNCA menciones al cliente que lo estás derivando, pasando con otro equipo, o que hay otro agente. Simplemente llama a la herramienta SIN texto previo.
+NUNCA escribas cosas como "te voy a derivar", "un momento", "el equipo de reservas", etc. Simplemente llama a la herramienta en silencio.`,
 
 cami: `Eres Flo, asistente de TodoCamping especialista en la flota. Ayudás a los clientes a elegir el camper ideal. NUNCA menciones tu nombre interno ni el de otros agentes.
 FECHA HOY: ${TC_HOY}.
@@ -86,7 +86,7 @@ REGLAS:
    Capacidad: [N] personas | [equipamiento clave]
    [Una línea de descripción]
 5. Valida fechas: son inválidas SOLO si fecha_inicio es estrictamente anterior a ${TC_HOY}. Fechas de hoy en adelante son válidas. No corrijas fechas correctas.
-6. Cuando el usuario quiera reservar, derivalo internamente con derivar_agente a 'reservas' pasando todo el contexto (modelo, fechas, personas, precio). El cliente NO debe saber que cambió de módulo — simplemente seguí la conversación.
+6. Cuando el usuario confirme que quiere reservar, llama INMEDIATAMENTE a derivar_agente con agente_destino='reservas' y todo el contexto. NO escribas nada antes — ni 'perfecto', ni 'un momento', ni 'te paso con reservas'. SILENCIO total antes del tool call.
 
 SCOPE: info de flota y derivación interna a reservas cuando corresponda.`,
 
@@ -109,8 +109,8 @@ MONEDA: Todos los precios en PESOS URUGUAYOS. El precio es el número exacto del
 2. Valida fechas (deben ser futuras, fecha_fin > fecha_inicio). Si son inválidas, corrígelas antes de continuar.
 3. Llama a verificar_disponibilidad. Si hay stock, avanza directamente al paso 4. Si NO hay stock, llama a buscar_disponibilidad_alternativa, muestra las alternativas y espera que el usuario ELIJA UNA antes de continuar.
 4. Solo si hay disponibilidad confirmada: pide ÚNICAMENTE los datos que faltan. Como ya tenés nombre y email del login, solo pedí:
-   a) documento de identidad (cédula uruguaya o pasaporte) — OBLIGATORIO, no omitir nunca.
-   b) teléfono de contacto
+   a) Cédula de identidad uruguaya — EXACTAMENTE 8 dígitos numéricos (ej: 12345678). Si el cliente ingresa menos o más de 8 dígitos, o letras, rechazalo y pedilo de nuevo. No aceptar pasaportes ni otros documentos.
+   b) Teléfono de contacto (uruguayo, 8-9 dígitos)
    NO vuelvas a pedir nombre ni email — ya los tenés.
    NO preguntes "¿estos datos son a tu nombre?" — asumí que sí.
 5. Una vez que tenés TODOS los datos (nombre + email + documento + teléfono), muestra resumen y pide confirmación UNA SOLA VEZ:
@@ -236,6 +236,12 @@ async function tcExecCrearReserva(args) {
   // Autocompletar con datos del login si el agente no los pasó
   if(!args.cliente_nombre && TC_CLI.nombre) args.cliente_nombre = TC_CLI.nombre;
   if(!args.cliente_email  && TC_CLI.email)  args.cliente_email  = TC_CLI.email;
+  // Validar cédula uruguaya: exactamente 8 dígitos
+  if(args.cliente_documento){
+    var doc = String(args.cliente_documento).replace(/[\.\-\s]/g,'');
+    if(!/^\d{8}$/.test(doc)) return {error:'Cédula inválida. Debe tener exactamente 8 dígitos numéricos (ej: 12345678).'};
+    args.cliente_documento = doc;
+  }
   var fv=tcValidarFechas(args.fecha_inicio,args.fecha_fin);
   if(!fv.ok) return {error:fv.error};
   if(!tcValidarEmail(args.cliente_email)) return {error:'Email invalido: "'+args.cliente_email+'". Debe tener formato usuario@dominio.com'};
@@ -376,17 +382,18 @@ var TC_AGENT_MAP={informativo:'cami',reservas:'reservas'};
 async function tcPerformHandoff(handoff) {
   var destId=TC_AGENT_MAP[handoff.agente]||handoff.agente;
   var destDef=TC_AGENTS[destId];
-  tcAddHandoffEvent('Conectando con '+destDef.name+'...');
+  // Handoff silencioso — el cliente no ve el cambio de agente
   tcState.current=destId;
   tcUpdateTheme(destDef);
   var ctx=handoff.contexto;
-  var brief='[DERIVACION DE AGENTE. Contexto recibido: '+ctx.resumen+'.';
-  if(ctx.modelo)brief+=' Modelo elegido: '+ctx.modelo+'.';
-  if(ctx.fechas)brief+=' Fechas confirmadas: '+ctx.fechas+'.';
-  if(ctx.pax)   brief+=' Personas: '+ctx.pax+'.';
-  // No incluimos precio_por_noche para que Remi siempre verifique disponibilidad para las fechas actuales
-  if(ctx.presupuesto)brief+=' Presupuesto: '+ctx.presupuesto+'.';
-  brief+=' IMPORTANTE: Presentate con tu nombre y rol en la primera linea. Usa el contexto directamente sin pedir datos que el usuario ya confirmo.]';
+  var brief='[CONTEXTO INTERNO — NO mostrar al cliente. Ya tenés toda la info para continuar: '+ctx.resumen+'.';
+  if(ctx.modelo) brief+=' Camper: '+ctx.modelo+'.';
+  if(ctx.fechas) brief+=' Fechas: '+ctx.fechas+'.';
+  if(ctx.pax)    brief+=' Personas: '+ctx.pax+'.';
+  if(ctx.precio_por_noche) brief+=' Precio: $'+ctx.precio_por_noche+' UYU/noche.';
+  if(ctx.presupuesto) brief+=' Presupuesto: '+ctx.presupuesto+'.';
+  brief+=' Cliente identificado — Nombre: '+(TC_CLI.nombre||'pendiente')+' | Email: '+(TC_CLI.email||'pendiente')+'.';
+  brief+=' REGLAS: NO te presentés. NO mencionés nombres de agentes. Continuá la conversación como Flo directamente. Solo pedí cédula (8 dígitos) y teléfono — nombre y email ya los tenés.]';
   tcSetTyping(true);
   try{
     var r=await tcRunLoop(brief);
