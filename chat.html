@@ -331,7 +331,8 @@
 
   <!-- Input -->
   <div id="chat-input-area">
-    <input type="text" id="user-input" placeholder="Escribe tu mensaje..." autocomplete="off" />
+    <input type="search" id="user-input" placeholder="Escribe tu mensaje..."
+      autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
     <button id="send-btn" aria-label="Enviar">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
            stroke-linecap="round" stroke-linejoin="round">
@@ -1631,6 +1632,9 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <!-- ── Overlay identificacion cliente ──────────────────────────── -->
+<!-- Anti-autocomplete trap -->
+<input type="text" style="display:none" aria-hidden="true" />
+<input type="password" style="display:none" aria-hidden="true" />
 <div id="id-overlay" style="
   position:fixed; inset:0; background:rgba(0,0,0,.55);
   display:flex; align-items:center; justify-content:center;
@@ -1647,12 +1651,14 @@ document.addEventListener('DOMContentLoaded', () => {
     <div style="margin-bottom:14px;">
       <label style="display:block; font-size:13px; font-weight:600; margin-bottom:5px; color:#374151;">Nombre *</label>
       <input id="id-nombre" type="text" placeholder="Tu nombre"
+        autocomplete="off" autocorrect="off" spellcheck="false"
         style="width:100%; border:1px solid #dde1e7; border-radius:8px; padding:10px 12px;
                font-size:14px; outline:none; box-sizing:border-box;" />
     </div>
     <div style="margin-bottom:14px;">
       <label style="display:block; font-size:13px; font-weight:600; margin-bottom:5px; color:#374151;">Email *</label>
-      <input id="id-email" type="email" placeholder="tu@email.com"
+      <input id="id-email" type="text" inputmode="email" placeholder="tu@email.com"
+        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
         style="width:100%; border:1px solid #dde1e7; border-radius:8px; padding:10px 12px;
                font-size:14px; outline:none; box-sizing:border-box;" />
     </div>
