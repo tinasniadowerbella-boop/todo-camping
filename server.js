@@ -129,6 +129,54 @@ app.get('/api/migrate', async (req, res) => {
   res.json({ ok: true, mensaje: 'Migracion ejecutada - ver logs del servidor' });
 });
 
+
+/* ── ADMIN API — usa service_role para bypassar RLS ── */
+function sbAdminHeaders() {
+  const key = SUPABASE_SERV_KEY || SUPABASE_ANON_KEY;
+  return {
+    'Content-Type':  'application/json',
+    'apikey':        key,
+    'Authorization': `Bearer ${key}`,
+    'Prefer':        'return=representation',
+  };
+}
+
+// GET /api/admin/reservas — todas las reservas (sin RLS)
+app.get('/api/admin/reservas', async (req, res) => {
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/reservas?select=*&order=created_at.desc&limit=200`, {
+      headers: sbAdminHeaders(),
+    });
+    const data = await r.json();
+    res.json(data);
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// GET /api/admin/logs — logs del sistema
+app.get('/api/admin/logs', async (req, res) => {
+  try {
+    const tipo = req.query.tipo ? `&tipo_evento=eq.${req.query.tipo}` : '';
+    const desde = req.query.desde ? `&timestamp=gte.${req.query.desde}` : '';
+    const url = `${SUPABASE_URL}/rest/v1/logs_sistema?select=*&order=timestamp.desc&limit=500${tipo}${desde}`;
+    const r = await fetch(url, { headers: sbAdminHeaders() });
+    const data = await r.json();
+    res.json(data);
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// PATCH /api/admin/reservas/:id — cambiar estado
+app.patch('/api/admin/reservas/:id', async (req, res) => {
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/reservas?id=eq.${req.params.id}`, {
+      method: 'PATCH',
+      headers: sbAdminHeaders(),
+      body: JSON.stringify(req.body),
+    });
+    const data = await r.json();
+    res.json(data);
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
 app.post('/api/chat', async (req, res) => {
   if (!ANTHROPIC_API_KEY) {
     return res.status(500).json({ error: 'ANTHROPIC_API_KEY no configurada en el servidor.' });
