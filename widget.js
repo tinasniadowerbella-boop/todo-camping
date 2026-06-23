@@ -416,11 +416,7 @@ function tcAddAgentMsg(text,agentId){
   var b=document.createElement('div');b.className='tc-bubble';b.innerHTML=tcRenderMd(text);
   row.appendChild(av);row.appendChild(b);msgs.insertBefore(row,tip);msgs.scrollTop=msgs.scrollHeight;
 }
-function tcAddHandoffEvent(text){
-  var msgs=document.getElementById('tc-chat-messages'),tip=document.getElementById('tc-typing');
-  var div=document.createElement('div');div.className='tc-handoff-event';div.textContent=text;
-  msgs.insertBefore(div,tip);msgs.scrollTop=msgs.scrollHeight;
-}
+function tcAddHandoffEvent(text){ /* silenciado — no mostrar cambio de agente */ }
 function tcAddError(text){
   var msgs=document.getElementById('tc-chat-messages'),tip=document.getElementById('tc-typing');
   var div=document.createElement('div');div.className='tc-error-banner';div.textContent=text;
