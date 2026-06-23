@@ -272,7 +272,7 @@ async function tcExecCrearReserva(args) {
       notas:args.notas||null
     }).select().single();
     if(ins.error) return{error:'Error al guardar: '+ins.error.message};
-    tcResetReserva(); return{ok:true,id_reserva:ref,modelo:camper.modelo,precio_total:precio_total,noches:noches,moneda:'pesos uruguayos (UYU)',email_cliente:args.cliente_email};
+    tcLog('reserva_creada',{datos:{reserva_ref:ref,modelo:camper.modelo,num_mensajes:TC_MSG_COUNT,tiempo_ms:TC_CHAT_START?Date.now()-TC_CHAT_START:null}}); tcResetReserva(); return{ok:true,id_reserva:ref,modelo:camper.modelo,precio_total:precio_total,noches:noches,moneda:'pesos uruguayos (UYU)',email_cliente:args.cliente_email};
   }catch(e){console.error('Supabase insert error:',e);}}
   var ref='RES-'+String(TC_MOCK._nextId++).padStart(4,'0');
   TC_MOCK.reservas.push({id:ref,reserva_ref:ref,camper_key:camper.key,camper_modelo:camper.modelo,cliente_nombre:args.cliente_nombre,cliente_documento:args.cliente_documento||null,cliente_telefono:args.cliente_telefono||null,cliente_email:args.cliente_email,fecha_inicio:args.fecha_inicio.split(' ')[0],fecha_fin:args.fecha_fin.split(' ')[0],num_personas:args.num_personas||null,estado_reserva:'Pendiente',precio_total:precio_total});
@@ -517,6 +517,8 @@ async function tcHandleSend(){
   var text=inp.value.trim();if(!text)return;
   inp.value='';
   tcAddUserMsg(text);tcSetTyping(true);tcSetDisabled(true);
+  TC_MSG_COUNT++;
+  var _tMsgStart = Date.now();
 
   // Acumular datos de reserva del mensaje del usuario
   if(tcState.current==='reservas'){
@@ -554,6 +556,7 @@ async function tcHandleSend(){
       var resOut=await tcExecCrearReserva(resArgs);
       tcSetTyping(false);
       if(resOut.ok){
+        tcLog('reserva_creada', {datos: {reserva_ref: resOut.id_reserva, modelo: rc.modelo, num_mensajes: TC_MSG_COUNT, tiempo_ms: Date.now()-TC_CHAT_START}});
         tcAddAgentMsg('✅ ¡Reserva confirmada! Tu código es **'+resOut.id_reserva+'**.
 
 Te llegará un email a '+resOut.email_cliente+'. Presentá tu cédula al retirar el camper. ¿Hay algo más en que pueda ayudarte?');
@@ -574,6 +577,7 @@ Te llegará un email a '+resOut.email_cliente+'. Presentá tu cédula al retirar
     tcSetTyping(false);
     // Solo mostrar texto si NO hay handoff (el texto de handoff es mensaje interno entre agentes)
     if(r.text && !r.handoff && r.text.trim().toLowerCase() !== text.trim().toLowerCase()) tcAddAgentMsg(r.text);
+    tcLog('chat_mensaje', {agente: tcState.current, duracion_ms: Date.now() - _tMsgStart, datos: {num_mensaje: TC_MSG_COUNT}});
     if(r.handoff)await tcPerformHandoff(r.handoff);
   }catch(err){
     tcSetTyping(false);
@@ -596,9 +600,32 @@ function tcSetCliente(nombre, email) {
 var tcReservaEnCurso = {};
 function tcResetReserva() { tcReservaEnCurso = {}; }
 
+
+// ── LOGGING ──────────────────────────────────────────────────
+var TC_SESSION_ID = 'sess-' + Date.now() + '-' + Math.random().toString(36).substr(2,6);
+var TC_CHAT_START = null;
+var TC_MSG_COUNT  = 0;
+
+async function tcLog(tipo, extras) {
+  if(!tcSb) return;
+  try {
+    var payload = Object.assign({
+      tipo_evento:    tipo,
+      session_id:     TC_SESSION_ID,
+      cliente_email:  TC_CLI.email  || null,
+      cliente_nombre: TC_CLI.nombre || null,
+      timestamp:      new Date().toISOString(),
+    }, extras || {});
+    await tcSb.from('logs_sistema').insert(payload);
+  } catch(e) { /* silencioso */ }
+}
+
 async function tcIniciar(){
   tcInitSupabase();tcUpdateTheme(TC_AGENTS.leo);
   tcSetTyping(true);tcSetDisabled(true);
+  TC_CHAT_START = Date.now();
+  TC_MSG_COUNT  = 0;
+  tcLog('chat_inicio');
   try{
     var msgSaludo=TC_CLI.nombre
       ?'(El usuario se llama '+TC_CLI.nombre+'. Salúdalo por su nombre brevemente como Flo, asistente de TodoCamping. NUNCA menciones Leo, Cami ni Remi. Preguntale en qué podés ayudarle. Máximo 2 líneas.)'
