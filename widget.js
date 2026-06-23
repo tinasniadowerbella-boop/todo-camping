@@ -339,7 +339,7 @@ async function tcCallClaude(system, tools, messages) {
     } catch(e) {
       lastErr = e;
       if(e.name === 'AbortError') {
-        lastErr = new Error('El servidor tardó demasiado. Por favor intentá de nuevo.');
+        lastErr = new Error('timeout');
         break;
       }
       if(attempt < 2) {
@@ -405,7 +405,7 @@ async function tcRunLoop(userText) {
     history.push({role:'assistant',content:[{type:'text',text:txt}]});
     return{text:txt,handoff:null};
   }
-  return{text:'Lo siento, tome demasiado tiempo procesando. Podrias repetir tu consulta?',handoff:null};
+  return{text:'No pude procesar tu consulta. ¿Podés repetirla?',handoff:null};
 }
 
 var TC_AGENT_MAP={informativo:'cami',reservas:'reservas'};
@@ -434,7 +434,8 @@ async function tcPerformHandoff(handoff) {
     if(r.handoff)await tcPerformHandoff(r.handoff);
   }catch(e){
     tcSetTyping(false);
-    tcAddError('Error: '+e.message);
+    console.warn('[TC handoff error]', e.message);
+    tcAddAgentMsg('Hubo un problema de conexión. ¿Podés intentarlo de nuevo?');
   }
 }
 
@@ -467,9 +468,9 @@ function tcAddAgentMsg(text,agentId){
 }
 function tcAddHandoffEvent(text){ /* silenciado — no mostrar cambio de agente */ }
 function tcAddError(text){
-  var msgs=document.getElementById('tc-chat-messages'),tip=document.getElementById('tc-typing');
-  var div=document.createElement('div');div.className='tc-error-banner';div.textContent=text;
-  msgs.insertBefore(div,tip);msgs.scrollTop=msgs.scrollHeight;
+  // Nunca mostrar errores técnicos al usuario — Flo responde naturalmente
+  console.warn('[TC error interno]', text);
+  tcAddAgentMsg('Tuve un pequeño inconveniente procesando tu consulta. ¿Podés repetir lo último que dijiste?');
 }
 function tcSetTyping(v){
   var _tp=document.getElementById('tc-typing'); if(_tp)_tp.classList.toggle('visible',v);
@@ -493,7 +494,8 @@ async function tcHandleSend(){
     if(r.handoff)await tcPerformHandoff(r.handoff);
   }catch(err){
     tcSetTyping(false);
-    tcAddError('Error: '+err.message);
+    console.warn('[TC fetch error]', err.message);
+    tcAddAgentMsg('Hubo un problema de conexión. ¿Podés intentarlo de nuevo en un momento?');
   }finally{
     tcSetDisabled(false);
     document.getElementById('tc-user-input').focus();
@@ -520,7 +522,8 @@ async function tcIniciar(){
     tcAddAgentMsg(text||'¡Hola! Soy Flo, tu asistente de TodoCamping. ¿En qué te puedo ayudar?','leo');
   }catch(e){
     tcSetTyping(false);
-    tcAddAgentMsg('¡Hola! Soy Flo, tu asistente de TodoCamping. ¿En qué te puedo ayudar?','leo');
+    console.warn('[TC init error]', e);
+    tcAddAgentMsg('¡Hola! Soy Flo, tu asistente de TodoCamping. ¿En qué te puedo ayudar?');
   }finally{
     tcSetDisabled(false);
     document.getElementById('tc-user-input').focus();
