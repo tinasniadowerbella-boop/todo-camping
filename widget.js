@@ -121,7 +121,8 @@ MONEDA: Todos los precios en PESOS URUGUAYOS. El precio es el número exacto del
    - Precio: $[precio_noche] UYU/noche × [N] noches = $[total] UYU
    - Titular: [nombre] | Doc: [doc] | Tel: [tel] | Email: [email]
    ¿Confirmás la reserva?
-6. Cuando el usuario responda "sí" o cualquier confirmación: llama a crear_reserva INMEDIATAMENTE. NO vuelvas a mostrar opciones ni a pedir confirmación otra vez.
+6. Cuando el usuario responda con cualquier variante de confirmación ("sí", "si", "sii", "dale", "ok", "confirmo", "correcto", "yes", "claro"): llama a crear_reserva INMEDIATAMENTE con todos los datos que ya tenés. NO hagas más preguntas. NO pidas datos de nuevo. NO muestres opciones. Simplemente ejecutá crear_reserva.
+⚠️ CRÍTICO: Si el usuario confirma y vos ya tenés camper+fechas+cédula+teléfono, EJECUTÁ crear_reserva SIN PREGUNTAR NADA MÁS.
 7. Tras confirmar, muestra:
    ✅ ¡Reserva confirmada! ID: [REF]
    - Próximos pasos: recibirás un email de confirmación en [email]. Deberás presentar tu documento en el momento de retiro. El camper estará disponible a partir de las 10:00h del día de inicio.
@@ -418,10 +419,7 @@ async function tcPerformHandoff(handoff) {
   if(ctx.presupuesto) brief+=' Presupuesto: '+ctx.presupuesto+'.';
   brief+=' Cliente identificado — Nombre: '+(TC_CLI.nombre||'pendiente')+' | Email: '+(TC_CLI.email||'pendiente')+'.';
   brief+=' REGLAS: NO te presentés. NO mencionés nombres de agentes. Continuá la conversación como Flo directamente. Solo pedí cédula (8 dígitos) y teléfono — nombre y email ya los tenés.]';
-  // Limpiar historial del agente destino y precargarlo con el contexto del handoff
-  // Esto asegura que en los turnos siguientes el agente recuerde todo
-  tcState.histories[destId] = [];
-
+  // NO limpiar historial — se conserva para que el agente recuerde el contexto
   tcSetTyping(true);
   try{
     var r=await tcRunLoop(brief);
@@ -455,10 +453,9 @@ function tcAddUserMsg(text){
 }
 function tcAddAgentMsg(text,agentId){
   if(!text||!text.trim())return;
-  var agent=TC_AGENTS[agentId||tcState.current];
   var msgs=document.getElementById('tc-chat-messages'),tip=document.getElementById('tc-typing');
   var row=document.createElement('div');row.className='tc-msg-row agent';
-  var av=document.createElement('div');av.className='tc-msg-avatar';av.dataset.agent=agent.id;av.textContent=agent.avatar;
+  var av=document.createElement('div');av.className='tc-msg-avatar';av.style.background='#1a5c38';av.textContent='F';
   var b=document.createElement('div');b.className='tc-bubble';b.innerHTML=tcRenderMd(text);
   row.appendChild(av);row.appendChild(b);msgs.insertBefore(row,tip);msgs.scrollTop=msgs.scrollHeight;
 }
