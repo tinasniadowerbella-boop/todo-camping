@@ -80,6 +80,26 @@
     }
     .nav-cta:hover { background: var(--green-dark) !important; }
 
+    .nav-auth {
+      display: flex; align-items: center; gap: 8px; margin-left: 8px;
+    }
+    .btn-nav-cliente {
+      background: var(--green); color: #fff; border: none;
+      border-radius: 8px; padding: 8px 14px; font-size: 13px;
+      font-weight: 600; cursor: pointer; white-space: nowrap;
+      transition: background .2s;
+    }
+    .btn-nav-cliente:hover { background: var(--green-dark); }
+    .btn-nav-staff {
+      background: none; color: var(--gray-text);
+      border: 1px solid var(--gray-border);
+      border-radius: 8px; padding: 8px 14px; font-size: 13px;
+      font-weight: 500; cursor: pointer; white-space: nowrap;
+      text-decoration: none; display: inline-block;
+      transition: all .2s;
+    }
+    .btn-nav-staff:hover { border-color: var(--green); color: var(--green); background: var(--green-light); }
+
     /* ── HERO ──────────────────────────────────────── */
     .hero {
       background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 60%, var(--green-mid) 100%);
@@ -525,10 +545,11 @@
     <li><a href="#como-funciona">Cómo funciona</a></li>
     <li><a href="#agentes">Asistentes</a></li>
     <li><a href="#contacto">Contacto</a></li>
-    <li><button id="btn-cliente-login" onclick="abrirModalCliente()" style="background:none;border:1px solid var(--green);color:var(--green);border-radius:8px;padding:7px 14px;cursor:pointer;font-size:14px;font-weight:600;">👤 Mi cuenta</button></li>
-    <li><a href="admin.html" style="font-size:13px;color:var(--gray-text);padding:7px 10px;border-radius:8px;" title="Acceso empleados">🔒 Staff</a></li>
-    <li><a href="#chat" class="nav-cta">Reservar ahora →</a></li>
   </ul>
+  <div class="nav-auth">
+    <button id="btn-cliente-login" class="btn-nav-cliente" onclick="abrirModalCliente()">👤 Clientes</button>
+    <a href="admin.html" class="btn-nav-staff">🔒 Staff</a>
+  </div>
 </nav>
 
 <!-- ══ MODAL CLIENTE ══════════════════════════════════════════════ -->
@@ -1589,13 +1610,4 @@ async function tcExecModificar(args) {
       if(cliente_telefono)u.cliente_telefono=cliente_telefono; if(cliente_email)u.cliente_email=cliente_email;
       if(estado_reserva)u.estado_reserva=estado_reserva; if(observaciones)u.notas=observaciones;
       if(camper_modelo){const{data:c}=await tcSb.from('campers').select('id,key').ilike('modelo',`%${camper_modelo}%`).limit(1).single();if(c){u.camper_id=c.id;u.camper_key=c.key;}}
-      const{data,error}=await tcSb.from('reservas').update(u).eq('reserva_ref',id_reserva).select().single();
-      if(error)return{error:error.message}; return{ok:true,reserva:data};
-    } catch(e){}
-  }
-  const idx=TC_MOCK.reservas.findIndex(r=>r.reserva_ref===id_reserva||r.id===id_reserva);
-  if(idx===-1)return{error:`Reserva ${id_reserva} no encontrada.`};
-  const r=TC_MOCK.reservas[idx];
-  if(fecha_inicio)r.fecha_inicio=fecha_inicio; if(fecha_fin)r.fecha_fin=fecha_fin;
-  if(cliente_telefono)r.cliente_telefono=cliente_telefono; if(cliente_email)r.cliente_email=cliente_email;
-  if(estado_reserva)r.estado_reserva=estado_reserva; if(observa
+      const{data,error}=await tcSb.from('reservas').update(u).eq('reserva_ref',id_re
