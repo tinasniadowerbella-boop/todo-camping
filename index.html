@@ -677,7 +677,7 @@
         <div class="agent-avatar" style="background:#e8f5ee;">🏕¤</div>
         <div class="agent-info">
           <div class="agent-role">Orquestador</div>
-          <h3>Flo</h3>
+          <h3>Leo</h3>
           <p>Tu primer punto de contacto. Entiende lo que necesitas y te dirige al agente adecuado en segundos.</p>
         </div>
       </div>
@@ -706,7 +706,7 @@
   <div class="chat-wrapper">
     <div class="chat-copy">
       <div class="section-label">Asistente IA</div>
-      <h2 class="section-title">Habla con Flo ahora</h2>
+      <h2 class="section-title">Habla con Leo ahora</h2>
       <p class="section-sub">Tres agentes especializados listos para ayudarte: info, precios y reservas.</p>
       <div class="chat-features">
         <div class="chat-feat">
@@ -745,7 +745,7 @@
         <div style="width:48px;height:48px;background:#dbeafe;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;color:#1e40af;flex-shrink:0;">L</div>
         <div>
           <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--green);margin-bottom:3px;">Orquestador</div>
-          <div style="font-weight:700;font-size:15px;color:var(--dark);">Flo</div>
+          <div style="font-weight:700;font-size:15px;color:var(--dark);">Leo</div>
           <div style="font-size:13px;color:var(--gray-text);">Te recibe y te conecta con el agente correcto.</div>
         </div>
       </div>
@@ -1090,7 +1090,11 @@
   #tc-send-btn:hover    { filter: brightness(.9); }
   #tc-send-btn:disabled { background: #dde1e7; cursor: not-allowed; }
   #tc-send-btn svg { width: 17px; height: 17px; }
-  .tc-error-banner { display:none !important; }
+  .tc-error-banner {
+    background: #fef2f2; color: #dc2626; border: 1px solid #fecaca;
+    border-radius: 10px; padding: 10px 14px; font-size: 13px;
+    align-self: center; max-width: 90%; text-align: center;
+  }
   @media (max-width: 520px) {
     #tc-chat-widget { bottom: 0; right: 0; width: 100%; height: 92dvh; border-radius: 20px 20px 0 0; }
     #tc-chat-bubble { bottom: 16px; right: 16px; }
@@ -1100,10 +1104,10 @@
 <!-- Widget HTML -->
 <div id="tc-chat-widget">
   <div id="tc-chat-header">
-    <div id="tc-header-avatar">F</div>
+    <div id="tc-header-avatar">L</div>
     <div id="tc-header-info">
-      <strong id="tc-header-name">Flo</strong>
-      <span id="tc-header-role">Asistente · TodoCamping</span>
+      <strong id="tc-header-name">Leo</strong>
+      <span id="tc-header-role">Bienvenida · TodoCamping</span>
     </div>
     <div id="tc-status-dot"></div>
     <button id="tc-chat-close" title="Minimizar">→</button>

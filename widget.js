@@ -20,14 +20,14 @@ fetch('/api/config').then(function(r){return r.json();}).then(function(cfg){
 
 var TC_MOCK = {
   campers: [
-    { id:'C001', key:'TC-ACS', modelo:'Adria Coral 670 SL',       unidades:3, tipo:'Autocaravana', capacidad:4, precio_diario:4200, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true  },
-    { id:'C002', key:'TC-WCB', modelo:'Weinsberg CaraBus 600 MQ', unidades:5, tipo:'Furgoneta',    capacidad:2, precio_diario:3500, ac:false, calefaccion:true,  cocina:true, bano:false, estado:'Activo',        disponible:true  },
-    { id:'C003', key:'TC-KSI', modelo:'Knaus Sun I 650 MEG',      unidades:2, tipo:'Autocaravana', capacidad:6, precio_diario:5800, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true  },
-    { id:'C004', key:'TC-CCT', modelo:'Carthago C-Tourer T143',   unidades:2, tipo:'Autocaravana', capacidad:4, precio_diario:7200, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:false },
-    { id:'C005', key:'TC-CAR', modelo:'Carado CV600',              unidades:4, tipo:'Furgoneta',    capacidad:2, precio_diario:3500, ac:false, calefaccion:true,  cocina:true, bano:false, estado:'Mantenimiento', disponible:false },
-    { id:'C006', key:'TC-BLD', modelo:'Burstner Lyseo TD690',     unidades:3, tipo:'Autocaravana', capacidad:4, precio_diario:4900, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true  },
-    { id:'C007', key:'TC-HYM', modelo:'Hymer B-ML T580',          unidades:4, tipo:'Autocaravana', capacidad:2, precio_diario:3800, ac:false, calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true  },
-    { id:'C008', key:'TC-PCA', modelo:'Possl Campster',            unidades:6, tipo:'Furgoneta',    capacidad:2, precio_diario:3500, ac:false, calefaccion:false, cocina:true, bano:false, estado:'Activo',        disponible:true  },
+    { id:'C001', key:'TC-ACS', modelo:'Adria Coral 670 SL',       unidades:3, tipo:'Autocaravana', capacidad:4, precio_diario:95,  ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true  },
+    { id:'C002', key:'TC-WCB', modelo:'Weinsberg CaraBus 600 MQ', unidades:5, tipo:'Furgoneta',    capacidad:2, precio_diario:65,  ac:false, calefaccion:true,  cocina:true, bano:false, estado:'Activo',        disponible:true  },
+    { id:'C003', key:'TC-KSI', modelo:'Knaus Sun I 650 MEG',      unidades:2, tipo:'Autocaravana', capacidad:6, precio_diario:110, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true  },
+    { id:'C004', key:'TC-CCT', modelo:'Carthago C-Tourer T143',   unidades:2, tipo:'Autocaravana', capacidad:4, precio_diario:130, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:false },
+    { id:'C005', key:'TC-CAR', modelo:'Carado CV600',              unidades:4, tipo:'Furgoneta',    capacidad:2, precio_diario:58,  ac:false, calefaccion:true,  cocina:true, bano:false, estado:'Mantenimiento', disponible:false },
+    { id:'C006', key:'TC-BLD', modelo:'Burstner Lyseo TD690',     unidades:3, tipo:'Autocaravana', capacidad:4, precio_diario:105, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true  },
+    { id:'C007', key:'TC-HYM', modelo:'Hymer B-ML T580',          unidades:4, tipo:'Autocaravana', capacidad:2, precio_diario:78,  ac:false, calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true  },
+    { id:'C008', key:'TC-PCA', modelo:'Possl Campster',            unidades:6, tipo:'Furgoneta',    capacidad:2, precio_diario:55,  ac:false, calefaccion:false, cocina:true, bano:false, estado:'Activo',        disponible:true  },
   ],
   reservas: [],
   _nextId: 1,
@@ -47,100 +47,108 @@ var TC_HOY = (function(){
 
 var TC_PROMPTS = {
 
-leo: `Eres Flo, la asistente virtual de TodoCamping — empresa uruguaya de alquiler de campers en Montevideo, Uruguay.
-Dirección: José Ellauri 331 · Horario: L-V 9-19h · Sáb 10-14h · Tel: +598 2 234 56 78 · hola@todocamping.com.uy
+leo: `Eres Flo, la asistente virtual de TodoCamping — empresa URUGUAYA de alquiler de campers y autocaravanas con sede en MONTEVIDEO, URUGUAY.
+Dirección: José Ellauri 331, Montevideo · Horario: L-V 9-19h · Sáb 10-14h · Tel: +598 2 234 56 78 · Email: hola@todocamping.com.uy
+⛔ PROHIBIDO ABSOLUTO: NUNCA menciones Madrid ni España. Operamos ÚNICAMENTE en Uruguay.
+✅ Si alguien pregunta si puede alquilar en Uruguay: la respuesta es SÍ, claro que sí, somos una empresa uruguaya y toda nuestra flota opera desde Montevideo, Uruguay.
+FECHA HOY: \${TC_HOY}.
+
+TONO: cálido y profesional. Tutea. Respuestas cortas. Máximo 1-2 emojis por mensaje. Sin exceso de signos de exclamación.
+
+MISIÓN: Entender la necesidad del usuario y derivarlo al agente correcto.
+- Deriva a "informativo" (Cami) para: preguntas sobre modelos, precios, disponibilidad, equipamiento, comparativas, recomendaciones.
+- Deriva a "reservas" (Remi) para: hacer una reserva, consultar/modificar/cancelar una reserva existente.
+- Responde tú mismo solo para: saludos puros, info de contacto u horario, intenciones muy ambiguas (haz UNA sola pregunta para clarificar).
+⛔ NUNCA menciones tu nombre (Leo) ni el de otros agentes (Cami, Remi) al cliente. El cliente solo conoce a 'Flo'.
+
+REGLA CAPACIDAD: Si el usuario menciona más de 6 personas, avísale antes de derivar que la flota llega hasta 6 plazas por unidad, y que para más personas necesitaría 2 vehículos.
+
+REGLA FECHAS: Una fecha es pasada SOLO si es estrictamente anterior a \${TC_HOY}. Si es hoy o posterior, es válida. NO corrijas fechas válidas.
+
+Usa SIEMPRE la herramienta derivar_agente para derivar. No menciones el traspaso en el texto previo.
+NUNCA repitas el mensaje del usuario en tu respuesta. Si decides derivar directamente sin texto previo, simplemente llama a la herramienta sin ningún texto adicional.`,
+
+cami: `Eres Flo, asistente de TodoCamping especialista en la flota. Ayudás a los clientes a elegir el camper ideal. NUNCA menciones tu nombre interno ni el de otros agentes.
 FECHA HOY: ${TC_HOY}.
 
-⛔ REGLAS ABSOLUTAS:
-- NUNCA menciones Madrid, España, euros ni nada fuera de Uruguay
-- NUNCA menciones tus nombres internos (Leo, Cami, Remi) — solo existís vos como "Flo"
-- NUNCA digas "te paso con...", "un momento", "derivando" — los cambios de módulo son invisibles
-- SIEMPRE tutear. Tono cálido y breve. Máximo 2 emojis por mensaje.
+⛔ NUNCA menciones tu nombre interno (Cami) al cliente. No te presentes con nombre propio. Simplemente respondé directo.
 
-MISIÓN: Entender qué necesita el usuario y derivarlo internamente al módulo correcto.
-- Para info de campers, precios, disponibilidad → usa derivar_agente con agente_destino="informativo" SIN texto previo
-- Para reservas, modificaciones, cancelaciones → usa derivar_agente con agente_destino="reservas" SIN texto previo
-- Para saludos puros, horarios, contacto → respondé vos directamente
+TONO: cercana, clara, profesional. Tutea. Máximo 1-2 emojis por mensaje. Sin exceso de negritas.
 
-REGLA FECHAS: Fechas iguales o posteriores a ${TC_HOY} son VÁLIDAS. No las corrijas.
-REGLA CAPACIDAD: Si mencionan más de 6 personas, avisá que el máximo por unidad es 6.
-
-USA derivar_agente SIEMPRE sin escribir nada antes. Nunca menciones el traspaso.`,
-
-cami: `Eres Flo, asistente de TodoCamping. Módulo interno: información de flota.
-FECHA HOY: ${TC_HOY}.
-
-⛔ NUNCA te presentes con nombre. NUNCA menciones Cami, Leo, Remi. Continuá la conversación naturalmente.
-MONEDA: Todos los precios en PESOS URUGUAYOS ($UYU). Formato: "$3.500 UYU/noche". NUNCA euros.
+MONEDA: Todos los precios en PESOS URUGUAYOS. El precio es el número exacto del campo precio_diario (ej: si precio_diario=55, escribe $55 UYU/noche, NO $55.000). Escríbelo siempre así: "$55 UYU/noche" o "$110 UYU/noche". NUNCA uses solo "$" sin aclarar la moneda. NUNCA uses euros.
 
 REGLAS:
-1. Usá SIEMPRE consultar_campers antes de dar precios o disponibilidad
-2. Si el usuario no sabe qué elegir: "¿Qué valorás más: precio, espacio o comodidades?"
-3. Capacidad máxima 6 personas por unidad
-4. Formato de presentación:
+1. Usa SIEMPRE consultar_campers antes de dar cualquier precio o disponibilidad. Nunca inventes datos.
+2. Si el usuario no sabe qué elegir, pregúntale: "¿Qué es lo más importante para vos: el precio, el espacio o las comodidades?" Luego filtra según su respuesta.
+3. Si la capacidad pedida supera 6 personas, avísalo ANTES de mostrar opciones: "Nuestra flota llega hasta 6 plazas por unidad. Para [N] personas necesitarías [X] vehículos."
+4. Al presentar opciones, usa este formato limpio:
    🚐 [Modelo] — $[precio] UYU/noche
-   Capacidad: [N] personas | [equipamiento]
-   [Una línea descriptiva]
-5. Fechas válidas si son >= ${TC_HOY}
-6. Cuando el usuario quiera reservar: usá derivar_agente con agente_destino="reservas" pasando modelo, fechas, personas y precio. Hacelo SIN texto previo ni avisos.`,
+   Capacidad: [N] personas | [equipamiento clave]
+   [Una línea de descripción]
+5. Valida fechas: son inválidas SOLO si fecha_inicio es estrictamente anterior a ${TC_HOY}. Fechas de hoy en adelante son válidas. No corrijas fechas correctas.
+6. Cuando el usuario quiera reservar, derivalo internamente con derivar_agente a 'reservas' pasando todo el contexto (modelo, fechas, personas, precio). El cliente NO debe saber que cambió de módulo — simplemente seguí la conversación.
 
-reservas: function() {
-  var rc = tcReservaEnCurso;
-  var datosAcumulados = '';
-  if(rc.modelo)    datosAcumulados += '\n- Camper: ' + rc.modelo;
-  if(rc.fecha_inicio) datosAcumulados += '\n- Fecha inicio: ' + rc.fecha_inicio;
-  if(rc.fecha_fin)    datosAcumulados += '\n- Fecha fin: ' + rc.fecha_fin;
-  if(rc.num_personas) datosAcumulados += '\n- Personas: ' + rc.num_personas;
-  if(rc.cedula)    datosAcumulados += '\n- Cédula: ' + rc.cedula;
-  if(rc.telefono)  datosAcumulados += '\n- Teléfono: ' + rc.telefono;
-  var yaConfirmado = rc.confirmado ? '\n\n🔴 EL USUARIO YA CONFIRMÓ EL RESUMEN. Ejecutá crear_reserva AHORA MISMO con todos los datos acumulados. NO preguntes nada.' : '';
-  return `Eres Flo, asistente de TodoCamping. Módulo interno: gestión de reservas.
-FECHA HOY: ${TC_HOY}.
+SCOPE: info de flota y derivación interna a reservas cuando corresponda.`,
 
-⛔ NUNCA te presentes con nombre. NUNCA menciones Remi, Leo, Cami. Continuá directo.
-MONEDA: Precios en PESOS URUGUAYOS. Formato: "$3.500 UYU/noche".
+reservas: function() { return `Eres Flo, asistente de TodoCamping. Gestionás reservas. Gestionas el ciclo completo: crear, consultar, modificar y cancelar reservas.
+FECHA HOY: \${TC_HOY}.
 
-DATOS DEL CLIENTE (ya identificado al hacer login — NO volver a pedirlos):
+⚡ DATOS DEL CLIENTE YA IDENTIFICADO (no volver a pedirlos):
 - Nombre: `+(TC_CLI.nombre||'NO DISPONIBLE')+`
 - Email: `+(TC_CLI.email||'NO DISPONIBLE')+`
+REGLA CRÍTICA: Si Nombre y Email dicen algo distinto a "NO DISPONIBLE", son datos reales del cliente — úsalos en la reserva sin pedirlos de nuevo. Si dicen "NO DISPONIBLE", entonces sí pedíselos.
 
-DATOS DE RESERVA YA RECOLECTADOS EN ESTA SESIÓN:`+datosAcumulados+`
-`+yaConfirmado+`
+⛔ NUNCA menciones tu nombre interno (Remi) al cliente. No te presentes con nombre propio. Simplemente gestioná la reserva directo sin presentación.
 
-═══ FLUJO NUEVA RESERVA ═══
-1. Si falta modelo, fecha_inicio o fecha_fin → pedí solo lo que falta, de a uno
-2. Validá fechas: fecha_inicio >= ${TC_HOY}, fecha_fin > fecha_inicio
-3. Llamá a verificar_disponibilidad
-4. Si hay disponibilidad → pedí SOLO los datos que faltan:
-   a) Cédula uruguaya: exactamente 8 dígitos numéricos (ej: 12345678). Rechazar si no cumple.
-   b) Teléfono: solo dígitos, 8-9 caracteres (ej: 099123456). Rechazar si tiene letras.
-   (nombre y email ya los tenés del login — NO pedirlos)
-5. Con todos los datos, mostrá resumen UNA sola vez:
+TONO: profesional y cálido. Tutea. Máximo 1-2 emojis por mensaje. Sin exceso de bullets.
+
+MONEDA: Todos los precios en PESOS URUGUAYOS. El precio es el número exacto del campo precio_por_noche (ej: si precio_por_noche=55, escribe $55 UYU/noche, el total de 5 noches es $275 UYU). NUNCA formatees con puntos de miles a menos que el número lo requiera realmente. NUNCA uses solo "$". NUNCA uses euros.
+
+═══ FLUJO NUEVA RESERVA (sigue este orden estrictamente) ═══
+1. Si faltan: modelo + fecha_inicio + fecha_fin → pídelos. Una sola pregunta a la vez.
+2. Valida fechas (deben ser futuras, fecha_fin > fecha_inicio). Si son inválidas, corrígelas antes de continuar.
+3. Llama a verificar_disponibilidad. Si hay stock, avanza directamente al paso 4. Si NO hay stock, llama a buscar_disponibilidad_alternativa, muestra las alternativas y espera que el usuario ELIJA UNA antes de continuar.
+4. Solo si hay disponibilidad confirmada: pide ÚNICAMENTE los datos que faltan. Como ya tenés nombre y email del login, solo pedí:
+   a) documento de identidad (cédula uruguaya o pasaporte) — OBLIGATORIO, no omitir nunca.
+   b) teléfono de contacto
+   NO vuelvas a pedir nombre ni email — ya los tenés.
+   NO preguntes "¿estos datos son a tu nombre?" — asumí que sí.
+5. Una vez que tenés TODOS los datos (nombre + email + documento + teléfono), muestra resumen y pide confirmación UNA SOLA VEZ:
    ✅ Resumen de tu reserva:
    - Camper: [modelo]
    - Fechas: [inicio] al [fin] ([N] noches)
    - Personas: [N]
-   - Precio: $[precio] UYU/noche × [N] noches = $[total] UYU
-   - Cédula: [doc] | Tel: [tel]
-   ¿Todo bien así?
-6. CUALQUIER respuesta que no corrija datos explícitamente = CONFIRMACIÓN.
-   → Ejecutá crear_reserva INMEDIATAMENTE con nombre y email del login + cédula y teléfono dados.
-   → NO hagas más preguntas. NO muestres opciones. Solo ejecutá crear_reserva.
-7. Tras crear exitosamente:
-   ✅ ¡Reserva confirmada! Tu código es [REF].
-   Te llegará un email a [email]. Presentá tu cédula al retirar el camper a las 10:00h.
+   - Precio: $[precio_noche] UYU/noche × [N] noches = $[total] UYU
+   - Titular: [nombre] | Doc: [doc] | Tel: [tel] | Email: [email]
+   ¿Confirmás la reserva?
+6. Cuando el usuario responda "sí" o cualquier confirmación: llama a crear_reserva INMEDIATAMENTE. NO vuelvas a mostrar opciones ni a pedir confirmación otra vez.
+7. Tras confirmar, muestra:
+   ✅ ¡Reserva confirmada! ID: [REF]
+   - Próximos pasos: recibirás un email de confirmación en [email]. Deberás presentar tu documento en el momento de retiro. El camper estará disponible a partir de las 10:00h del día de inicio.
+   - ¿Necesitas algo más?
 
-IMPORTANTE al llamar crear_reserva:
-- cliente_nombre: usar `+(TC_CLI.nombre||'Cliente')+`
-- cliente_email: usar `+(TC_CLI.email||'')+`
-- Estos campos son OBLIGATORIOS y ya los tenés — no los omitas
+═══ FLUJO MODIFICACIÓN ═══
+Si el usuario quiere cambiar algo de una reserva ya confirmada:
+1. Identifica qué cambia (fechas, camper, personas, datos personales).
+2. Si cambian fechas o camper: llama a verificar_disponibilidad para las NUEVAS fechas/camper. No asumas que hay disponibilidad.
+3. Muestra el resumen con los cambios destacados y pide confirmación.
+4. Tras confirmación: llama a modificar_reserva. Informa si la reserva anterior queda anulada y la nueva queda activa.
 
-═══ CONSULTAS / MODIFICACIONES ═══
-- Para consultar: pedí el ID de reserva o email y usá consultar_reserva
-- Para modificar: pedí qué cambiar y usá modificar_reserva tras confirmar
-- Para cancelar: confirmá antes y usá cancelar_reserva`; }
+═══ VALIDACIONES OBLIGATORIAS ═══
+- Email: debe contener @ y dominio (ej: usuario@dominio.com). Rechaza cualquier string sin @ o sin punto después del @.
+- Documento: entre 5 y 20 caracteres alfanuméricos.
+- Teléfono: entre 7 y 15 dígitos.
+- Fechas: fecha_inicio debe ser >= ${TC_HOY} (hoy o futuro). fecha_fin > fecha_inicio. IMPORTANTE: si la fecha_inicio es igual a hoy (${TC_HOY}) o posterior, ES VÁLIDA. No la rechaces.
 
-}
+═══ CONTEXTO ENTRE AGENTES ═══
+Si recibes contexto de otro agente (modelo, fechas, personas ya confirmados), úsalo directamente. No le pidas al usuario datos que ya confirmó.
+
+═══ AYUDA PARA DECIDIR ═══
+Si el usuario no sabe qué camper elegir: usa pasar_a_cami para que Cami le ayude a comparar opciones.
+
+SCOPE: solo gestión de reservas. Para info de modelos: pasar_a_cami.`; },
+
+};
 
 var TC_TOOLS = {
   leo: [{
@@ -174,7 +182,7 @@ function tcInitSupabase() {
 }
 
 function tcValidarEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(e).trim()); }
-function tcValidarTel(t)   { var d=String(t).replace(/[\s\-\+\(\)\.]/g,''); return d.length>=8&&d.length<=9&&/^\d+$/.test(d); }
+function tcValidarTel(t)   { var d=String(t).replace(/[\s\-\+\(\)\.]/g,''); return d.length>=7&&d.length<=15&&/^\d+$/.test(d); }
 function tcValidarDoc(d)   { var l=String(d).trim().replace(/[\.\-\s]/g,''); return l.length>=5&&l.length<=20&&/^[A-Za-z0-9]+$/.test(l); }
 
 function tcParseFecha(s) {
@@ -228,16 +236,10 @@ async function tcExecCrearReserva(args) {
   // Autocompletar con datos del login si el agente no los pasó
   if(!args.cliente_nombre && TC_CLI.nombre) args.cliente_nombre = TC_CLI.nombre;
   if(!args.cliente_email  && TC_CLI.email)  args.cliente_email  = TC_CLI.email;
-  // Validar cédula uruguaya: exactamente 8 dígitos
-  if(args.cliente_documento){
-    var doc = String(args.cliente_documento).replace(/[\.\-\s]/g,'');
-    if(!/^\d{8}$/.test(doc)) return {error:'Cédula inválida. Debe tener exactamente 8 dígitos numéricos (ej: 12345678).'};
-    args.cliente_documento = doc;
-  }
   var fv=tcValidarFechas(args.fecha_inicio,args.fecha_fin);
   if(!fv.ok) return {error:fv.error};
   if(!tcValidarEmail(args.cliente_email)) return {error:'Email invalido: "'+args.cliente_email+'". Debe tener formato usuario@dominio.com'};
-  // Validación de documento ya realizada arriba (cédula 8 dígitos)
+  if(args.cliente_documento&&!tcValidarDoc(args.cliente_documento)) return {error:'Documento invalido: "'+args.cliente_documento+'". Acepta DNI, pasaporte, cedula (5-20 caracteres alfanumericos).'};
   if(args.cliente_telefono&&!tcValidarTel(args.cliente_telefono)) return {error:'Telefono invalido: "'+args.cliente_telefono+'". Debe tener entre 7 y 15 digitos.'};
   var camper=await tcFindCamper(args.camper_modelo);
   if(!camper) return {error:'Camper "'+args.camper_modelo+'" no encontrado.'};
@@ -249,31 +251,7 @@ async function tcExecCrearReserva(args) {
   var noches=Math.round((ff-fi)/86400000);
   if(noches<=0) return {error:'Fecha fin debe ser posterior a inicio.'};
   var precio_total=camper.precio_diario*noches;
-  if(tcSb){try{
-    // Buscar camper_id real en Supabase (el MOCK usa IDs ficticios)
-    var camperReal = await tcSb.from('campers').select('id').eq('key', camper.key).single();
-    var camper_id_real = (camperReal.data && camperReal.data.id) ? camperReal.data.id : null;
-    if(!camper_id_real) return {error:'No se encontró el camper en la base de datos. Código: '+camper.key};
-    var cnt=await tcSb.from('reservas').select('*',{count:'exact',head:true});
-    var ref='RES-'+String((cnt.count||0)+1).padStart(4,'0');
-    var ins=await tcSb.from('reservas').insert({
-      camper_id:camper_id_real,
-      camper_key:camper.key,
-      reserva_ref:ref,
-      cliente_nombre:args.cliente_nombre,
-      cliente_documento:args.cliente_documento||null,
-      cliente_telefono:args.cliente_telefono||null,
-      cliente_email:args.cliente_email,
-      fecha_inicio:args.fecha_inicio.split(' ')[0],
-      fecha_fin:args.fecha_fin.split(' ')[0],
-      num_personas:args.num_personas||null,
-      estado_reserva:'Pendiente',
-      precio_total:precio_total,
-      notas:args.notas||null
-    }).select().single();
-    if(ins.error) return{error:'Error al guardar: '+ins.error.message};
-    tcLog('reserva_creada',{datos:{reserva_ref:ref,modelo:camper.modelo,num_mensajes:TC_MSG_COUNT,tiempo_ms:TC_CHAT_START?Date.now()-TC_CHAT_START:null}}); tcResetReserva(); return{ok:true,id_reserva:ref,modelo:camper.modelo,precio_total:precio_total,noches:noches,moneda:'pesos uruguayos (UYU)',email_cliente:args.cliente_email};
-  }catch(e){console.error('Supabase insert error:',e);}}
+  if(tcSb){try{var cnt=await tcSb.from('reservas').select('*',{count:'exact',head:true});var ref='RES-'+String((cnt.count||0)+1).padStart(4,'0');var ins=await tcSb.from('reservas').insert({camper_id:camper.id,camper_key:camper.key,reserva_ref:ref,cliente_nombre:args.cliente_nombre,cliente_documento:args.cliente_documento||null,cliente_telefono:args.cliente_telefono||null,cliente_email:args.cliente_email,fecha_inicio:args.fecha_inicio.split(' ')[0],fecha_fin:args.fecha_fin.split(' ')[0],num_personas:args.num_personas||null,estado_reserva:'Pendiente',precio_total:precio_total,notas:args.notas||null}).select().single();if(ins.error)return{error:ins.error.message};return{ok:true,id_reserva:ref,modelo:camper.modelo,precio_total:precio_total,noches:noches,moneda:'pesos uruguayos (UYU)',email_cliente:args.cliente_email};}catch(e){}}
   var ref='RES-'+String(TC_MOCK._nextId++).padStart(4,'0');
   TC_MOCK.reservas.push({id:ref,reserva_ref:ref,camper_key:camper.key,camper_modelo:camper.modelo,cliente_nombre:args.cliente_nombre,cliente_documento:args.cliente_documento||null,cliente_telefono:args.cliente_telefono||null,cliente_email:args.cliente_email,fecha_inicio:args.fecha_inicio.split(' ')[0],fecha_fin:args.fecha_fin.split(' ')[0],num_personas:args.num_personas||null,estado_reserva:'Pendiente',precio_total:precio_total});
   return {ok:true,id_reserva:ref,modelo:camper.modelo,precio_total:precio_total,noches:noches,moneda:'pesos uruguayos (UYU)',email_cliente:args.cliente_email};
@@ -330,37 +308,9 @@ var tcState = { current:'leo', histories:{ leo:[], cami:[], reservas:[] }, prese
 async function tcCallClaude(system, tools, messages) {
   var body={model:TC_CONFIG.MODEL,max_tokens:1500,system:system,messages:messages};
   if(tools&&tools.length) body.tools=tools;
-  
-  // Retry con backoff — Render free puede tardar en despertar
-  var lastErr;
-  for(var attempt=0; attempt<3; attempt++){
-    try{
-      var ctrl = new AbortController();
-      var timer = setTimeout(function(){ ctrl.abort(); }, 55000); // 55s timeout
-      var resp = await fetch('/api/chat', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify(body),
-        signal: ctrl.signal
-      });
-      clearTimeout(timer);
-      if(!resp.ok){
-        var err=await resp.json().catch(function(){return{};});
-        throw new Error((err.error&&err.error.message)||'Error '+resp.status);
-      }
-      return resp.json();
-    } catch(e) {
-      lastErr = e;
-      if(e.name === 'AbortError') {
-        lastErr = new Error('timeout');
-        break;
-      }
-      if(attempt < 2) {
-        await new Promise(function(r){ setTimeout(r, 2000 * (attempt+1)); });
-      }
-    }
-  }
-  throw lastErr;
+  var resp=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!resp.ok){var err=await resp.json().catch(function(){return{};});throw new Error((err.error&&err.error.message)||'Error '+resp.status);}
+  return resp.json();
 }
 
 async function tcRunLoop(userText) {
@@ -395,26 +345,8 @@ async function tcRunLoop(userText) {
         else if(block.name==='pasar_a_reservas')                 {handoff={agente:'reservas',contexto:block.input.contexto,mensajeVisible:block.input.mensaje_usuario};output={ok:true};}
         else if(block.name==='pasar_a_cami')                     {handoff={agente:'cami',contexto:block.input.contexto,mensajeVisible:block.input.mensaje_usuario};output={ok:true};}
         else if(block.name==='consultar_campers')                {output=await tcExecConsultarCampers(block.input);}
-        else if(block.name==='verificar_disponibilidad'){
-          output=await tcExecVerificarDisp(block.input);
-          // Guardar datos en tcReservaEnCurso para el atajo directo
-          if(block.input.modelo)       tcReservaEnCurso.modelo=block.input.modelo;
-          if(block.input.fecha_inicio) tcReservaEnCurso.fecha_inicio=block.input.fecha_inicio.split(' ')[0];
-          if(block.input.fecha_fin)    tcReservaEnCurso.fecha_fin=block.input.fecha_fin.split(' ')[0];
-        }
-        else if(block.name==='crear_reserva'){
-          // Merge datos del modelo con lo acumulado
-          var inp2=Object.assign({},block.input);
-          if(!inp2.cliente_nombre && TC_CLI.nombre) inp2.cliente_nombre=TC_CLI.nombre;
-          if(!inp2.cliente_email  && TC_CLI.email)  inp2.cliente_email=TC_CLI.email;
-          if(!inp2.cliente_documento && tcReservaEnCurso.cedula)   inp2.cliente_documento=tcReservaEnCurso.cedula;
-          if(!inp2.cliente_telefono  && tcReservaEnCurso.telefono) inp2.cliente_telefono=tcReservaEnCurso.telefono;
-          if(!inp2.camper_modelo && tcReservaEnCurso.modelo)       inp2.camper_modelo=tcReservaEnCurso.modelo;
-          if(!inp2.fecha_inicio  && tcReservaEnCurso.fecha_inicio) inp2.fecha_inicio=tcReservaEnCurso.fecha_inicio;
-          if(!inp2.fecha_fin     && tcReservaEnCurso.fecha_fin)    inp2.fecha_fin=tcReservaEnCurso.fecha_fin;
-          if(inp2.num_personas) tcReservaEnCurso.num_personas=inp2.num_personas;
-          output=await tcExecCrearReserva(inp2);
-        }
+        else if(block.name==='verificar_disponibilidad')         {output=await tcExecVerificarDisp(block.input);}
+        else if(block.name==='crear_reserva')                    {output=await tcExecCrearReserva(block.input);}
         else if(block.name==='consultar_reserva')                {output=await tcExecConsultarReserva(block.input);}
         else if(block.name==='listar_reservas_activas')          {output=await tcExecListarActivas();}
         else if(block.name==='modificar_reserva')                {output=await tcExecModificarReserva(block.input);}
@@ -436,7 +368,7 @@ async function tcRunLoop(userText) {
     history.push({role:'assistant',content:[{type:'text',text:txt}]});
     return{text:txt,handoff:null};
   }
-  return{text:'No pude procesar tu consulta. ¿Podés repetirla?',handoff:null};
+  return{text:'Lo siento, tome demasiado tiempo procesando. Podrias repetir tu consulta?',handoff:null};
 }
 
 var TC_AGENT_MAP={informativo:'cami',reservas:'reservas'};
@@ -444,19 +376,17 @@ var TC_AGENT_MAP={informativo:'cami',reservas:'reservas'};
 async function tcPerformHandoff(handoff) {
   var destId=TC_AGENT_MAP[handoff.agente]||handoff.agente;
   var destDef=TC_AGENTS[destId];
-  // Handoff silencioso — el cliente no ve el cambio de agente
+  tcAddHandoffEvent('Conectando con '+destDef.name+'...');
   tcState.current=destId;
   tcUpdateTheme(destDef);
   var ctx=handoff.contexto;
-  var brief='[CONTEXTO INTERNO — NO mostrar al cliente. Ya tenés toda la info para continuar: '+ctx.resumen+'.';
-  if(ctx.modelo) brief+=' Camper: '+ctx.modelo+'.';
-  if(ctx.fechas) brief+=' Fechas: '+ctx.fechas+'.';
-  if(ctx.pax)    brief+=' Personas: '+ctx.pax+'.';
-  if(ctx.precio_por_noche) brief+=' Precio: $'+ctx.precio_por_noche+' UYU/noche.';
-  if(ctx.presupuesto) brief+=' Presupuesto: '+ctx.presupuesto+'.';
-  brief+=' Cliente identificado — Nombre: '+(TC_CLI.nombre||'pendiente')+' | Email: '+(TC_CLI.email||'pendiente')+'.';
-  brief+=' REGLAS: NO te presentés. NO mencionés nombres de agentes. Continuá la conversación como Flo directamente. Solo pedí cédula (8 dígitos) y teléfono — nombre y email ya los tenés.]';
-  // NO limpiar historial — se conserva para que el agente recuerde el contexto
+  var brief='[DERIVACION DE AGENTE. Contexto recibido: '+ctx.resumen+'.';
+  if(ctx.modelo)brief+=' Modelo elegido: '+ctx.modelo+'.';
+  if(ctx.fechas)brief+=' Fechas confirmadas: '+ctx.fechas+'.';
+  if(ctx.pax)   brief+=' Personas: '+ctx.pax+'.';
+  // No incluimos precio_por_noche para que Remi siempre verifique disponibilidad para las fechas actuales
+  if(ctx.presupuesto)brief+=' Presupuesto: '+ctx.presupuesto+'.';
+  brief+=' IMPORTANTE: Presentate con tu nombre y rol en la primera linea. Usa el contexto directamente sin pedir datos que el usuario ya confirmo.]';
   tcSetTyping(true);
   try{
     var r=await tcRunLoop(brief);
@@ -465,8 +395,7 @@ async function tcPerformHandoff(handoff) {
     if(r.handoff)await tcPerformHandoff(r.handoff);
   }catch(e){
     tcSetTyping(false);
-    console.warn('[TC handoff error]', e.message);
-    tcAddAgentMsg('Hubo un problema de conexión. ¿Podés intentarlo de nuevo?');
+    tcAddError('Error al conectar: '+e.message);
   }
 }
 
@@ -491,17 +420,18 @@ function tcAddUserMsg(text){
 }
 function tcAddAgentMsg(text,agentId){
   if(!text||!text.trim())return;
+  var agent=TC_AGENTS[agentId||tcState.current];
   var msgs=document.getElementById('tc-chat-messages'),tip=document.getElementById('tc-typing');
   var row=document.createElement('div');row.className='tc-msg-row agent';
-  var av=document.createElement('div');av.className='tc-msg-avatar';av.style.background='#1a5c38';av.textContent='F';
+  var av=document.createElement('div');av.className='tc-msg-avatar';av.dataset.agent=agent.id;av.textContent=agent.avatar;
   var b=document.createElement('div');b.className='tc-bubble';b.innerHTML=tcRenderMd(text);
   row.appendChild(av);row.appendChild(b);msgs.insertBefore(row,tip);msgs.scrollTop=msgs.scrollHeight;
 }
 function tcAddHandoffEvent(text){ /* silenciado — no mostrar cambio de agente */ }
 function tcAddError(text){
-  // Nunca mostrar errores técnicos al usuario — Flo responde naturalmente
-  console.warn('[TC error interno]', text);
-  tcAddAgentMsg('Tuve un pequeño inconveniente procesando tu consulta. ¿Podés repetir lo último que dijiste?');
+  var msgs=document.getElementById('tc-chat-messages'),tip=document.getElementById('tc-typing');
+  var div=document.createElement('div');div.className='tc-error-banner';div.textContent=text;
+  msgs.insertBefore(div,tip);msgs.scrollTop=msgs.scrollHeight;
 }
 function tcSetTyping(v){
   var _tp=document.getElementById('tc-typing'); if(_tp)_tp.classList.toggle('visible',v);
@@ -517,72 +447,15 @@ async function tcHandleSend(){
   var text=inp.value.trim();if(!text)return;
   inp.value='';
   tcAddUserMsg(text);tcSetTyping(true);tcSetDisabled(true);
-  TC_MSG_COUNT++;
-  var _tMsgStart = Date.now();
-
-  // Acumular datos de reserva del mensaje del usuario
-  if(tcState.current==='reservas'){
-    var cedMatch=text.replace(/[^0-9]/g,'');
-    // Detectar cédula: exactamente 8 dígitos
-    if(!tcReservaEnCurso.cedula && /^\d{8}$/.test(cedMatch)) {
-      tcReservaEnCurso.cedula = cedMatch;
-    }
-    // Detectar teléfono: 8-9 dígitos (distinto de cédula)
-    else if(!tcReservaEnCurso.telefono && /^\d{8,9}$/.test(cedMatch) && cedMatch!==tcReservaEnCurso.cedula) {
-      tcReservaEnCurso.telefono = cedMatch;
-    }
-    // Detectar confirmación del resumen
-    var confirmWords=['si','sí','ok','okey','dale','perfecto','confirmo','correcto','yes','adelante','va','bien','exacto','genial','listo','claro','bueno','todo bien'];
-    var textNorm=text.toLowerCase().trim().replace(/[^a-záéíóúüñ\s]/gi,'').trim();
-    if(!tcReservaEnCurso.confirmado && confirmWords.some(function(w){return textNorm===w||textNorm.startsWith(w+' ')||textNorm.endsWith(' '+w);})) {
-      tcReservaEnCurso.confirmado = true;
-    }
-  }
-
-  // ATAJO DIRECTO: si confirmó y tenemos todos los datos, crear reserva sin pasar por Claude
-  var rc=tcReservaEnCurso;
-  if(tcState.current==='reservas' && rc.confirmado && rc.cedula && rc.telefono && rc.modelo && rc.fecha_inicio && rc.fecha_fin){
-    try{
-      var resArgs={
-        camper_modelo: rc.modelo,
-        cliente_nombre: TC_CLI.nombre||'',
-        cliente_email:  TC_CLI.email||'',
-        cliente_documento: rc.cedula,
-        cliente_telefono:  rc.telefono,
-        fecha_inicio: rc.fecha_inicio,
-        fecha_fin:    rc.fecha_fin,
-        num_personas: rc.num_personas||null,
-      };
-      var resOut=await tcExecCrearReserva(resArgs);
-      tcSetTyping(false);
-      if(resOut.ok){
-        tcLog('reserva_creada', {datos: {reserva_ref: resOut.id_reserva, modelo: rc.modelo, num_mensajes: TC_MSG_COUNT, tiempo_ms: Date.now()-TC_CHAT_START}});
-        tcAddAgentMsg('✅ ¡Reserva confirmada! Tu código es **'+resOut.id_reserva+'**.
-
-Te llegará un email a '+resOut.email_cliente+'. Presentá tu cédula al retirar el camper. ¿Hay algo más en que pueda ayudarte?');
-      } else {
-        tcAddAgentMsg('Hubo un problema al crear la reserva: '+(resOut.error||'error desconocido')+'. ¿Querés intentarlo de nuevo?');
-      }
-      tcSetDisabled(false);
-      document.getElementById('tc-user-input').focus();
-      return;
-    }catch(e2){
-      console.warn('[TC reserva directa]', e2);
-      // si falla el atajo, caer al flujo normal
-    }
-  }
-
   try{
     var r=await tcRunLoop(text);
     tcSetTyping(false);
     // Solo mostrar texto si NO hay handoff (el texto de handoff es mensaje interno entre agentes)
     if(r.text && !r.handoff && r.text.trim().toLowerCase() !== text.trim().toLowerCase()) tcAddAgentMsg(r.text);
-    tcLog('chat_mensaje', {agente: tcState.current, duracion_ms: Date.now() - _tMsgStart, datos: {num_mensaje: TC_MSG_COUNT}});
     if(r.handoff)await tcPerformHandoff(r.handoff);
   }catch(err){
     tcSetTyping(false);
-    console.warn('[TC fetch error]', err.message);
-    tcAddAgentMsg('Hubo un problema de conexión. ¿Podés intentarlo de nuevo en un momento?');
+    tcAddError('Error: '+err.message);
   }finally{
     tcSetDisabled(false);
     document.getElementById('tc-user-input').focus();
@@ -596,36 +469,9 @@ function tcSetCliente(nombre, email) {
   TC_CLI.email  = email;
 }
 
-// Datos acumulados de la reserva en curso — Remi los lee al armar su prompt
-var tcReservaEnCurso = {};
-function tcResetReserva() { tcReservaEnCurso = {}; }
-
-
-// ── LOGGING ──────────────────────────────────────────────────
-var TC_SESSION_ID = 'sess-' + Date.now() + '-' + Math.random().toString(36).substr(2,6);
-var TC_CHAT_START = null;
-var TC_MSG_COUNT  = 0;
-
-async function tcLog(tipo, extras) {
-  if(!tcSb) return;
-  try {
-    var payload = Object.assign({
-      tipo_evento:    tipo,
-      session_id:     TC_SESSION_ID,
-      cliente_email:  TC_CLI.email  || null,
-      cliente_nombre: TC_CLI.nombre || null,
-      timestamp:      new Date().toISOString(),
-    }, extras || {});
-    await tcSb.from('logs_sistema').insert(payload);
-  } catch(e) { /* silencioso */ }
-}
-
 async function tcIniciar(){
   tcInitSupabase();tcUpdateTheme(TC_AGENTS.leo);
   tcSetTyping(true);tcSetDisabled(true);
-  TC_CHAT_START = Date.now();
-  TC_MSG_COUNT  = 0;
-  tcLog('chat_inicio');
   try{
     var msgSaludo=TC_CLI.nombre
       ?'(El usuario se llama '+TC_CLI.nombre+'. Salúdalo por su nombre brevemente como Flo, asistente de TodoCamping. NUNCA menciones Leo, Cami ni Remi. Preguntale en qué podés ayudarle. Máximo 2 líneas.)'
@@ -636,8 +482,7 @@ async function tcIniciar(){
     tcAddAgentMsg(text||'¡Hola! Soy Flo, tu asistente de TodoCamping. ¿En qué te puedo ayudar?','leo');
   }catch(e){
     tcSetTyping(false);
-    console.warn('[TC init error]', e);
-    tcAddAgentMsg('¡Hola! Soy Flo, tu asistente de TodoCamping. ¿En qué te puedo ayudar?');
+    tcAddAgentMsg('¡Hola! Soy Flo, tu asistente de TodoCamping. ¿En qué te puedo ayudar?','leo');
   }finally{
     tcSetDisabled(false);
     document.getElementById('tc-user-input').focus();

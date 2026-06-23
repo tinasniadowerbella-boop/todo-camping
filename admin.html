@@ -22,94 +22,124 @@
     }
     body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--gray-bg); color: #1f2937; }
 
-    /* LOGIN */
-    #login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px; }
-    .login-box { background: var(--white); border-radius: 20px; padding: 40px 36px; max-width: 420px; width: 100%; box-shadow: 0 8px 40px rgba(0,0,0,.12); }
+    /* ── LOGIN ── */
+    #login-screen {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px;
+    }
+    .login-box {
+      background: var(--white); border-radius: 20px; padding: 40px 36px;
+      max-width: 420px; width: 100%; box-shadow: 0 8px 40px rgba(0,0,0,.12);
+    }
     .login-logo { text-align: center; margin-bottom: 28px; }
     .login-logo .emoji { font-size: 48px; }
     .login-logo h1 { font-size: 22px; color: var(--green); margin-top: 8px; }
     .login-logo p  { font-size: 13px; color: var(--gray-text); }
     .field { margin-bottom: 16px; }
     .field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; }
-    .field input { width: 100%; border: 1px solid var(--gray-border); border-radius: 8px; padding: 10px 12px; font-size: 14px; outline: none; transition: border-color .2s; }
+    .field input  {
+      width: 100%; border: 1px solid var(--gray-border); border-radius: 8px;
+      padding: 10px 12px; font-size: 14px; outline: none; transition: border-color .2s;
+    }
     .field input:focus { border-color: var(--green); }
-    .btn-primary { width: 100%; background: var(--green); color: var(--white); border: none; border-radius: 10px; padding: 12px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background .2s; margin-top: 4px; }
+    .btn-primary {
+      width: 100%; background: var(--green); color: var(--white); border: none;
+      border-radius: 10px; padding: 12px; font-size: 15px; font-weight: 600;
+      cursor: pointer; transition: background .2s; margin-top: 4px;
+    }
     .btn-primary:hover { background: var(--green-dark); }
     .btn-primary:disabled { background: var(--gray-border); cursor: not-allowed; }
-    .error-msg  { color: var(--red);    font-size: 13px; margin-top: 10px; text-align: center; display: none; }
-    .block-msg  { color: var(--yellow); font-size: 13px; margin-top: 10px; text-align: center; display: none; }
+    .error-msg { color: var(--red); font-size: 13px; margin-top: 10px; text-align: center; display: none; }
+    .block-msg { color: var(--yellow); font-size: 13px; margin-top: 10px; text-align: center; display: none; }
 
-    /* DASHBOARD */
+    /* ── DASHBOARD ── */
     #dashboard { display: none; }
-    .top-bar { background: var(--green); color: var(--white); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .top-bar {
+      background: var(--green); color: var(--white); padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+    }
     .top-bar h1 { font-size: 18px; font-weight: 700; }
     .top-bar span { font-size: 13px; opacity: .8; }
-    .btn-logout { background: rgba(255,255,255,.2); color: var(--white); border: none; border-radius: 8px; padding: 7px 14px; cursor: pointer; font-size: 13px; }
+    .btn-logout {
+      background: rgba(255,255,255,.2); color: var(--white); border: none;
+      border-radius: 8px; padding: 7px 14px; cursor: pointer; font-size: 13px;
+    }
     .btn-logout:hover { background: rgba(255,255,255,.3); }
 
-    .tabs { display: flex; gap: 4px; padding: 16px 24px 0; background: var(--white); border-bottom: 1px solid var(--gray-border); }
-    .tab { padding: 10px 20px; border-radius: 8px 8px 0 0; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--gray-text); border: 1px solid transparent; border-bottom: none; }
+    .tabs {
+      display: flex; gap: 4px; padding: 16px 24px 0; background: var(--white);
+      border-bottom: 1px solid var(--gray-border);
+    }
+    .tab {
+      padding: 10px 20px; border-radius: 8px 8px 0 0; cursor: pointer;
+      font-size: 14px; font-weight: 500; color: var(--gray-text);
+      border: 1px solid transparent; border-bottom: none;
+    }
     .tab.active { background: var(--gray-bg); color: var(--green); border-color: var(--gray-border); font-weight: 600; }
 
     .tab-content { display: none; padding: 24px; }
     .tab-content.active { display: block; }
 
-    /* KPI cards */
-    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
-    .kpi-card { background: var(--white); border-radius: 12px; padding: 20px; border: 1px solid var(--gray-border); box-shadow: 0 2px 8px rgba(0,0,0,.04); }
-    .kpi-card .label { font-size: 11px; color: var(--gray-text); font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .5px; }
-    .kpi-card .value { font-size: 26px; font-weight: 700; color: var(--green); }
+    /* ── KPI cards ── */
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .kpi-card {
+      background: var(--white); border-radius: 12px; padding: 20px;
+      border: 1px solid var(--gray-border); box-shadow: 0 2px 8px rgba(0,0,0,.04);
+    }
+    .kpi-card .label { font-size: 12px; color: var(--gray-text); font-weight: 500; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .5px; }
+    .kpi-card .value { font-size: 28px; font-weight: 700; color: var(--green); }
     .kpi-card .sub   { font-size: 12px; color: var(--gray-text); margin-top: 4px; }
     .kpi-card.alert  { border-color: var(--red); }
     .kpi-card.alert .value { color: var(--red); }
-    .kpi-card.warn   { border-color: var(--yellow); }
-    .kpi-card.warn .value { color: var(--yellow); }
 
-    /* Tablas */
+    /* ── Tablas ── */
     .section-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: #1f2937; }
     .table-wrap { background: var(--white); border-radius: 12px; border: 1px solid var(--gray-border); overflow: hidden; margin-bottom: 24px; }
     .filter-bar { padding: 12px 16px; border-bottom: 1px solid var(--gray-border); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-    .filter-bar select, .filter-bar input { border: 1px solid var(--gray-border); border-radius: 6px; padding: 6px 10px; font-size: 13px; outline: none; }
+    .filter-bar select, .filter-bar input {
+      border: 1px solid var(--gray-border); border-radius: 6px; padding: 6px 10px;
+      font-size: 13px; outline: none;
+    }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th { background: var(--green-light); color: var(--green-dark); font-weight: 600; padding: 10px 12px; text-align: left; }
     td { padding: 9px 12px; border-bottom: 1px solid var(--gray-border); vertical-align: middle; }
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: #f9fafb; }
-    .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-    .badge.Confirmada { background: #d1fae5; color: #065f46; }
-    .badge.Pendiente  { background: #fef3c7; color: #92400e; }
-    .badge.Cancelada  { background: #fee2e2; color: #991b1b; }
-    .badge.Completada { background: #dbeafe; color: #1e40af; }
+
+    .badge {
+      display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600;
+    }
+    .badge.Confirmada  { background: #d1fae5; color: #065f46; }
+    .badge.Pendiente   { background: #fef3c7; color: #92400e; }
+    .badge.Cancelada   { background: #fee2e2; color: #991b1b; }
+    .badge.Completada  { background: #dbeafe; color: #1e40af; }
+
     select.estado-select { border-radius: 6px; font-size: 12px; padding: 3px 6px; cursor: pointer; }
 
-    /* Alertas */
+    /* ── Alertas ── */
     .alertas-box { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
-    .alerta { padding: 12px 16px; border-radius: 10px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
-    .alerta.rojo     { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+    .alerta {
+      padding: 12px 16px; border-radius: 10px; font-size: 13px; font-weight: 500;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .alerta.rojo   { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
     .alerta.amarillo { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
-    .alerta.azul     { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
-    .alerta.verde    { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+    .alerta.azul   { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
 
-    /* Chats sin reserva */
-    .abandono-tag { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 11px; font-weight: 600; }
-    .abandono-tag.sin-reserva { background: #fee2e2; color: #991b1b; }
-    .abandono-tag.con-reserva { background: #d1fae5; color: #065f46; }
-
-    /* Grafico */
+    /* ── Grafico ── */
     .chart-box { background: var(--white); border-radius: 12px; border: 1px solid var(--gray-border); padding: 20px; margin-bottom: 24px; }
-    .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-    @media (max-width: 700px) { .charts-row { grid-template-columns: 1fr; } }
 
+    /* ── Logs ── */
+    .log-datos { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: monospace; font-size: 11px; color: var(--gray-text); cursor: pointer; }
     .btn-export { background: var(--green); color: var(--white); border: none; border-radius: 6px; padding: 7px 14px; font-size: 13px; cursor: pointer; }
-    .btn-refresh { background: var(--white); color: var(--green); border: 1px solid var(--green); border-radius: 6px; padding: 7px 14px; font-size: 13px; cursor: pointer; margin-left: 8px; }
+
     .loading { text-align: center; padding: 40px; color: var(--gray-text); }
     .empty   { text-align: center; padding: 30px; color: var(--gray-text); font-size: 13px; }
-    .log-datos { max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: monospace; font-size: 11px; color: var(--gray-text); }
   </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- ── LOGIN ── -->
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo">
@@ -117,26 +147,27 @@
       <h1>TodoCamping Admin</h1>
       <p>Panel interno — solo para el equipo</p>
     </div>
-    <form autocomplete="on" onsubmit="return false">
-      <div class="field">
-        <label>Email corporativo</label>
-        <input type="email" id="login-email" placeholder="tu@todocamping.com.uy" autocomplete="username" />
-      </div>
-      <div class="field">
-        <label>Contraseña</label>
-        <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" />
-      </div>
-      <button class="btn-primary" id="login-btn" type="submit">Ingresar</button>
-    </form>
+    <div class="field">
+      <label>Email corporativo</label>
+      <input type="email" id="login-email" placeholder="tu@todocamping.com.uy" autocomplete="username" />
+    </div>
+    <div class="field">
+      <label>Contraseña</label>
+      <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+    <button class="btn-primary" id="login-btn">Ingresar</button>
     <div class="error-msg" id="login-error"></div>
-    <div class="block-msg" id="login-block">⏳ Demasiados intentos. Esperá <span id="block-countdown">5:00</span> min.</div>
+    <div class="block-msg" id="login-block">⏳ Demasiados intentos fallidos. Esperá <span id="block-countdown">5:00</span> min.</div>
   </div>
 </div>
 
-<!-- DASHBOARD -->
+<!-- ── DASHBOARD ── -->
 <div id="dashboard">
   <div class="top-bar">
-    <div><h1>🏕️ TodoCamping Admin</h1><span id="admin-email-label"></span></div>
+    <div>
+      <h1>🏕️ TodoCamping Admin</h1>
+      <span id="admin-email-label"></span>
+    </div>
     <button class="btn-logout" id="logout-btn">Cerrar sesión</button>
   </div>
 
@@ -150,15 +181,12 @@
   <div class="tab-content active" id="tab-reservas">
     <div class="kpi-grid" id="kpi-reservas">
       <div class="kpi-card"><div class="label">Reservas este mes</div><div class="value" id="kpi-total">—</div></div>
-      <div class="kpi-card"><div class="label">Confirmadas</div><div class="value" id="kpi-confirmadas">—</div><div class="sub" id="kpi-tasa-sub"></div></div>
+      <div class="kpi-card"><div class="label">Tasa de confirmación</div><div class="value" id="kpi-tasa">—</div><div class="sub" id="kpi-tasa-sub"></div></div>
       <div class="kpi-card"><div class="label">Camper más reservado</div><div class="value" id="kpi-camper" style="font-size:16px">—</div></div>
-      <div class="kpi-card"><div class="label">Ingresos del mes</div><div class="value" id="kpi-ingresos" style="font-size:18px">—</div></div>
+      <div class="kpi-card"><div class="label">Ingresos del mes ($)</div><div class="value" id="kpi-ingresos">—</div></div>
     </div>
 
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-      <p class="section-title" style="margin:0">Todas las reservas</p>
-      <button class="btn-refresh" onclick="cargarTablaReservas()">🔄 Actualizar</button>
-    </div>
+    <p class="section-title">Reservas recientes</p>
     <div class="table-wrap">
       <div class="filter-bar">
         <select id="filtro-estado">
@@ -166,7 +194,7 @@
           <option>Pendiente</option><option>Confirmada</option>
           <option>Cancelada</option><option>Completada</option>
         </select>
-        <input type="text" id="filtro-buscar" placeholder="Buscar cliente, email o camper..." style="min-width:220px" />
+        <input type="text" id="filtro-buscar" placeholder="Buscar cliente o camper..." style="min-width:200px" />
       </div>
       <div id="tabla-reservas-wrap"><div class="loading">Cargando reservas…</div></div>
     </div>
@@ -176,62 +204,16 @@
   <div class="tab-content" id="tab-monitoreo">
     <div id="alertas-box" class="alertas-box"></div>
 
-    <p class="section-title">KPIs de operación</p>
-    <div class="kpi-grid" style="margin-bottom:8px">
+    <div class="kpi-grid">
       <div class="kpi-card"><div class="label">Usuarios activos ahora</div><div class="value" id="m-activos">—</div><div class="sub">Últimos 15 min</div></div>
       <div class="kpi-card"><div class="label">Chats hoy</div><div class="value" id="m-chats">—</div></div>
       <div class="kpi-card"><div class="label">Reservas creadas hoy</div><div class="value" id="m-reservas-hoy">—</div></div>
-      <div class="kpi-card" id="kpi-errores-card"><div class="label">Errores API (1h)</div><div class="value" id="m-errores">—</div></div>
-      <div class="kpi-card"><div class="label">Tiempo prom. respuesta</div><div class="value" id="m-tiempo">—</div><div class="sub">últimos 100 msgs</div></div>
+      <div class="kpi-card" id="kpi-errores"><div class="label">Errores API (última hora)</div><div class="value" id="m-errores">—</div></div>
+      <div class="kpi-card"><div class="label">Tiempo promedio respuesta</div><div class="value" id="m-tiempo">—</div><div class="sub">ms (últimos 100 msgs)</div></div>
     </div>
 
-    <p class="section-title" style="margin-top:24px">KPIs de experiencia de usuario</p>
-    <div class="kpi-grid">
-      <div class="kpi-card" id="kpi-conversion-card">
-        <div class="label">Tasa de conversión</div>
-        <div class="value" id="kpi-conversion">—</div>
-        <div class="sub">Chats que terminaron en reserva</div>
-      </div>
-      <div class="kpi-card" id="kpi-abandono-card">
-        <div class="label">Chats sin reserva (7 días)</div>
-        <div class="value" id="kpi-abandono">—</div>
-        <div class="sub" id="kpi-abandono-sub">Usuarios que no completaron</div>
-      </div>
-      <div class="kpi-card">
-        <div class="label">Tiempo prom. hasta reserva</div>
-        <div class="value" id="kpi-tiempo-reserva">—</div>
-        <div class="sub">desde inicio del chat</div>
-      </div>
-      <div class="kpi-card">
-        <div class="label">Msgs promedio por reserva</div>
-        <div class="value" id="kpi-msgs-reserva">—</div>
-        <div class="sub">Cuánto tarda en decidir</div>
-      </div>
-      <div class="kpi-card" id="kpi-reintento-card">
-        <div class="label">Sesiones con reintentos</div>
-        <div class="value" id="kpi-reintentos">—</div>
-        <div class="sub">Errores de conexión por sesión</div>
-      </div>
-    </div>
-
-    <div class="charts-row">
-      <div class="chart-box">
-        <p style="font-size:14px;font-weight:600;margin-bottom:12px">Actividad últimas 24h</p>
-        <canvas id="grafico-actividad" height="140"></canvas>
-      </div>
-      <div class="chart-box">
-        <p style="font-size:14px;font-weight:600;margin-bottom:12px">Conversión últimos 7 días</p>
-        <canvas id="grafico-conversion" height="140"></canvas>
-      </div>
-    </div>
-
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-      <p class="section-title" style="margin:0">Chats sin reserva completada</p>
-      <span style="font-size:12px;color:var(--gray-text)">Últimos 7 días</span>
-    </div>
-    <div class="table-wrap">
-      <div id="tabla-abandono-wrap"><div class="loading">Cargando…</div></div>
-    </div>
+    <p class="section-title">Actividad últimas 24 horas</p>
+    <div class="chart-box"><canvas id="grafico-actividad" height="100"></canvas></div>
 
     <p class="section-title">Sesiones de hoy</p>
     <div class="table-wrap">
@@ -241,12 +223,9 @@
 
   <!-- TAB LOGS -->
   <div class="tab-content" id="tab-logs">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
       <p class="section-title" style="margin:0">Log de errores recientes</p>
-      <div>
-        <button class="btn-export" id="btn-export-csv">⬇️ Exportar CSV</button>
-        <button class="btn-refresh" onclick="cargarLogs()">🔄 Actualizar</button>
-      </div>
+      <button class="btn-export" id="btn-export-csv">⬇️ Exportar CSV</button>
     </div>
     <div class="table-wrap">
       <div id="tabla-logs-wrap"><div class="loading">Cargando logs…</div></div>
@@ -255,24 +234,19 @@
 </div>
 
 <script>
+/* ── Config ── */
 let SB = null;
 let adminEmail = null;
+
+// Intentos fallidos de login
 let intentosFallidos = 0;
 let bloqueadoHasta   = 0;
 let graficoChart     = null;
-let graficoConvChart = null;
 
-/* ── Supabase para auth solamente ── */
+/* ── Inicializar Supabase desde /api/config ── */
 async function initSB() {
   const cfg = await fetch('/api/config').then(r => r.json());
   SB = supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
-}
-
-/* ── Fetch admin (usa endpoints del servidor con service_role) ── */
-async function adminFetch(path) {
-  const r = await fetch(path);
-  if (!r.ok) throw new Error('Error ' + r.status);
-  return r.json();
 }
 
 /* ── LOGIN ── */
@@ -283,21 +257,39 @@ document.getElementById('login-btn').addEventListener('click', async () => {
   const blockDiv = document.getElementById('login-block');
   errDiv.style.display = 'none';
 
-  if (Date.now() < bloqueadoHasta) { blockDiv.style.display = 'block'; return; }
+  // Verificar bloqueo
+  if (Date.now() < bloqueadoHasta) {
+    blockDiv.style.display = 'block';
+    return;
+  }
+
+  // Validar dominio
   if (!email.endsWith('@todocamping.com.uy')) {
     errDiv.textContent = 'Solo se permite acceso con email @todocamping.com.uy';
-    errDiv.style.display = 'block'; return;
+    errDiv.style.display = 'block';
+    return;
   }
 
   document.getElementById('login-btn').disabled = true;
+
   try {
     await initSB();
     const { data, error } = await SB.auth.signInWithPassword({ email, password: pass });
+
+    // Registrar intento en logs_acceso_empresa
+    await SB.from('logs_acceso_empresa').insert({
+      email_intento: email,
+      exitoso: !error,
+      user_agent: navigator.userAgent.substring(0, 200),
+    });
+
     if (error) {
       intentosFallidos++;
       if (intentosFallidos >= 3) {
-        bloqueadoHasta = Date.now() + 5*60*1000;
-        iniciarCountdown(); blockDiv.style.display = 'block';
+        bloqueadoHasta = Date.now() + 5 * 60 * 1000;
+        iniciarCountdown();
+        blockDiv.style.display = 'block';
+        errDiv.style.display = 'none';
       } else {
         errDiv.textContent = `Credenciales incorrectas. Intento ${intentosFallidos} de 3.`;
         errDiv.style.display = 'block';
@@ -311,6 +303,7 @@ document.getElementById('login-btn').addEventListener('click', async () => {
     errDiv.textContent = 'Error de conexión. Intentá de nuevo.';
     errDiv.style.display = 'block';
   }
+
   document.getElementById('login-btn').disabled = false;
 });
 
@@ -320,15 +313,22 @@ document.getElementById('login-pass').addEventListener('keydown', e => {
 
 function iniciarCountdown() {
   const span = document.getElementById('block-countdown');
-  const iv = setInterval(() => {
-    const r = Math.max(0, bloqueadoHasta - Date.now());
-    span.textContent = Math.floor(r/60000) + ':' + String(Math.floor((r%60000)/1000)).padStart(2,'0');
-    if (r <= 0) { clearInterval(iv); document.getElementById('login-block').style.display='none'; intentosFallidos=0; }
+  const interval = setInterval(() => {
+    const restante = Math.max(0, bloqueadoHasta - Date.now());
+    const m = Math.floor(restante / 60000);
+    const s = Math.floor((restante % 60000) / 1000);
+    span.textContent = `${m}:${String(s).padStart(2,'0')}`;
+    if (restante <= 0) {
+      clearInterval(interval);
+      document.getElementById('login-block').style.display = 'none';
+      intentosFallidos = 0;
+    }
   }, 1000);
 }
 
+/* ── LOGOUT ── */
 document.getElementById('logout-btn').addEventListener('click', async () => {
-  if (SB) await SB.auth.signOut();
+  await SB.auth.signOut();
   document.getElementById('dashboard').style.display = 'none';
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('login-email').value = '';
@@ -347,7 +347,7 @@ document.querySelectorAll('.tab').forEach(tab => {
   });
 });
 
-/* ── DASHBOARD ── */
+/* ── MOSTRAR DASHBOARD ── */
 async function mostrarDashboard() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('dashboard').style.display = 'block';
@@ -358,51 +358,44 @@ async function mostrarDashboard() {
 
 /* ── KPIs RESERVAS ── */
 async function cargarKPIsReservas() {
-  try {
-    const data = await adminFetch('/api/admin/reservas');
-    if (!Array.isArray(data)) return;
+  const hoy   = new Date();
+  const inicio = new Date(hoy.getFullYear(), hoy.getMonth(), 1).toISOString().split('T')[0];
+  const fin    = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0).toISOString().split('T')[0];
 
-    const hoy = new Date();
-    const mesInicio = new Date(hoy.getFullYear(), hoy.getMonth(), 1).toISOString();
-    const mesFin    = new Date(hoy.getFullYear(), hoy.getMonth()+1, 0, 23, 59, 59).toISOString();
-    const delMes = data.filter(r => r.created_at >= mesInicio && r.created_at <= mesFin);
+  const { data } = await SB.from('reservas').select('*').gte('created_at', inicio).lte('created_at', fin + 'T23:59:59');
+  if (!data) return;
 
-    document.getElementById('kpi-total').textContent = delMes.length;
+  document.getElementById('kpi-total').textContent = data.length;
 
-    const confirmadas = delMes.filter(r => ['Confirmada','Completada'].includes(r.estado_reserva));
-    const canceladas  = delMes.filter(r => r.estado_reserva === 'Cancelada');
-    document.getElementById('kpi-confirmadas').textContent = confirmadas.length;
-    const tasa = delMes.length ? Math.round(confirmadas.length / delMes.length * 100) : 0;
-    document.getElementById('kpi-tasa-sub').textContent = `${tasa}% confirmación · ${canceladas.length} canceladas`;
+  const confirmadas = data.filter(r => r.estado_reserva === 'Confirmada' || r.estado_reserva === 'Completada');
+  const canceladas  = data.filter(r => r.estado_reserva === 'Cancelada');
+  const tasa = data.length ? Math.round(confirmadas.length / data.length * 100) : 0;
+  document.getElementById('kpi-tasa').textContent = tasa + '%';
+  document.getElementById('kpi-tasa-sub').textContent = `${confirmadas.length} confirmadas / ${canceladas.length} canceladas`;
 
-    const count = {};
-    delMes.forEach(r => { count[r.camper_key] = (count[r.camper_key]||0) + 1; });
-    const top = Object.entries(count).sort((a,b)=>b[1]-a[1])[0];
-    document.getElementById('kpi-camper').textContent = top ? `${top[0]} (${top[1]}x)` : '—';
+  // Camper más reservado
+  const count = {};
+  data.forEach(r => { count[r.camper_key] = (count[r.camper_key] || 0) + 1; });
+  const top = Object.entries(count).sort((a,b) => b[1]-a[1])[0];
+  document.getElementById('kpi-camper').textContent = top ? `${top[0]} (${top[1]})` : '—';
 
-    const ingresos = confirmadas.reduce((s,r) => s + (parseFloat(r.precio_total)||0), 0);
-    document.getElementById('kpi-ingresos').textContent = '$' + ingresos.toLocaleString('es-UY', {maximumFractionDigits:0});
-  } catch(e) { console.warn('KPIs reservas:', e); }
+  const ingresos = confirmadas.reduce((s, r) => s + (parseFloat(r.precio_total) || 0), 0);
+  document.getElementById('kpi-ingresos').textContent = '$' + ingresos.toLocaleString('es-UY', { maximumFractionDigits: 0 });
 }
 
 /* ── TABLA RESERVAS ── */
 let todasReservas = [];
 
 async function cargarTablaReservas() {
-  document.getElementById('tabla-reservas-wrap').innerHTML = '<div class="loading">Cargando reservas…</div>';
-  try {
-    todasReservas = await adminFetch('/api/admin/reservas');
-    if (!Array.isArray(todasReservas)) todasReservas = [];
-    renderTablaReservas();
-    await cargarKPIsReservas();
-  } catch(e) {
-    document.getElementById('tabla-reservas-wrap').innerHTML = '<div class="empty">Error cargando reservas.</div>';
-  }
+  const { data } = await SB.from('reservas').select('*').order('created_at', { ascending: false }).limit(100);
+  todasReservas = data || [];
+  renderTablaReservas();
 }
 
 function renderTablaReservas() {
   const filtroEstado = document.getElementById('filtro-estado').value;
   const filtroBuscar = document.getElementById('filtro-buscar').value.toLowerCase();
+
   let datos = todasReservas;
   if (filtroEstado) datos = datos.filter(r => r.estado_reserva === filtroEstado);
   if (filtroBuscar) datos = datos.filter(r =>
@@ -416,408 +409,199 @@ function renderTablaReservas() {
 
   wrap.innerHTML = `<table>
     <thead><tr>
-      <th>ID</th><th>Cliente</th><th>Email</th><th>Documento</th><th>Teléfono</th>
-      <th>Camper</th><th>Fechas</th><th>Noches</th><th>Estado</th><th>Total</th><th>Creada</th>
+      <th>ID</th><th>Cliente</th><th>Email</th><th>Camper</th>
+      <th>Fechas</th><th>Personas</th><th>Estado</th><th>Precio ($)</th><th>Creada</th>
     </tr></thead>
-    <tbody>${datos.map(r => {
-      const fi = r.fecha_inicio ? new Date(r.fecha_inicio+'T00:00:00') : null;
-      const ff = r.fecha_fin    ? new Date(r.fecha_fin+'T00:00:00')    : null;
-      const noches = (fi && ff) ? Math.round((ff-fi)/86400000) : '—';
-      return `<tr>
-        <td style="font-size:11px;font-family:monospace;white-space:nowrap">${(r.reserva_ref||r.id||'').substring(0,12)}</td>
-        <td><strong>${r.cliente_nombre||'—'}</strong></td>
-        <td style="font-size:12px">${r.cliente_email||'—'}</td>
-        <td style="font-family:monospace;font-size:12px">${r.cliente_documento||'—'}</td>
-        <td style="font-size:12px">${r.cliente_telefono||'—'}</td>
-        <td><strong>${r.camper_key||'—'}</strong></td>
-        <td style="white-space:nowrap;font-size:12px">${r.fecha_inicio||'?'} → ${r.fecha_fin||'?'}</td>
-        <td style="text-align:center">${noches}</td>
+    <tbody>${datos.slice(0,20).map(r => `
+      <tr>
+        <td style="font-size:11px;font-family:monospace">${(r.reserva_ref||r.id).substring(0,10)}</td>
+        <td>${r.cliente_nombre || '—'}</td>
+        <td>${r.cliente_email || '—'}</td>
+        <td><strong>${r.camper_key}</strong></td>
+        <td>${r.fecha_inicio} → ${r.fecha_fin}</td>
+        <td>${r.num_personas || '—'}</td>
         <td>
           <select class="estado-select" data-id="${r.id}" onchange="cambiarEstado(this)">
             ${['Pendiente','Confirmada','Cancelada','Completada'].map(e =>
               `<option ${r.estado_reserva===e?'selected':''}>${e}</option>`).join('')}
           </select>
         </td>
-        <td style="white-space:nowrap">${r.precio_total ? '$'+parseFloat(r.precio_total).toLocaleString('es-UY',{maximumFractionDigits:0}) : '—'}</td>
-        <td style="font-size:11px;white-space:nowrap">${r.created_at ? new Date(r.created_at).toLocaleString('es-UY') : '—'}</td>
-      </tr>`;
-    }).join('')}
+        <td>${r.precio_total ? '$' + parseFloat(r.precio_total).toLocaleString('es-UY',{maximumFractionDigits:0}) : '—'}</td>
+        <td>${new Date(r.created_at).toLocaleDateString('es-UY')}</td>
+      </tr>`).join('')}
     </tbody>
   </table>`;
 }
 
 document.getElementById('filtro-estado').addEventListener('change', renderTablaReservas);
-document.getElementById('filtro-buscar').addEventListener('input', renderTablaReservas);
+document.getElementById('filtro-buscar').addEventListener('input',  renderTablaReservas);
 
 async function cambiarEstado(sel) {
-  const id = sel.dataset.id;
+  const id     = sel.dataset.id;
   const estado = sel.value;
-  try {
-    await fetch(`/api/admin/reservas/${id}`, {
-      method: 'PATCH',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({estado_reserva: estado})
-    });
-    const r = todasReservas.find(x => x.id === id);
-    if (r) r.estado_reserva = estado;
-  } catch(e) { console.warn('cambiarEstado:', e); }
-}
-
-/* ── DATOS DEMO para cuando no hay logs reales ── */
-function demoLogs() {
-  const ahora = new Date();
-  const clientes = [
-    {nombre:'Valentina López', email:'valentina@gmail.com'},
-    {nombre:'Mateo García', email:'mateo@hotmail.com'},
-    {nombre:'Sofía Martínez', email:'sofia.m@gmail.com'},
-    {nombre:'Nicolás Rodríguez', email:'nicolas.r@outlook.com'},
-    {nombre:'Camila Fernández', email:'camila.f@gmail.com'},
-    {nombre:'Lucas Pérez', email:'lucas.p@gmail.com'},
-    {nombre:'Isabella Torres', email:'isa.torres@gmail.com'},
-    {nombre:'Tomás Ramírez', email:'tomas.r@hotmail.com'},
-    {nombre:'Lucía Díaz', email:'lucia.d@gmail.com'},
-    {nombre:'Emilio Sánchez', email:'emilio.s@gmail.com'},
-    {nombre:'Florencia Ruiz', email:'flor.ruiz@gmail.com'},
-    {nombre:'Agustín Morales', email:'agus.m@gmail.com'},
-  ];
-  const inicios=[], mensajes=[], reservadas=new Set();
-  for(let d=6;d>=0;d--){
-    const n = d===0?3:3+Math.floor(Math.random()*3);
-    for(let s=0;s<n;s++){
-      const c=clientes[(d*3+s)%clientes.length];
-      const sid='sess-demo-'+d+'-'+s;
-      const t0=new Date(ahora); t0.setDate(t0.getDate()-d); t0.setHours(9+Math.floor(Math.random()*9),Math.floor(Math.random()*60),0,0);
-      inicios.push({tipo_evento:'chat_inicio',session_id:sid,cliente_email:c.email,cliente_nombre:c.nombre,timestamp:t0.toISOString()});
-      const nm=4+Math.floor(Math.random()*9);
-      for(let m=0;m<nm;m++){
-        const mt=new Date(t0.getTime()+(m+1)*35000);
-        mensajes.push({tipo_evento:'chat_mensaje',session_id:sid,cliente_email:c.email,agente:m<2?'leo':(Math.random()>.4?'reservas':'cami'),duracion_ms:700+Math.floor(Math.random()*2500),datos:{num_mensaje:m+1},timestamp:mt.toISOString()});
-      }
-      if(nm>5&&Math.random()>.5) reservadas.add(c.email);
-    }
-  }
-  return {inicios,mensajes,reservadas};
+  await SB.from('reservas').update({ estado_reserva: estado }).eq('id', id);
+  const r = todasReservas.find(x => x.id === id);
+  if (r) r.estado_reserva = estado;
 }
 
 /* ── MONITOREO ── */
 async function cargarMonitoreo() {
-  await Promise.all([
-    cargarKPIsOperacion(),
-    cargarKPIsExperiencia(),
-    cargarGraficoActividad(),
-    cargarGraficoConversion(),
-    cargarTablaAbandono(),
-    cargarSesiones(),
-  ]);
+  await Promise.all([cargarKPIsMonitoreo(), cargarGrafico(), cargarSesiones()]);
   verificarAlertas();
 }
 
-async function cargarKPIsOperacion() {
-  try {
-    const ahora = new Date();
-    const hoyInicio = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate()).toISOString();
+async function cargarKPIsMonitoreo() {
+  const ahora    = new Date();
+  const hace15m  = new Date(ahora - 15*60*1000).toISOString();
+  const hoyInicio= new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate()).toISOString();
+  const hace1h   = new Date(ahora - 60*60*1000).toISOString();
 
-    // Reservas reales — siempre disponibles
-    let reservasHoy = 0;
-    try {
-      const res = await adminFetch('/api/admin/reservas');
-      reservasHoy = (Array.isArray(res)?res:[]).filter(r => r.created_at >= hoyInicio).length;
-    } catch(e) {}
+  const [activos, chatsHoy, reservasHoy, errores, tiempos] = await Promise.all([
+    SB.from('logs_sistema').select('session_id', {count:'exact'}).eq('tipo_evento','chat_inicio').gte('timestamp', hace15m),
+    SB.from('logs_sistema').select('id', {count:'exact'}).eq('tipo_evento','chat_inicio').gte('timestamp', hoyInicio),
+    SB.from('reservas').select('id', {count:'exact'}).gte('created_at', hoyInicio),
+    SB.from('logs_sistema').select('id', {count:'exact'}).eq('tipo_evento','error_api').gte('timestamp', hace1h),
+    SB.from('logs_sistema').select('duracion_ms').eq('tipo_evento','chat_mensaje').order('timestamp', {ascending:false}).limit(100),
+  ]);
 
-    // Logs — si no están disponibles, usar demo
-    let chatsHoy = 0, activos = 0, tiempoResp = 1850;
-    try {
-      const [logs15m, logsHoy, tiempos] = await Promise.all([
-        adminFetch('/api/admin/logs?tipo=chat_inicio&desde=' + new Date(ahora-15*60*1000).toISOString()),
-        adminFetch('/api/admin/logs?tipo=chat_inicio&desde=' + hoyInicio),
-        adminFetch('/api/admin/logs?tipo=chat_mensaje&desde=' + hoyInicio),
-      ]);
-      activos = new Set((logs15m||[]).map(l=>l.session_id)).size;
-      chatsHoy = (logsHoy||[]).length;
-      const durs = (tiempos||[]).map(l=>l.duracion_ms).filter(Boolean);
-      if(durs.length) tiempoResp = Math.round(durs.reduce((a,b)=>a+b,0)/durs.length);
-    } catch(e) {
-      // Demo: valores típicos para un día normal
-      const demo = demoLogs();
-      const hoy = ahora.toISOString().split('T')[0];
-      chatsHoy = demo.inicios.filter(l=>l.timestamp.startsWith(hoy)).length || 3;
-      activos  = Math.floor(Math.random()*3);
-    }
+  document.getElementById('m-activos').textContent = activos.count ?? '—';
+  document.getElementById('m-chats').textContent   = chatsHoy.count ?? '—';
+  document.getElementById('m-reservas-hoy').textContent = reservasHoy.count ?? '—';
 
-    document.getElementById('m-activos').textContent = activos;
-    document.getElementById('m-chats').textContent   = chatsHoy || 3;
-    document.getElementById('m-reservas-hoy').textContent = reservasHoy;
-    document.getElementById('m-errores').textContent = 0;
-    document.getElementById('m-tiempo').textContent  = tiempoResp + ' ms';
-  } catch(e) { console.warn('KPIs operacion:', e); }
+  const numErrores = errores.count ?? 0;
+  document.getElementById('m-errores').textContent = numErrores;
+  if (numErrores > 5) document.getElementById('kpi-errores').classList.add('alert');
+
+  const durs = (tiempos.data || []).map(r => r.duracion_ms).filter(Boolean);
+  const prom = durs.length ? Math.round(durs.reduce((a,b) => a+b, 0) / durs.length) : null;
+  document.getElementById('m-tiempo').textContent = prom ? prom + ' ms' : '—';
 }
 
-async function cargarKPIsExperiencia() {
-  try {
-    const hace7d = new Date(Date.now() - 7*24*60*60*1000).toISOString();
-    let sesiones=[], msgs=[], todasRes=[];
+async function cargarGrafico() {
+  const hace24h = new Date(Date.now() - 24*60*60*1000).toISOString();
+  const { data: msgs }   = await SB.from('logs_sistema').select('timestamp').eq('tipo_evento','chat_mensaje').gte('timestamp', hace24h);
+  const { data: errores} = await SB.from('logs_sistema').select('timestamp').eq('tipo_evento','error_api').gte('timestamp', hace24h);
 
-    // Reservas reales
-    try { const r = await adminFetch('/api/admin/reservas'); todasRes = Array.isArray(r)?r:[]; } catch(e){}
+  const horas = Array.from({length:24}, (_,i) => i);
+  const contar = (arr, h) => (arr||[]).filter(r => new Date(r.timestamp).getHours() === h).length;
 
-    // Logs reales o demo
-    try {
-      const [ini, men] = await Promise.all([
-        adminFetch('/api/admin/logs?tipo=chat_inicio&desde='+hace7d),
-        adminFetch('/api/admin/logs?tipo=chat_mensaje&desde='+hace7d),
-      ]);
-      sesiones = Array.isArray(ini)?ini:[];
-      msgs     = Array.isArray(men)?men:[];
-    } catch(e) {}
-
-    // Si no hay logs, usar demo
-    if(!sesiones.length) {
-      const demo = demoLogs();
-      sesiones = demo.inicios;
-      msgs     = demo.mensajes;
-      // Agregar emails demo a reservas para que conversion tenga sentido
-      const emailsDemo = [...demo.reservadas];
-      emailsDemo.forEach((email,i) => {
-        if(!todasRes.find(r=>r.cliente_email===email)) {
-          todasRes.push({cliente_email:email, created_at: new Date(Date.now()-(i+1)*86400000*1.5).toISOString(), estado_reserva:'Confirmada'});
-        }
-      });
-    }
-
-    const res7d = todasRes.filter(r => r.created_at >= hace7d);
-    const emailsConReserva = new Set(res7d.map(r=>r.cliente_email).filter(Boolean));
-    const conReserva = sesiones.filter(s=>emailsConReserva.has(s.cliente_email)).length;
-    const sinReserva = Math.max(0, sesiones.length - conReserva);
-    const tasa = sesiones.length ? Math.round(conReserva/sesiones.length*100) : 38;
-
-    document.getElementById('kpi-conversion').textContent = tasa+'%';
-    document.getElementById('kpi-conversion-card').className = 'kpi-card'+(tasa<20?' warn':'');
-
-    document.getElementById('kpi-abandono').textContent = sinReserva;
-    document.getElementById('kpi-abandono-sub').textContent = sesiones.length
-      ? `${Math.round(sinReserva/sesiones.length*100)}% de ${sesiones.length} chats`
-      : '—';
-    document.getElementById('kpi-abandono-card').className = 'kpi-card'+(sinReserva>10?' warn':'');
-
-    // Tiempo promedio hasta reserva
-    const tiempos=[];
-    sesiones.forEach(s => {
-      if(!emailsConReserva.has(s.cliente_email)) return;
-      const r = todasRes.find(r=>r.cliente_email===s.cliente_email && r.created_at>=s.timestamp);
-      if(r){const d=new Date(r.created_at)-new Date(s.timestamp); if(d>0&&d<3600000) tiempos.push(d);}
-    });
-    const pt = tiempos.length ? Math.round(tiempos.reduce((a,b)=>a+b,0)/tiempos.length/1000) : 480;
-    document.getElementById('kpi-tiempo-reserva').textContent = pt>=60?Math.round(pt/60)+' min':pt+' seg';
-
-    // Msgs promedio por sesión con reserva
-    const msgsConRes = sesiones.filter(s=>emailsConReserva.has(s.cliente_email))
-      .map(s=>msgs.filter(m=>m.session_id===s.session_id).length).filter(n=>n>0);
-    const pm = msgsConRes.length ? Math.round(msgsConRes.reduce((a,b)=>a+b,0)/msgsConRes.length) : 8;
-    document.getElementById('kpi-msgs-reserva').textContent = pm;
-    document.getElementById('kpi-reintentos').textContent = 0;
-  } catch(e) { console.warn('KPIs experiencia:', e); }
-}
-
-async function cargarGraficoActividad() {
-  try {
-    const hace24h = new Date(Date.now()-24*60*60*1000).toISOString();
-    let msgs=[], errores=[];
-    try {
-      [msgs, errores] = await Promise.all([
-        adminFetch('/api/admin/logs?tipo=chat_mensaje&desde='+hace24h),
-        adminFetch('/api/admin/logs?tipo=error_api&desde='+hace24h),
-      ]);
-    } catch(e) {}
-    // Demo si vacío
-    if(!(msgs||[]).length) {
-      const demo = demoLogs();
-      msgs = demo.mensajes.filter(m => new Date(m.timestamp) >= new Date(hace24h));
-      if(!msgs.length) {
-        // generar actividad de hoy
-        msgs = Array.from({length:24},(_,h)=>Array.from({length:Math.floor(Math.random()*5)},(_,i)=>({timestamp:new Date(new Date().setHours(h,i*10,0,0)).toISOString()}))).flat();
-      }
-    }
-    const horas = Array.from({length:24},(_,i)=>i);
-    const contar=(arr,h)=>(arr||[]).filter(r=>new Date(r.timestamp).getHours()===h).length;
-    const ctx = document.getElementById('grafico-actividad').getContext('2d');
-    if(graficoChart) graficoChart.destroy();
-    graficoChart = new Chart(ctx, {
-      type:'line',
-      data:{
-        labels: horas.map(h=>h+':00'),
-        datasets:[
-          {label:'Mensajes',    data:horas.map(h=>contar(msgs,h)),    borderColor:'#2d7a4f',backgroundColor:'rgba(45,122,79,.1)',tension:.3,fill:true},
-          {label:'Errores API', data:horas.map(h=>contar(errores,h)), borderColor:'#dc2626',backgroundColor:'rgba(220,38,38,.05)',tension:.3},
-        ]
-      },
-      options:{responsive:true,plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}}
-    });
-  } catch(e) { console.warn('grafico actividad:',e); }
-}
-
-async function cargarGraficoConversion() {
-  try {
-    const hace7d = new Date(Date.now()-7*24*60*60*1000).toISOString();
-    let inicios=[], reservas=[];
-    try {
-      [inicios, reservas] = await Promise.all([
-        adminFetch('/api/admin/logs?tipo=chat_inicio&desde='+hace7d),
-        adminFetch('/api/admin/reservas'),
-      ]);
-    } catch(e) {}
-    if(!(inicios||[]).length) { const demo=demoLogs(); inicios=demo.inicios; }
-    if(!Array.isArray(reservas)) reservas=[];
-    const dias = Array.from({length:7},(_,i)=>{const d=new Date();d.setDate(d.getDate()-(6-i));return d.toISOString().split('T')[0];});
-    const countPorDia=(arr,campo)=>dias.map(d=>(arr||[]).filter(r=>(r[campo]||r.timestamp||'').startsWith(d)).length);
-    const ctx2=document.getElementById('grafico-conversion').getContext('2d');
-    if(graficoConvChart) graficoConvChart.destroy();
-    graficoConvChart = new Chart(ctx2,{
-      type:'bar',
-      data:{
-        labels:dias.map(d=>d.slice(5)),
-        datasets:[
-          {label:'Chats',    data:countPorDia(inicios,'timestamp'),   backgroundColor:'rgba(45,122,79,.3)', borderColor:'#2d7a4f',borderWidth:1},
-          {label:'Reservas', data:countPorDia(reservas,'created_at'), backgroundColor:'rgba(45,122,79,.8)', borderColor:'#1e5534',borderWidth:1},
-        ]
-      },
-      options:{responsive:true,plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}}
-    });
-  } catch(e) { console.warn('grafico conversion:',e); }
-}
-
-async function cargarTablaAbandono() {
-  try {
-    const hace7d = new Date(Date.now()-7*24*60*60*1000).toISOString();
-    let sesiones=[], todasRes=[];
-    try {
-      [sesiones, todasRes] = await Promise.all([
-        adminFetch('/api/admin/logs?tipo=chat_inicio&desde='+hace7d),
-        adminFetch('/api/admin/reservas'),
-      ]);
-    } catch(e) {}
-    if(!Array.isArray(sesiones)) sesiones=[];
-    if(!Array.isArray(todasRes)) todasRes=[];
-    if(!sesiones.length) { const demo=demoLogs(); sesiones=demo.inicios; }
-    const emailsConReserva = new Set(
-      todasRes.filter(r=>r.created_at>=hace7d).map(r=>r.cliente_email).filter(Boolean)
-    );
-    const sinReserva = sesiones.filter(s=>s.cliente_email&&!emailsConReserva.has(s.cliente_email));
-    const wrap = document.getElementById('tabla-abandono-wrap');
-    if(!sinReserva.length){wrap.innerHTML='<div class="empty">✅ Todos los chats registrados terminaron en reserva.</div>';return;}
-    wrap.innerHTML=`<table>
-      <thead><tr><th>Fecha</th><th>Nombre</th><th>Email</th><th>Estado</th></tr></thead>
-      <tbody>${sinReserva.slice(0,20).map(s=>`<tr>
-        <td style="font-size:12px">${new Date(s.timestamp).toLocaleString('es-UY')}</td>
-        <td>${s.cliente_nombre||'—'}</td>
-        <td style="font-size:12px">${s.cliente_email||'—'}</td>
-        <td><span class="abandono-tag sin-reserva">Sin reserva</span></td>
-      </tr>`).join('')}
-      </tbody></table>`;
-  } catch(e) { document.getElementById('tabla-abandono-wrap').innerHTML='<div class="empty">—</div>'; }
+  const ctx = document.getElementById('grafico-actividad').getContext('2d');
+  if (graficoChart) graficoChart.destroy();
+  graficoChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: horas.map(h => h + ':00'),
+      datasets: [
+        { label: 'Mensajes', data: horas.map(h => contar(msgs, h)), borderColor: '#2d7a4f', backgroundColor: 'rgba(45,122,79,.1)', tension: .3, fill: true },
+        { label: 'Errores API', data: horas.map(h => contar(errores, h)), borderColor: '#dc2626', backgroundColor: 'rgba(220,38,38,.05)', tension: .3 },
+      ]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+  });
 }
 
 async function cargarSesiones() {
-  try {
-    const hoyInicio = new Date(); hoyInicio.setHours(0,0,0,0);
-    let inicios=[], mensajes=[];
-    try {
-      [inicios, mensajes] = await Promise.all([
-        adminFetch('/api/admin/logs?tipo=chat_inicio&desde='+hoyInicio.toISOString()),
-        adminFetch('/api/admin/logs?tipo=chat_mensaje&desde='+hoyInicio.toISOString()),
-      ]);
-    } catch(e) {}
-    if(!Array.isArray(inicios)) inicios=[];
-    if(!Array.isArray(mensajes)) mensajes=[];
-    // Demo si no hay datos hoy
-    if(!inicios.length) {
-      const demo = demoLogs();
-      const hoy = new Date().toISOString().split('T')[0];
-      inicios  = demo.inicios.filter(l=>l.timestamp.startsWith(hoy));
-      mensajes = demo.mensajes.filter(l=>l.timestamp.startsWith(hoy));
-    }
-    const wrap = document.getElementById('tabla-sesiones-wrap');
-    if(!inicios.length){wrap.innerHTML='<div class="empty">Sin sesiones hoy.</div>';return;}
-    wrap.innerHTML=`<table>
-      <thead><tr><th>Hora inicio</th><th>Nombre</th><th>Email</th><th>Mensajes</th></tr></thead>
-      <tbody>${inicios.map(s=>{
-        const n=mensajes.filter(m=>m.session_id===s.session_id).length;
-        return `<tr>
-          <td>${new Date(s.timestamp).toLocaleTimeString('es-UY')}</td>
-          <td>${s.cliente_nombre||'—'}</td>
-          <td style="font-size:12px">${s.cliente_email||'—'}</td>
-          <td style="text-align:center">${n}</td>
-        </tr>`;
-      }).join('')}
-      </tbody></table>`;
-  } catch(e) { document.getElementById('tabla-sesiones-wrap').innerHTML='<div class="empty">—</div>'; }
+  const hoy = new Date();
+  const hoyInicio = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate()).toISOString();
+
+  const { data: inicios } = await SB.from('logs_sistema').select('*').eq('tipo_evento','chat_inicio').gte('timestamp', hoyInicio).order('timestamp', {ascending:false});
+  const { data: fines }   = await SB.from('logs_sistema').select('*').eq('tipo_evento','chat_fin').gte('timestamp', hoyInicio);
+  const { data: mensajes} = await SB.from('logs_sistema').select('session_id').eq('tipo_evento','chat_mensaje').gte('timestamp', hoyInicio);
+
+  const wrap = document.getElementById('tabla-sesiones-wrap');
+  if (!inicios?.length) { wrap.innerHTML = '<div class="empty">Sin sesiones hoy.</div>'; return; }
+
+  wrap.innerHTML = `<table>
+    <thead><tr><th>Session ID</th><th>Nombre</th><th>Email</th><th>Hora inicio</th><th>Duración</th><th>Mensajes</th><th>Estado</th></tr></thead>
+    <tbody>${inicios.map(s => {
+      const fin = (fines||[]).find(f => f.session_id === s.session_id);
+      const nMsgs = (mensajes||[]).filter(m => m.session_id === s.session_id).length;
+      const durMs = fin ? (fin.datos?.duracion_total_ms || 0) : null;
+      const durStr = durMs ? Math.round(durMs/60000) + ' min' : '—';
+      return `<tr>
+        <td style="font-family:monospace;font-size:11px">${(s.session_id||'').substring(0,14)}</td>
+        <td>${s.cliente_nombre||'—'}</td>
+        <td>${s.cliente_email||'—'}</td>
+        <td>${new Date(s.timestamp).toLocaleTimeString('es-UY')}</td>
+        <td>${durStr}</td>
+        <td>${nMsgs}</td>
+        <td><span style="color:${fin?'#6b7280':'#2d7a4f'};font-weight:600">${fin?'Terminado':'🟢 Activo'}</span></td>
+      </tr>`;
+    }).join('')}
+    </tbody></table>`;
 }
 
 async function verificarAlertas() {
   const box = document.getElementById('alertas-box');
   box.innerHTML = '';
-  try {
-    const hace30m = new Date(Date.now()-30*60*1000).toISOString();
-    let errores=[], tiempos=[];
-    try {
-      [errores, tiempos] = await Promise.all([
-        adminFetch('/api/admin/logs?tipo=error_api&desde='+hace30m),
-        adminFetch('/api/admin/logs?tipo=chat_mensaje&desde='+hace30m),
-      ]);
-    } catch(e) {}
-    const numErr = (errores||[]).length;
-    if(numErr>5) box.innerHTML+=`<div class="alerta rojo">⚠️ Alta tasa de errores API: ${numErr} en los últimos 30 min.</div>`;
-    const durs=(tiempos||[]).map(l=>l.duracion_ms).filter(Boolean);
-    const prom=durs.length?durs.reduce((a,b)=>a+b,0)/durs.length:0;
-    if(prom>8000) box.innerHTML+=`<div class="alerta amarillo">⚠️ API lenta: ${Math.round(prom)}ms promedio.</div>`;
-  } catch(e) {}
-  if(!box.innerHTML) box.innerHTML='<div class="alerta verde">✅ Sistema funcionando con normalidad.</div>';
+  const ahora = new Date();
+  const hace30m = new Date(ahora - 30*60*1000).toISOString();
+  const hace2h  = new Date(ahora - 2*60*60*1000).toISOString();
+
+  const { count: errores } = await SB.from('logs_sistema').select('id',{count:'exact'}).eq('tipo_evento','error_api').gte('timestamp',hace30m);
+  const { count: chats2h }  = await SB.from('logs_sistema').select('id',{count:'exact'}).eq('tipo_evento','chat_inicio').gte('timestamp',hace2h);
+  const { data: tiempos }   = await SB.from('logs_sistema').select('duracion_ms').eq('tipo_evento','chat_mensaje').order('timestamp',{ascending:false}).limit(20);
+
+  if (errores > 5)
+    box.innerHTML += `<div class="alerta rojo">⚠️ Alta tasa de errores de API: ${errores} errores en los últimos 30 minutos.</div>`;
+
+  const durs = (tiempos||[]).map(r=>r.duracion_ms).filter(Boolean);
+  const prom = durs.length ? durs.reduce((a,b)=>a+b,0)/durs.length : 0;
+  if (prom > 8000)
+    box.innerHTML += `<div class="alerta amarillo">⚠️ API lenta: tiempo promedio de respuesta ${Math.round(prom)}ms (umbral: 8000ms).</div>`;
+
+  const hora = ahora.getHours();
+  const esHorarioLaboral = hora >= 9 && hora < 19 && ahora.getDay() >= 1 && ahora.getDay() <= 5;
+  if (chats2h === 0 && esHorarioLaboral)
+    box.innerHTML += `<div class="alerta azul">ℹ️ Sin actividad en el chat en las últimas 2 horas (horario laboral).</div>`;
+
+  if (!box.innerHTML) box.innerHTML = '<div class="alerta azul" style="color:#065f46;background:#d1fae5;border-color:#6ee7b7">✅ Sistema funcionando con normalidad.</div>';
 }
 
-/* ── LOGS ── */
+/* ── LOGS DE ERRORES ── */
 async function cargarLogs() {
-  document.getElementById('tabla-logs-wrap').innerHTML = '<div class="loading">Cargando…</div>';
-  try {
-    const data = await adminFetch('/api/admin/logs?tipo=error_api');
-    const wrap = document.getElementById('tabla-logs-wrap');
-    if (!data?.length) { wrap.innerHTML = '<div class="empty">Sin errores registrados. 🎉</div>'; return; }
-    wrap.innerHTML = `<table>
-      <thead><tr><th>Timestamp</th><th>Tipo</th><th>Agente</th><th>Session</th><th>Datos</th></tr></thead>
-      <tbody>${data.slice(0,50).map(l => `<tr>
-        <td style="font-size:12px;white-space:nowrap">${new Date(l.timestamp).toLocaleString('es-UY')}</td>
-        <td><span class="badge Cancelada">${l.tipo_evento}</span></td>
-        <td>${l.agente||'—'}</td>
-        <td style="font-family:monospace;font-size:11px">${(l.session_id||'—').substring(0,14)}</td>
-        <td class="log-datos" title="${(JSON.stringify(l.datos||{})).replace(/"/g,'&quot;')}">${JSON.stringify(l.datos||{})}</td>
-      </tr>`).join('')}
-      </tbody>
-    </table>`;
-  } catch(e) {
-    document.getElementById('tabla-logs-wrap').innerHTML = '<div class="empty">Error cargando logs.</div>';
-  }
+  const { data } = await SB.from('logs_sistema')
+    .select('*').in('tipo_evento', ['error_api','error_supabase'])
+    .order('timestamp', {ascending:false}).limit(20);
+
+  const wrap = document.getElementById('tabla-logs-wrap');
+  if (!data?.length) { wrap.innerHTML = '<div class="empty">Sin errores registrados. 🎉</div>'; return; }
+
+  wrap.innerHTML = `<table>
+    <thead><tr><th>Timestamp</th><th>Tipo</th><th>Agente</th><th>Session</th><th>Datos</th></tr></thead>
+    <tbody>${data.map(l => `<tr>
+      <td>${new Date(l.timestamp).toLocaleString('es-UY')}</td>
+      <td><span class="badge Cancelada">${l.tipo_evento}</span></td>
+      <td>${l.agente||'—'}</td>
+      <td style="font-family:monospace;font-size:11px">${(l.session_id||'—').substring(0,12)}</td>
+      <td class="log-datos" title="${JSON.stringify(l.datos||{})}">${JSON.stringify(l.datos||{})}</td>
+    </tr>`).join('')}
+    </tbody></table>`;
 }
 
+/* ── EXPORT CSV ── */
 document.getElementById('btn-export-csv').addEventListener('click', async () => {
-  try {
-    const data = await adminFetch('/api/admin/logs');
-    if (!data?.length) { alert('No hay logs para exportar.'); return; }
-    const headers = ['timestamp','tipo_evento','agente','session_id','cliente_email','duracion_ms','datos'];
-    const rows = data.map(r => headers.map(h => {
-      const v = h==='datos' ? JSON.stringify(r[h]||{}) : (r[h]||'');
-      return `"${String(v).replace(/"/g,'""')}"`;
-    }).join(','));
-    const csv = [headers.join(','), ...rows].join('\n');
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
-    a.download = `todocamping_logs_${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-  } catch(e) { alert('Error exportando.'); }
+  const { data } = await SB.from('logs_sistema')
+    .select('*').in('tipo_evento',['error_api','error_supabase'])
+    .order('timestamp',{ascending:false}).limit(500);
+
+  if (!data?.length) return alert('No hay errores para exportar.');
+  const headers = ['timestamp','tipo_evento','agente','session_id','cliente_email','duracion_ms','datos'];
+  const rows = data.map(r => headers.map(h => {
+    const v = h === 'datos' ? JSON.stringify(r[h]||{}) : (r[h]||'');
+    return `"${String(v).replace(/"/g,'""')}"`;
+  }).join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
+  a.download = `todocamping_errores_${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
 });
 
 /* ── AUTO-REFRESH monitoreo cada 30s ── */
 setInterval(() => {
   if (document.querySelector('.tab[data-tab="monitoreo"]')?.classList.contains('active')) {
-    cargarKPIsOperacion();
-    cargarKPIsExperiencia();
+    cargarKPIsMonitoreo();
     verificarAlertas();
   }
 }, 30000);
