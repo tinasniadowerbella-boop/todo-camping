@@ -390,13 +390,12 @@ async function tcPerformHandoff(handoff) {
 }
 
 function tcUpdateTheme(agent){
-  document.getElementById('tc-chat-header').style.background   =agent.color;
-  document.getElementById('tc-header-avatar').style.background =agent.colorDark;
-  document.getElementById('tc-header-avatar').textContent=agent.avatar;
-  document.getElementById('tc-header-name').textContent  =agent.name;
-  document.getElementById('tc-header-role').textContent  =agent.role;
-  document.getElementById('tc-send-btn').style.background  =agent.color;
-  document.getElementById('tc-chat-bubble').style.background=agent.color;
+  var _h=document.getElementById('tc-chat-header'); if(_h)_h.style.background=agent.color;
+  var _av=document.getElementById('tc-header-avatar'); if(_av){_av.style.background=agent.colorDark;_av.textContent=agent.avatar;}
+  var _nm=document.getElementById('tc-header-name'); if(_nm)_nm.textContent=agent.name;
+  var _rl=document.getElementById('tc-header-role'); if(_rl)_rl.textContent=agent.role;
+  var _sb=document.getElementById('tc-send-btn'); if(_sb)_sb.style.background=agent.color;
+  var _bb=document.getElementById('tc-chat-bubble'); if(_bb)_bb.style.background=agent.color;
 }
 
 function tcRenderMd(text){
@@ -428,12 +427,12 @@ function tcAddError(text){
   msgs.insertBefore(div,tip);msgs.scrollTop=msgs.scrollHeight;
 }
 function tcSetTyping(v){
-  document.getElementById('tc-typing').classList.toggle('visible',v);
-  document.getElementById('tc-chat-messages').scrollTop=99999;
+  var _tp=document.getElementById('tc-typing'); if(_tp)_tp.classList.toggle('visible',v);
+  var _cm=document.getElementById('tc-chat-messages'); if(_cm)_cm.scrollTop=99999;
 }
 function tcSetDisabled(v){
-  document.getElementById('tc-user-input').disabled=v;
-  document.getElementById('tc-send-btn').disabled=v;
+  var _ui=document.getElementById('tc-user-input'); if(_ui)_ui.disabled=v;
+  var _sn=document.getElementById('tc-send-btn'); if(_sn)_sn.disabled=v;
 }
 
 async function tcHandleSend(){
