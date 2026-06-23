@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TodoCamping — Alquiler de Campers y Autocaravanas</title>
+  <title>TodoCamping â Alquiler de Campers y Autocaravanas</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -32,7 +32,7 @@
       line-height: 1.6;
     }
 
-    /* ── NAV ───────────────────────────────────────── */
+    /* ââ NAV âââââââââââââââââââââââââââââââââââââââââ */
     nav {
       position: sticky; top: 0; z-index: 100;
       background: rgba(255,255,255,.95);
@@ -80,27 +80,51 @@
     }
     .nav-cta:hover { background: var(--green-dark) !important; }
 
-    .nav-auth {
-      display: flex; align-items: center; gap: 8px; margin-left: 8px;
-    }
+
+
+    .nav-auth { display:flex; align-items:center; gap:8px; margin-left:8px; }
     .btn-nav-cliente {
-      background: var(--green); color: #fff; border: none;
-      border-radius: 8px; padding: 8px 14px; font-size: 13px;
-      font-weight: 600; cursor: pointer; white-space: nowrap;
-      transition: background .2s;
+      background: var(--green); color:#fff; border:none;
+      border-radius:8px; padding:8px 16px; font-size:13px;
+      font-weight:600; cursor:pointer; white-space:nowrap; transition:background .2s;
     }
     .btn-nav-cliente:hover { background: var(--green-dark); }
     .btn-nav-staff {
-      background: none; color: var(--gray-text);
-      border: 1px solid var(--gray-border);
-      border-radius: 8px; padding: 8px 14px; font-size: 13px;
-      font-weight: 500; cursor: pointer; white-space: nowrap;
-      text-decoration: none; display: inline-block;
-      transition: all .2s;
+      background:none; color:var(--gray-text); border:1px solid var(--gray-border);
+      border-radius:8px; padding:8px 14px; font-size:13px; font-weight:500;
+      cursor:pointer; white-space:nowrap; text-decoration:none; display:inline-block; transition:all .2s;
     }
-    .btn-nav-staff:hover { border-color: var(--green); color: var(--green); background: var(--green-light); }
+    .btn-nav-staff:hover { border-color:var(--green); color:var(--green); background:var(--green-light); }
 
-    /* ── HERO ──────────────────────────────────────── */
+    /* Chat bloqueado */
+    #chat-bloqueado {
+      position:fixed; bottom:24px; right:24px; z-index:8000;
+      background:var(--green); color:#fff; border:none;
+      border-radius:999px; padding:14px 22px; font-size:15px; font-weight:700;
+      cursor:pointer; box-shadow:0 4px 20px rgba(45,122,79,.4);
+      display:flex; align-items:center; gap:8px; transition:transform .2s, box-shadow .2s;
+    }
+    #chat-bloqueado:hover { transform:scale(1.05); box-shadow:0 6px 28px rgba(45,122,79,.5); }
+
+    /* Modal cliente */
+    #modal-cli { display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:9500; align-items:center; justify-content:center; padding:16px; }
+    #modal-cli.open { display:flex; }
+    .modal-box { background:#fff; border-radius:20px; padding:32px 28px; max-width:420px; width:100%; box-shadow:0 8px 40px rgba(0,0,0,.2); font-family:var(--font); position:relative; }
+    .modal-close { position:absolute; top:14px; right:16px; background:none; border:none; font-size:22px; cursor:pointer; color:#9ca3af; }
+    .modal-tabs { display:flex; border-bottom:2px solid var(--gray-border); margin-bottom:22px; }
+    .mtab { flex:1; background:none; border:none; padding:10px; font-size:15px; font-weight:600; cursor:pointer; color:var(--gray-text); border-bottom:2px solid transparent; margin-bottom:-2px; transition:all .2s; }
+    .mtab.active { color:var(--green); border-bottom-color:var(--green); }
+    .mfield { margin-bottom:14px; }
+    .mfield label { display:block; font-size:13px; font-weight:600; margin-bottom:5px; }
+    .mfield input { width:100%; border:1px solid var(--gray-border); border-radius:8px; padding:10px 12px; font-size:14px; outline:none; box-sizing:border-box; transition:border-color .2s; }
+    .mfield input:focus { border-color:var(--green); }
+    .mbtn { width:100%; background:var(--green); color:#fff; border:none; border-radius:10px; padding:12px; font-size:15px; font-weight:600; cursor:pointer; margin-top:4px; transition:background .2s; }
+    .mbtn:hover { background:var(--green-dark); }
+    .mbtn:disabled { background:var(--gray-border); cursor:not-allowed; }
+    .merror { color:#dc2626; font-size:12px; margin-bottom:8px; display:none; }
+    .mok { color:#065f46; background:#d1fae5; border-radius:8px; padding:10px 12px; font-size:13px; margin-bottom:8px; display:none; }
+
+    /* ââ HERO ââââââââââââââââââââââââââââââââââââââââ */
     .hero {
       background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 60%, var(--green-mid) 100%);
       color: var(--white);
@@ -196,7 +220,7 @@
     }
     .stat-label { font-size: 13px; opacity: .7; margin-top: 4px; }
 
-    /* ── SECTION COMMON ────────────────────────────── */
+    /* ââ SECTION COMMON ââââââââââââââââââââââââââââââ */
     section { padding: 80px 24px; }
 
     .section-label {
@@ -230,7 +254,7 @@
 
     .container { max-width: 1120px; margin: 0 auto; }
 
-    /* ── FLEET ─────────────────────────────────────── */
+    /* ââ FLEET âââââââââââââââââââââââââââââââââââââââ */
     #flota { background: var(--sand); }
 
     .fleet-filters {
@@ -367,7 +391,7 @@
     }
     .btn-card:hover { background: var(--green-dark); }
 
-    /* ── HOW IT WORKS ──────────────────────────────── */
+    /* ââ HOW IT WORKS ââââââââââââââââââââââââââââââââ */
     #como-funciona { background: var(--white); }
 
     .steps-grid {
@@ -399,7 +423,7 @@
     .step h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
     .step p { font-size: 14px; color: var(--gray-text); line-height: 1.6; }
 
-    /* ── AGENTS SECTION ────────────────────────────── */
+    /* ââ AGENTS SECTION ââââââââââââââââââââââââââââââ */
     #agentes { background: var(--sand); }
 
     .agents-grid {
@@ -438,7 +462,7 @@
     }
     .agent-info p { font-size: 13px; color: var(--gray-text); line-height: 1.55; }
 
-    /* ── CHAT SECTION ──────────────────────────────── */
+    /* ââ CHAT SECTION ââââââââââââââââââââââââââââââââ */
     #chat { background: var(--green-dark); padding: 80px 24px; }
 
     .chat-wrapper {
@@ -473,7 +497,7 @@
     .feat-text h4 { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
     .feat-text p  { font-size: 13px; color: rgba(255,255,255,.6); }
 
-    /* ── CONTACT ───────────────────────────────────── */
+    /* ââ CONTACT âââââââââââââââââââââââââââââââââââââ */
     #contacto { background: var(--white); }
 
     .contact-grid {
@@ -496,7 +520,7 @@
     .contact-card p  { font-size: 14px; color: var(--green); font-weight: 500; }
     .contact-card span { font-size: 12px; color: var(--gray-text); display: block; margin-top: 4px; }
 
-    /* ── FOOTER ────────────────────────────────────── */
+    /* ââ FOOTER ââââââââââââââââââââââââââââââââââââââ */
     footer {
       background: var(--dark);
       color: rgba(255,255,255,.6);
@@ -522,7 +546,7 @@
     footer a { color: rgba(255,255,255,.5); text-decoration: none; }
     footer a:hover { color: var(--white); }
 
-    /* ── RESPONSIVE ────────────────────────────────── */
+    /* ââ RESPONSIVE ââââââââââââââââââââââââââââââââââ */
     @media (max-width: 768px) {
       .chat-wrapper { grid-template-columns: 1fr; gap: 40px; }
       .nav-links { display: none; }
@@ -537,7 +561,7 @@
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">
-    <div class="logo-icon">🏕️</div>
+    <div class="logo-icon">ðï¸</div>
     TodoCamping
   </a>
   <ul class="nav-links">
@@ -547,225 +571,18 @@
     <li><a href="#contacto">Contacto</a></li>
   </ul>
   <div class="nav-auth">
-    <button id="btn-cliente-login" class="btn-nav-cliente" onclick="abrirModalCliente()">👤 Clientes</button>
-    <a href="admin.html" class="btn-nav-staff">🔒 Staff</a>
+    <button id="btn-nav-cli" class="btn-nav-cliente" onclick="abrirModalCli()">&#128100; Clientes</button>
+    <a href="admin.html" class="btn-nav-staff">&#128274; Staff</a>
   </div>
 </nav>
 
-<!-- ══ MODAL CLIENTE ══════════════════════════════════════════════ -->
-<div id="modal-cliente" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9000;align-items:center;justify-content:center;padding:16px;">
-  <div style="background:#fff;border-radius:20px;padding:32px 28px;max-width:420px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,.2);font-family:var(--font);position:relative;">
-    <button onclick="cerrarModalCliente()" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:#9ca3af;">×</button>
-
-    <!-- Tabs -->
-    <div style="display:flex;gap:0;margin-bottom:24px;border-bottom:2px solid var(--gray-border);">
-      <button id="tab-login" onclick="switchTab('login')" style="flex:1;background:none;border:none;padding:10px;font-size:15px;font-weight:700;color:var(--green);border-bottom:2px solid var(--green);margin-bottom:-2px;cursor:pointer;">Ingresar</button>
-      <button id="tab-registro" onclick="switchTab('registro')" style="flex:1;background:none;border:none;padding:10px;font-size:15px;font-weight:600;color:var(--gray-text);cursor:pointer;">Registrarme</button>
-    </div>
-
-    <!-- Logo -->
-    <div style="text-align:center;margin-bottom:20px;">
-      <div style="font-size:32px;">🏕️</div>
-      <p id="modal-subtitulo" style="color:var(--gray-text);font-size:13px;margin-top:4px;">Ingresá con tu cuenta de TodoCamping</p>
-    </div>
-
-    <!-- Nombre (solo registro) -->
-    <div id="campo-nombre" style="display:none;margin-bottom:14px;">
-      <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Nombre completo *</label>
-      <input id="cli-nombre" type="text" placeholder="Tu nombre" style="width:100%;border:1px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:14px;outline:none;box-sizing:border-box;" />
-    </div>
-
-    <!-- Email -->
-    <div style="margin-bottom:14px;">
-      <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Email *</label>
-      <input id="cli-email" type="email" placeholder="tu@email.com" style="width:100%;border:1px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:14px;outline:none;box-sizing:border-box;" />
-    </div>
-
-    <!-- Contraseña -->
-    <div style="margin-bottom:14px;">
-      <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Contraseña *</label>
-      <input id="cli-pass" type="password" placeholder="Mínimo 6 caracteres" style="width:100%;border:1px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:14px;outline:none;box-sizing:border-box;" />
-    </div>
-
-    <!-- Confirmar contraseña (solo registro) -->
-    <div id="campo-confirm" style="display:none;margin-bottom:14px;">
-      <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Confirmar contraseña *</label>
-      <input id="cli-pass2" type="password" placeholder="Repetí tu contraseña" style="width:100%;border:1px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:14px;outline:none;box-sizing:border-box;" />
-    </div>
-
-    <!-- Error -->
-    <div id="cli-error" style="color:#dc2626;font-size:12px;margin-bottom:10px;display:none;"></div>
-    <!-- Exito -->
-    <div id="cli-ok" style="color:#065f46;background:#d1fae5;border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:10px;display:none;"></div>
-
-    <button id="btn-cli-submit" onclick="submitCliente()" style="width:100%;background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px;font-size:15px;font-weight:600;cursor:pointer;">Ingresar</button>
-
-    <!-- Estado sesion -->
-    <div id="cli-sesion" style="display:none;text-align:center;padding:10px 0;">
-      <p style="font-size:14px;color:var(--dark);margin-bottom:12px;">✅ Sesión iniciada como <strong id="cli-sesion-email"></strong></p>
-      <button onclick="cerrarSesionCliente()" style="background:none;border:1px solid var(--gray-border);border-radius:8px;padding:8px 16px;cursor:pointer;font-size:13px;color:var(--gray-text);">Cerrar sesión</button>
-    </div>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-/* ── CLIENTE AUTH ────────────────────────────────────────────────── */
-let SB_CLI = null;
-let modoTab = 'login';
-let cliUser = null;
-
-async function initSBCliente() {
-  if (SB_CLI) return;
-  const cfg = await fetch('/api/config').then(r => r.json());
-  SB_CLI = supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
-  // Verificar si ya hay sesion activa
-  const { data: { session } } = await SB_CLI.auth.getSession();
-  if (session?.user) {
-    cliUser = session.user;
-    actualizarNavConUsuario();
-  }
-}
-
-function actualizarNavConUsuario() {
-  const btn = document.getElementById('btn-cliente-login');
-  if (btn && cliUser) {
-    const nombre = cliUser.user_metadata?.nombre || cliUser.email.split('@')[0];
-    btn.textContent = '👤 ' + nombre;
-    btn.style.background = 'var(--green)';
-    btn.style.color = '#fff';
-  }
-}
-
-function abrirModalCliente() {
-  initSBCliente().then(() => {
-    const modal = document.getElementById('modal-cliente');
-    modal.style.display = 'flex';
-    if (cliUser) mostrarSesionActiva();
-    else switchTab('login');
-  });
-}
-
-function cerrarModalCliente() {
-  document.getElementById('modal-cliente').style.display = 'none';
-  document.getElementById('cli-error').style.display = 'none';
-  document.getElementById('cli-ok').style.display = 'none';
-}
-
-document.getElementById('modal-cliente').addEventListener('click', function(e) {
-  if (e.target === this) cerrarModalCliente();
-});
-
-function switchTab(tab) {
-  modoTab = tab;
-  document.getElementById('cli-error').style.display = 'none';
-  document.getElementById('cli-ok').style.display = 'none';
-
-  const isLogin = tab === 'login';
-  document.getElementById('tab-login').style.cssText    = isLogin
-    ? 'flex:1;background:none;border:none;padding:10px;font-size:15px;font-weight:700;color:var(--green);border-bottom:2px solid var(--green);margin-bottom:-2px;cursor:pointer;'
-    : 'flex:1;background:none;border:none;padding:10px;font-size:15px;font-weight:600;color:var(--gray-text);cursor:pointer;';
-  document.getElementById('tab-registro').style.cssText = !isLogin
-    ? 'flex:1;background:none;border:none;padding:10px;font-size:15px;font-weight:700;color:var(--green);border-bottom:2px solid var(--green);margin-bottom:-2px;cursor:pointer;'
-    : 'flex:1;background:none;border:none;padding:10px;font-size:15px;font-weight:600;color:var(--gray-text);cursor:pointer;';
-
-  document.getElementById('campo-nombre').style.display  = isLogin ? 'none' : 'block';
-  document.getElementById('campo-confirm').style.display = isLogin ? 'none' : 'block';
-  document.getElementById('btn-cli-submit').textContent  = isLogin ? 'Ingresar' : 'Crear cuenta';
-  document.getElementById('modal-subtitulo').textContent = isLogin
-    ? 'Ingresá con tu cuenta de TodoCamping'
-    : 'Creá tu cuenta para gestionar tus reservas';
-
-  document.getElementById('cli-sesion').style.display = 'none';
-  document.getElementById('btn-cli-submit').style.display = 'block';
-  document.querySelectorAll('#modal-cliente input').forEach(i => i.parentElement.style.display !== 'none' && (i.value = ''));
-}
-
-function mostrarSesionActiva() {
-  document.getElementById('cli-sesion-email').textContent = cliUser.email;
-  document.getElementById('cli-sesion').style.display = 'block';
-  document.getElementById('btn-cli-submit').style.display = 'none';
-  document.getElementById('campo-nombre').style.display = 'none';
-  document.getElementById('campo-confirm').style.display = 'none';
-  document.querySelectorAll('#modal-cliente .field-wrap, #modal-cliente > div > div:not(#cli-sesion)').forEach(el => {});
-  // Ocultar los campos de login
-  ['cli-email','cli-pass','cli-nombre','cli-pass2'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.closest('div').style.display = 'none';
-  });
-}
-
-async function submitCliente() {
-  const email = document.getElementById('cli-email').value.trim();
-  const pass  = document.getElementById('cli-pass').value;
-  const errDiv = document.getElementById('cli-error');
-  const okDiv  = document.getElementById('cli-ok');
-  errDiv.style.display = 'none';
-  okDiv.style.display  = 'none';
-
-  if (!email || !pass) { errDiv.textContent = 'Completá email y contraseña.'; errDiv.style.display = 'block'; return; }
-  if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) { errDiv.textContent = 'Email inválido.'; errDiv.style.display = 'block'; return; }
-  if (pass.length < 6) { errDiv.textContent = 'La contraseña debe tener al menos 6 caracteres.'; errDiv.style.display = 'block'; return; }
-
-  const btn = document.getElementById('btn-cli-submit');
-  btn.disabled = true;
-  btn.textContent = '...';
-
-  try {
-    if (modoTab === 'login') {
-      const { data, error } = await SB_CLI.auth.signInWithPassword({ email, password: pass });
-      if (error) throw new Error(error.message === 'Invalid login credentials' ? 'Email o contraseña incorrectos.' : error.message);
-      cliUser = data.user;
-      okDiv.textContent = '✅ ¡Bienvenido/a de nuevo!';
-      okDiv.style.display = 'block';
-      actualizarNavConUsuario();
-      setTimeout(cerrarModalCliente, 1500);
-    } else {
-      const nombre = document.getElementById('cli-nombre').value.trim();
-      const pass2  = document.getElementById('cli-pass2').value;
-      if (!nombre) { throw new Error('Ingresá tu nombre completo.'); }
-      if (pass !== pass2) { throw new Error('Las contraseñas no coinciden.'); }
-      const { data, error } = await SB_CLI.auth.signUp({
-        email, password: pass,
-        options: { data: { nombre } }
-      });
-      if (error) throw new Error(error.message === 'User already registered' ? 'Ya existe una cuenta con ese email. Ingresá en la pestaña "Ingresar".' : error.message);
-      cliUser = data.user;
-      okDiv.textContent = '✅ ¡Cuenta creada! Ya podés usar el chat con tu identidad guardada.';
-      okDiv.style.display = 'block';
-      actualizarNavConUsuario();
-      setTimeout(cerrarModalCliente, 2000);
-    }
-  } catch(e) {
-    errDiv.textContent = e.message;
-    errDiv.style.display = 'block';
-  }
-
-  btn.disabled = false;
-  btn.textContent = modoTab === 'login' ? 'Ingresar' : 'Crear cuenta';
-}
-
-async function cerrarSesionCliente() {
-  await SB_CLI.auth.signOut();
-  cliUser = null;
-  const btn = document.getElementById('btn-cliente-login');
-  btn.textContent = '👤 Mi cuenta';
-  btn.style.background = 'none';
-  btn.style.color = 'var(--green)';
-  cerrarModalCliente();
-}
-
-// Inicializar al cargar
-window.addEventListener('DOMContentLoaded', () => initSBCliente());
-</script>
-
 <!-- HERO -->
 <section class="hero" id="inicio">
-  <div class="hero-badge">🚐 Alquiler de campers desde Montevideo</div>
+  <div class="hero-badge">ð Alquiler de campers desde Montevideo</div>
   <h1>Tu aventura empieza<br/><span>en la carretera</span></h1>
   <p>Flota de campers y autocaravanas para todos los viajes. Desde escapadas en pareja hasta aventuras familiares.</p>
   <div class="hero-buttons">
-    <a href="#chat" class="btn-primary">🗓️ Consultar disponibilidad</a>
+    <a href="#chat" class="btn-primary">ðï¸ Consultar disponibilidad</a>
     <a href="#flota" class="btn-ghost">Ver toda la flota</a>
   </div>
   <div class="hero-stats">
@@ -778,8 +595,8 @@ window.addEventListener('DOMContentLoaded', () => initSBCliente());
       <div class="stat-label">Unidades en flota</div>
     </div>
     <div class="stat">
-      <span class="stat-num">$UY 3.500</span>
-      <div class="stat-label">Precio desde / noche</div>
+      <span class="stat-num">$3.500</span>
+      <div class="stat-label">Precio desde / dÃ­a</div>
     </div>
     <div class="stat">
       <span class="stat-num">3</span>
@@ -816,32 +633,32 @@ window.addEventListener('DOMContentLoaded', () => initSBCliente());
     <div class="section-header">
       <div class="section-label">Proceso</div>
       <h2 class="section-title">Reservar en 4 pasos</h2>
-      <p class="section-sub">Sin complicaciones. Nuestros agentes IA te guían en todo momento.</p>
+      <p class="section-sub">Sin complicaciones. Nuestros agentes IA te guÃ­an en todo momento.</p>
     </div>
     <div class="steps-grid">
       <div class="step">
         <div class="step-num">1</div>
-        <div class="step-icon">💬</div>
-        <h3>Cuéntanos tu viaje</h3>
-        <p>Habla con Cami, nuestra asistente. Dinos fechas, cuántos sois y qué tipo de escapada buscáis.</p>
+        <div class="step-icon">ð¬</div>
+        <h3>CuÃ©ntanos tu viaje</h3>
+        <p>Habla con Cami, nuestra asistente. Dinos fechas, cuÃ¡ntos sois y quÃ© tipo de escapada buscÃ¡is.</p>
       </div>
       <div class="step">
         <div class="step-num">2</div>
-        <div class="step-icon">🔍</div>
+        <div class="step-icon">ð</div>
         <h3>Recibe recomendaciones</h3>
         <p>Cami busca en tiempo real la flota disponible y te presenta las mejores opciones con precios.</p>
       </div>
       <div class="step">
         <div class="step-num">3</div>
-        <div class="step-icon">📋</div>
+        <div class="step-icon">ð</div>
         <h3>Confirma tu reserva</h3>
         <p>Elige tu camper y Remi, el agente de reservas, gestiona todos los detalles contigo.</p>
       </div>
       <div class="step">
         <div class="step-num">4</div>
-        <div class="step-icon">🗺️</div>
-        <h3>¡A rodar!</h3>
-        <p>Retirá el camper en nuestras instalaciones de Montevideo y empezá tu aventura.</p>
+        <div class="step-icon">ðºï¸</div>
+        <h3>Â¡A rodar!</h3>
+        <p>Recoge el camper en nuestras instalaciones de Montevideo y empieza tu aventura.</p>
       </div>
     </div>
   </div>
@@ -857,7 +674,7 @@ window.addEventListener('DOMContentLoaded', () => initSBCliente());
     </div>
     <div class="agents-grid">
       <div class="agent-card">
-        <div class="agent-avatar" style="background:#e8f5ee;">🤖</div>
+        <div class="agent-avatar" style="background:#e8f5ee;">ð¤</div>
         <div class="agent-info">
           <div class="agent-role">Orquestador</div>
           <h3>Leo</h3>
@@ -865,19 +682,19 @@ window.addEventListener('DOMContentLoaded', () => initSBCliente());
         </div>
       </div>
       <div class="agent-card">
-        <div class="agent-avatar" style="background:#dbeafe;">💚</div>
+        <div class="agent-avatar" style="background:#dbeafe;">ð</div>
         <div class="agent-info">
-          <div class="agent-role">Información</div>
+          <div class="agent-role">InformaciÃ³n</div>
           <h3>Cami</h3>
           <p>Experta en la flota. Te ayuda a comparar modelos, consultar precios y encontrar el camper ideal para tu viaje.</p>
         </div>
       </div>
       <div class="agent-card">
-        <div class="agent-avatar" style="background:#fef3c7;">📋</div>
+        <div class="agent-avatar" style="background:#fef3c7;">ð</div>
         <div class="agent-info">
           <div class="agent-role">Reservas</div>
           <h3>Remi</h3>
-          <p>Gestiona toda la parte de reservas: creación, modificaciones, cancelaciones y consultas de estado.</p>
+          <p>Gestiona toda la parte de reservas: creaciÃ³n, modificaciones, cancelaciones y consultas de estado.</p>
         </div>
       </div>
     </div>
@@ -893,21 +710,21 @@ window.addEventListener('DOMContentLoaded', () => initSBCliente());
       <p class="section-sub">Tres agentes especializados listos para ayudarte: info, precios y reservas.</p>
       <div class="chat-features">
         <div class="chat-feat">
-          <div class="feat-icon">⚡</div>
+          <div class="feat-icon">â¡</div>
           <div class="feat-text">
-            <h4>Respuestas instantáneas</h4>
+            <h4>Respuestas instantÃ¡neas</h4>
             <p>Consultas respondidas en segundos, con datos reales de la flota.</p>
           </div>
         </div>
         <div class="chat-feat">
-          <div class="feat-icon">🎯</div>
+          <div class="feat-icon">ð¯</div>
           <div class="feat-text">
             <h4>Recomendaciones personalizadas</h4>
             <p>Cami aprende tus preferencias y filtra la flota para ti.</p>
           </div>
         </div>
         <div class="chat-feat">
-          <div class="feat-icon">🔒</div>
+          <div class="feat-icon">ð</div>
           <div class="feat-text">
             <h4>Reserva segura</h4>
             <p>Cuando quieras reservar, Remi toma el relevo y gestiona todo el proceso.</p>
@@ -917,7 +734,7 @@ window.addEventListener('DOMContentLoaded', () => initSBCliente());
       <div style="margin-top:32px;">
         <button class="btn-primary" style="background:var(--green);color:#fff;border:none;cursor:pointer;"
           onclick="document.getElementById('tc-chat-widget').classList.remove('tc-hidden');document.getElementById('tc-chat-bubble').classList.add('tc-hidden');document.getElementById('tc-user-input').focus();">
-          💬 Abrir el chat
+          ð¬ Abrir el chat
         </button>
       </div>
     </div>
@@ -957,33 +774,33 @@ window.addEventListener('DOMContentLoaded', () => initSBCliente());
   <div class="container">
     <div class="section-header">
       <div class="section-label">Contacto</div>
-      <h2 class="section-title">¿Prefieres hablar con nosotros?</h2>
-      <p class="section-sub">Estamos en Montevideo de lunes a sábado.</p>
+      <h2 class="section-title">Â¿Prefieres hablar con nosotros?</h2>
+      <p class="section-sub">Estamos en Montevideo de lunes a sÃ¡bado.</p>
     </div>
     <div class="contact-grid">
       <div class="contact-card">
-        <div class="contact-icon">📍</div>
-        <h3>Dirección</h3>
+        <div class="contact-icon">ð</div>
+        <h3>DirecciÃ³n</h3>
         <p>Av. del Turismo 45</p>
         <span>Montevideo, Uruguay</span>
       </div>
       <div class="contact-card">
-        <div class="contact-icon">📞</div>
-        <h3>Teléfono</h3>
+        <div class="contact-icon">ð</div>
+        <h3>TelÃ©fono</h3>
         <p>+598 2 234 56 78</p>
-        <span>Lun–Vie 9:00–19:00</span>
+        <span>LunâVie 9:00â19:00</span>
       </div>
       <div class="contact-card">
-        <div class="contact-icon">✉️</div>
+        <div class="contact-icon">âï¸</div>
         <h3>Email</h3>
         <p>hola@todocamping.com.uy</p>
         <span>Te respondemos en &lt;2h</span>
       </div>
       <div class="contact-card">
-        <div class="contact-icon">🕐</div>
+        <div class="contact-icon">ð</div>
         <h3>Horario</h3>
-        <p>Lun–Vie 9:00–19:00</p>
-        <span>Sábados 10:00–14:00</span>
+        <p>LunâVie 9:00â19:00</p>
+        <span>SÃ¡bados 10:00â14:00</span>
       </div>
     </div>
   </div>
@@ -992,30 +809,30 @@ window.addEventListener('DOMContentLoaded', () => initSBCliente());
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">
-    <div class="logo-icon">🏕️</div>
+    <div class="logo-icon">ðï¸</div>
     TodoCamping
   </div>
-  <p>© 2026 TodoCamping — Alquiler de Campers y Autocaravanas, Montevideo</p>
+  <p>Â© 2026 TodoCamping — Alquiler de Campers y Autocaravanas, Montevideo</p>
   <p style="margin-top:8px;">
-    <a href="mailto:hola@todocamping.com.uy">hola@todocamping.com.uy</a> ·
+    <a href="mailto:hola@todocamping.com.uy">hola@todocamping.com.uy</a> Â·
     <a href="tel:+59822345678">+598 2 234 56 78</a>
   </p>
 </footer>
 
 <script>
-  // ── FLEET DATA ───────────────────────────────────────
+  // ââ FLEET DATA âââââââââââââââââââââââââââââââââââââââ
   const CAMPERS = [
-    { key:"TC-ACS", modelo:"Adria Coral 670 SL",      tipo:"Autocaravana", año:2022, cap:4, precio:5800, unidades:3, disponible:true,  ac:true,  bano:true,  calef:true, cocina:true,  desc:"Familiar con baño completo y salón amplio." },
-    { key:"TC-WCB", modelo:"Weinsberg CaraBus 600 MQ", tipo:"Furgoneta",    año:2023, cap:2, precio:4200, unidades:5, disponible:true,  ac:false, bano:false, calef:true, cocina:true,  desc:"Compacta ideal para pareja. Fácil de aparcar." },
-    { key:"TC-KSI", modelo:"Knaus Sun I 650 MEG",      tipo:"Autocaravana", año:2021, cap:6, precio:7200, unidades:2, disponible:true,  ac:true,  bano:true,  calef:true, cocina:true,  desc:"Para familia grande. Tres zonas de cama." },
-    { key:"TC-CCT", modelo:"Carthago C-Tourer T143",   tipo:"Autocaravana", año:2020, cap:4, precio:8500, unidades:2, disponible:false, ac:true,  bano:true,  calef:true, cocina:true,  desc:"Gama premium con materiales de lujo y garaje." },
-    { key:"TC-BLD", modelo:"Bürstner Lyseo TD690",     tipo:"Autocaravana", año:2023, cap:4, precio:6500, unidades:3, disponible:true,  ac:true,  bano:true,  calef:true, cocina:true,  desc:"Diseño moderno con techo elevable." },
-    { key:"TC-HYM", modelo:"Hymer B-ML T580",          tipo:"Autocaravana", año:2019, cap:2, precio:4800, unidades:4, disponible:true,  ac:false, bano:true,  calef:true, cocina:true,  desc:"Compacta para pareja con baño integrado." },
-    { key:"TC-CAR", modelo:"Carado CV600",              tipo:"Furgoneta",    año:2022, cap:2, precio:3800, unidades:4, disponible:false, ac:false, bano:false, calef:true, cocina:true,  desc:"En revisión anual.", estado:"Mantenimiento" },
-    { key:"TC-PCA", modelo:"Pössl Campster",            tipo:"Furgoneta",    año:2023, cap:2, precio:3500, unidades:6, disponible:true,  ac:false, bano:false, calef:false,cocina:true,  desc:"La más compacta. Ideal primavera–otoño." },
+    { key:"TC-ACS", modelo:"Adria Coral 670 SL",      tipo:"Autocaravana", aÃ±o:2022, cap:4, precio:5800,  unidades:3, disponible:true,  ac:true,  bano:true,  calef:true, cocina:true,  desc:"Familiar con baÃ±o completo y salÃ³n amplio." },
+    { key:"TC-WCB", modelo:"Weinsberg CaraBus 600 MQ", tipo:"Furgoneta",    aÃ±o:2023, cap:2, precio:4200,  unidades:5, disponible:true,  ac:false, bano:false, calef:true, cocina:true,  desc:"Compacta ideal para pareja. FÃ¡cil de aparcar." },
+    { key:"TC-KSI", modelo:"Knaus Sun I 650 MEG",      tipo:"Autocaravana", aÃ±o:2021, cap:6, precio:7200, unidades:2, disponible:true,  ac:true,  bano:true,  calef:true, cocina:true,  desc:"Para familia grande. Tres zonas de cama." },
+    { key:"TC-CCT", modelo:"Carthago C-Tourer T143",   tipo:"Autocaravana", aÃ±o:2020, cap:4, precio:8500, unidades:2, disponible:false, ac:true,  bano:true,  calef:true, cocina:true,  desc:"Gama premium con materiales de lujo y garaje." },
+    { key:"TC-BLD", modelo:"BÃ¼rstner Lyseo TD690",     tipo:"Autocaravana", aÃ±o:2023, cap:4, precio:6500, unidades:3, disponible:true,  ac:true,  bano:true,  calef:true, cocina:true,  desc:"DiseÃ±o moderno con techo elevable." },
+    { key:"TC-HYM", modelo:"Hymer B-ML T580",          tipo:"Autocaravana", aÃ±o:2019, cap:2, precio:4800,  unidades:4, disponible:true,  ac:false, bano:true,  calef:true, cocina:true,  desc:"Compacta para pareja con baÃ±o integrado." },
+    { key:"TC-CAR", modelo:"Carado CV600",              tipo:"Furgoneta",    aÃ±o:2022, cap:2, precio:3800,  unidades:4, disponible:false, ac:false, bano:false, calef:true, cocina:true,  desc:"En revisiÃ³n anual.", estado:"Mantenimiento" },
+    { key:"TC-PCA", modelo:"PÃ¶ssl Campster",            tipo:"Furgoneta",    aÃ±o:2023, cap:2, precio:3500,  unidades:6, disponible:true,  ac:false, bano:false, calef:false,cocina:true,  desc:"La mÃ¡s compacta. Ideal primaveraâotoÃ±o." },
   ];
 
-  const EMOJIS = { Autocaravana: '🚌', Furgoneta: '🚐' };
+  const EMOJIS = { Autocaravana: 'ð', Furgoneta: 'ð' };
 
   function getBadge(c) {
     if (c.estado === 'Mantenimiento') return '<span class="card-badge badge-mant">Mantenimiento</span>';
@@ -1032,25 +849,25 @@ window.addEventListener('DOMContentLoaded', () => initSBCliente());
     grid.innerHTML = list.map(c => `
       <div class="camper-card" data-tipo="${c.tipo}" data-disponible="${c.disponible}">
         <div class="card-thumb">
-          ${EMOJIS[c.tipo] || '🚐'}
+          ${EMOJIS[c.tipo] || 'ð'}
           ${getBadge(c)}
         </div>
         <div class="card-body">
-          <div class="card-type">${c.tipo} · ${c.año}</div>
+          <div class="card-type">${c.tipo} Â· ${c.aÃ±o}</div>
           <div class="card-name">${c.modelo}</div>
           <div class="card-specs">
-            <div class="spec-tag">👥 ${c.cap} personas</div>
-            <div class="spec-tag">📏 hasta 7m</div>
-            <div class="spec-tag">⛽ Diesel</div>
+            <div class="spec-tag">ð¥ ${c.cap} personas</div>
+            <div class="spec-tag">ð hasta 7m</div>
+            <div class="spec-tag">â½ Diesel</div>
           </div>
           <div class="card-equip">
-            ${equipDot(c.ac,    '❄️')}
-            ${equipDot(c.bano,  '🚿')}
-            ${equipDot(c.calef, '🔥')}
-            ${equipDot(c.cocina,'🍳')}
+            ${equipDot(c.ac,    'âï¸')}
+            ${equipDot(c.bano,  'ð¿')}
+            ${equipDot(c.calef, 'ð¥')}
+            ${equipDot(c.cocina,'ð³')}
           </div>
           <div class="card-footer">
-            <div class="card-price">$UY ${c.precio} <span>/ noche</span></div>
+            <div class="card-price">$${c.precio.toLocaleString()} <span>/ día</span></div>
             <button class="btn-card" onclick="askAbout('${c.modelo}')">Consultar</button>
           </div>
         </div>
@@ -1069,7 +886,7 @@ window.addEventListener('DOMContentLoaded', () => initSBCliente());
 
   renderCards(CAMPERS);
 
-  // ── CHAT — redirige al widget IA real ──────────────────
+  // ââ CHAT â redirige al widget IA real ââââââââââââââââââ
 
   function askAbout(modelo) {
     // Abrir el widget real y pre-llenar el mensaje
@@ -1077,34 +894,34 @@ window.addEventListener('DOMContentLoaded', () => initSBCliente());
     document.getElementById('tc-chat-bubble').classList.add('tc-hidden');
     const inp = document.getElementById('tc-user-input');
     if (inp) {
-      inp.value = `Cuéntame más sobre el ${modelo}`;
+      inp.value = `CuÃ©ntame mÃ¡s sobre el ${modelo}`;
       inp.focus();
     }
   }
 
-  // ── CAMPER_INFO (solo para referencias internas — ya no se usa en chat) ──
+  // ââ CAMPER_INFO (solo para referencias internas â ya no se usa en chat) ââ
   const CAMPER_INFO = {
-    'pössl campster':     { key:'TC-PCA', precio:3500, cap:2, tipo:'Furgoneta',    año:2023, ac:false, bano:false, calef:false, cocina:true,  disponible:true,  desc:"La más compacta de la flota (4,99 m). Perfecta para escapadas de primavera y otoño en pareja. Sin calefacción, no es ideal para invierno. Cocina integrada, muy fácil de aparcar en ciudad." },
-    'weinsberg carabus':  { key:'TC-WCB', precio:4200, cap:2, tipo:'Furgoneta',    año:2023, ac:false, bano:false, calef:true,  cocina:true,  disponible:true,  desc:"Furgoneta 2023 muy maniobrable (5,99 m). Calefacción incluida. Sin baño propio, pero con cocina completa. La favorita para parejas que viajan por Uruguay." },
-    'adria coral':        { key:'TC-ACS', precio:5800, cap:4, tipo:'Autocaravana', año:2022, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"Autocaravana familiar (6,90 m) con baño completo, salón amplio y A/C. Cómoda para 4 personas con mucho espacio de almacenaje. Muy buenas valoraciones de clientes." },
-    'hymer':              { key:'TC-HYM', precio:4800, cap:2, tipo:'Autocaravana', año:2019, ac:false, bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"Autocaravana compacta (5,72 m) con baño integrado. Ideal para pareja que quiere comodidad sin el tamaño de una autocaravana grande. Sin A/C pero con calefacción." },
-    'knaus sun':          { key:'TC-KSI', precio:7200, cap:6, tipo:'Autocaravana', año:2021, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"La mejor opción para grupos grandes (hasta 6 personas, 3 camas independientes). Autocaravana espaciosa de 6,99 m con todo el equipamiento: A/C, baño, cocina y calefacción." },
-    'bürstner':           { key:'TC-BLD', precio:6500, cap:4, tipo:'Autocaravana', año:2023, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"Diseño moderno con techo elevable y cocina de inducción. Una de las más nuevas de la flota (2023). Perfecta para 4 personas que buscan confort y estética cuidada." },
-    'carthago':           { key:'TC-CCT', precio:8500, cap:4, tipo:'Autocaravana', año:2020, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:false, desc:"Nuestra gama más premium ($UY 8.500/noche) con materiales de lujo y garaje trasero para llevar bicicletas o motos. Actualmente sin stock disponible." },
-    'carado':             { key:'TC-CAR', precio:3800, cap:2, tipo:'Furgoneta',    año:2022, ac:false, bano:false, calef:true,  cocina:true,  disponible:false, desc:"Furgoneta en revisión anual, no disponible en este momento. Si te interesa este rango de precio, el Pössl Campster ($UY 3.500/noche) es una alternativa muy similar." },
+    'pÃ¶ssl campster':     { key:'TC-PCA', precio:3500,  cap:2, tipo:'Furgoneta',    aÃ±o:2023, ac:false, bano:false, calef:false, cocina:true,  disponible:true,  desc:"La mÃ¡s compacta de la flota (4,99 m). Perfecta para escapadas de primavera y otoÃ±o en pareja. Sin calefacciÃ³n, por lo que no es ideal para invierno. Cocina integrada, muy fÃ¡cil de aparcar en ciudad." },
+    'weinsberg carabus':  { key:'TC-WCB', precio:4200,  cap:2, tipo:'Furgoneta',    aÃ±o:2023, ac:false, bano:false, calef:true,  cocina:true,  disponible:true,  desc:"Furgoneta 2023 muy maniobrable (5,99 m). CalefacciÃ³n incluida. Sin baÃ±o propio, pero con cocina completa. La favorita para parejas que viajan por Europa." },
+    'adria coral':        { key:'TC-ACS', precio:5800,  cap:4, tipo:'Autocaravana', aÃ±o:2022, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"Autocaravana familiar (6,90 m) con baÃ±o completo, salÃ³n amplio y A/C. CÃ³moda para 4 personas con mucho espacio de almacenaje. Muy buenas valoraciones de clientes." },
+    'hymer':              { key:'TC-HYM', precio:4800,  cap:2, tipo:'Autocaravana', aÃ±o:2019, ac:false, bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"Autocaravana compacta (5,72 m) con baÃ±o integrado. Ideal para pareja que quiere comodidad sin el tamaÃ±o de una autocaravana grande. Sin A/C pero con calefacciÃ³n." },
+    'knaus sun':          { key:'TC-KSI', precio:7200, cap:6, tipo:'Autocaravana', aÃ±o:2021, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"La mejor opciÃ³n para grupos grandes (hasta 6 personas, 3 camas independientes). Autocaravana espaciosa de 6,99 m con todo el equipamiento: A/C, baÃ±o, cocina y calefacciÃ³n." },
+    'bÃ¼rstner':           { key:'TC-BLD', precio:6500, cap:4, tipo:'Autocaravana', aÃ±o:2023, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:true,  desc:"DiseÃ±o moderno con techo elevable y cocina de inducciÃ³n. Una de las mÃ¡s nuevas de la flota (2023). Perfecta para 4 personas que buscan confort y estÃ©tica cuidada." },
+    'carthago':           { key:'TC-CCT', precio:8500, cap:4, tipo:'Autocaravana', aÃ±o:2020, ac:true,  bano:true,  calef:true,  cocina:true,  disponible:false, desc:"Nuestra gama mÃ¡s premium (130$/día) con materiales de lujo y garaje trasero para llevar bicicletas o motos. Actualmente sin stock disponible. Â¿Te aviso cuando estÃ© libre?" },
+    'carado':             { key:'TC-CAR', precio:3800,  cap:2, tipo:'Furgoneta',    aÃ±o:2022, ac:false, bano:false, calef:true,  cocina:true,  disponible:false, desc:"Furgoneta en revisiÃ³n anual, no disponible en este momento. Si te interesa este rango de precio, el PÃ¶ssl Campster ($3.500/dÃ­a) es una alternativa muy similar." },
   };
 
-  // Contexto de conversación
+  // Contexto de conversaciÃ³n
   const ctx = { personas: null, fechaInicio: null, fechaFin: null, modeloMencionado: null };
 
   function extractContext(text) {
     // personas
-    const mPax = text.match(/(\d+)\s*(persona|pax|viajero|adulto|gente|somos|éramos)/i)
+    const mPax = text.match(/(\d+)\s*(persona|pax|viajero|adulto|gente|somos|Ã©ramos)/i)
                 || text.match(/somos\s+(\d+)/i)
                 || text.match(/para\s+(\d+)/i);
     if (mPax) ctx.personas = parseInt(mPax[1]);
 
-    // fechas — busca día + mes (opcionalmente año)
+    // fechas â busca dÃ­a + mes (opcionalmente aÃ±o)
     const MESES = { enero:1, febrero:2, marzo:3, abril:4, mayo:5, junio:6,
                     julio:7, agosto:8, septiembre:9, octubre:10, noviembre:11, diciembre:12 };
     const mFecha = text.match(/(\d{1,2})\s+de\s+(\w+)(?:\s+de\s+(\d{4}))?/gi);
@@ -1113,8 +930,8 @@ window.addEventListener('DOMContentLoaded', () => initSBCliente());
         const p = s.match(/(\d{1,2})\s+de\s+(\w+)(?:\s+de\s+(\d{4}))?/i);
         if (!p) return null;
         const mes = MESES[p[2].toLowerCase()];
-        const año = p[3] ? parseInt(p[3]) : new Date().getFullYear();
-        return mes ? new Date(año, mes-1, parseInt(p[1])) : null;
+        const aÃ±o = p[3] ? parseInt(p[3]) : new Date().getFullYear();
+        return mes ? new Date(aÃ±o, mes-1, parseInt(p[1])) : null;
       };
       if (mFecha[0]) ctx.fechaInicio = parse(mFecha[0]);
       if (mFecha[1]) ctx.fechaFin    = parse(mFecha[1]);
@@ -1126,10 +943,10 @@ window.addEventListener('DOMContentLoaded', () => initSBCliente());
     }
   }
 
-  // Chat falso eliminado — se usa el widget IA real (tc-chat-widget)
+  // Chat falso eliminado â se usa el widget IA real (tc-chat-widget)
 </script>
 
-<!-- Widget IA real (Leo, Cami, Remi) — embebido directamente -->
+<!-- Widget IA real (Leo, Cami, Remi) â embebido directamente -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <!-- Estilos del widget IA -->
@@ -1284,10 +1101,10 @@ window.addEventListener('DOMContentLoaded', () => initSBCliente());
     <div id="tc-header-avatar">L</div>
     <div id="tc-header-info">
       <strong id="tc-header-name">Leo</strong>
-      <span id="tc-header-role">Bienvenida · TodoCamping</span>
+      <span id="tc-header-role">Bienvenida Â· TodoCamping</span>
     </div>
     <div id="tc-status-dot"></div>
-    <button id="tc-chat-close" title="Minimizar">✕</button>
+    <button id="tc-chat-close" title="Minimizar">â</button>
   </div>
   <div id="tc-chat-messages">
     <div id="tc-typing">
@@ -1304,310 +1121,180 @@ window.addEventListener('DOMContentLoaded', () => initSBCliente());
     </button>
   </div>
 </div>
-<button id="tc-chat-bubble" class="tc-hidden" title="Hablar con un asistente de TodoCamping">💬</button>
+<!-- Boton quiero consultar (visible hasta login) -->
+<button id="chat-bloqueado" onclick="abrirModalCli()" title="Consultar con nuestros asistentes">
+  &#128172; Quiero consultar
+</button>
 
+<script src="/widget.js"></script>
+
+
+<!-- ══ MODAL CLIENTE AUTH ══════════════════════════════════════ -->
+<div id="modal-cli">
+  <div class="modal-box">
+    <button class="modal-close" onclick="cerrarModalCli()">&#215;</button>
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:36px;">&#127957;&#65039;</div>
+      <h2 style="font-size:18px;color:var(--green-dark);margin:8px 0 2px;">TodoCamping</h2>
+      <p id="modal-sub" style="font-size:13px;color:#6b7280;">Ingresá para consultar con nuestros asistentes</p>
+    </div>
+    <div class="modal-tabs">
+      <button class="mtab active" id="mtab-login"    onclick="switchTab('login')">Ingresar</button>
+      <button class="mtab"        id="mtab-registro" onclick="switchTab('registro')">Registrarme</button>
+    </div>
+    <div id="mcampo-nombre" class="mfield" style="display:none;">
+      <label>Nombre completo *</label>
+      <input id="mcli-nombre" type="text" placeholder="Tu nombre" />
+    </div>
+    <div class="mfield">
+      <label>Email *</label>
+      <input id="mcli-email" type="email" placeholder="tu@email.com" />
+    </div>
+    <div class="mfield">
+      <label>Contraseña *</label>
+      <input id="mcli-pass" type="password" placeholder="Mínimo 6 caracteres" />
+    </div>
+    <div id="mcampo-pass2" class="mfield" style="display:none;">
+      <label>Confirmar contraseña *</label>
+      <input id="mcli-pass2" type="password" placeholder="Repetí tu contraseña" />
+    </div>
+    <div class="merror" id="mcli-error"></div>
+    <div class="mok"    id="mcli-ok"></div>
+    <button class="mbtn" id="mbtn-submit" onclick="submitCli()">Ingresar</button>
+    <p style="text-align:center;font-size:11px;color:#9ca3af;margin-top:14px;">
+      Tus datos se guardan de forma segura. No enviamos spam.
+    </p>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* ═══════════════════════════════════════════
-   TODOCAMPING — WIDGET IA (Leo, Cami, Remi)
-═══════════════════════════════════════════ */
-(function() {
+/* ── CLIENTE AUTH ─────────────────────────────────────────────── */
+var SB_CLI = null;
+var CLI_USER = null;
+var CLI_TAB = 'login';
 
-/* ── CONFIG ── */
-let TC_CONFIG = {
-  SUPABASE_URL:      'https://wgrqkffxwzwbzgjmbtsd.supabase.co',
-  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndncnFrZmZ4d3p3Ynpnam1idHNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwODYzMjUsImV4cCI6MjA5NTY2MjMyNX0.gwqy3kr-PKXJ0ovnVrV3eUhPvwSmOdtNSUd-oKQ6ZDw',
-  MODEL: 'claude-haiku-4-5-20251001',
-};
+async function initSBCli() {
+  if (SB_CLI) return;
+  const cfg = await fetch('/api/config').then(r => r.json());
+  // persistSession:false → sesión solo en memoria, limpia al cerrar/recargar
+  SB_CLI = supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
+  });
+}
 
-fetch('/api/config').then(r => r.json()).then(cfg => {
-  if (cfg.supabaseUrl)     TC_CONFIG.SUPABASE_URL      = cfg.supabaseUrl;
-  if (cfg.supabaseAnonKey) TC_CONFIG.SUPABASE_ANON_KEY = cfg.supabaseAnonKey;
-  if (cfg.model)           TC_CONFIG.MODEL             = cfg.model;
-  tcInitSupabase();
-}).catch(() => { tcInitSupabase(); });
+function abrirModalCli() {
+  initSBCli();
+  document.getElementById('modal-cli').classList.add('open');
+  switchTab('login');
+}
 
-/* ── MOCK DB ── */
-const TC_MOCK = {
-  campers: [
-    { id:'C001', key:'TC-ACS', modelo:'Adria Coral 670 SL',       unidades:3, tipo:'Autocaravana', año:2022, capacidad:4, precio_diario:5800, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true,  descripcion:'Autocaravana familiar con baño completo y salón amplio.' },
-    { id:'C002', key:'TC-WCB', modelo:'Weinsberg CaraBus 600 MQ', unidades:5, tipo:'Furgoneta',    año:2023, capacidad:2, precio_diario:4200, ac:false, calefaccion:true,  cocina:true, bano:false, estado:'Activo',        disponible:true,  descripcion:'Furgoneta compacta ideal para pareja, fácil de aparcar.' },
-    { id:'C003', key:'TC-KSI', modelo:'Knaus Sun I 650 MEG',      unidades:2, tipo:'Autocaravana', año:2021, capacidad:6, precio_diario:7200, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true,  descripcion:'Perfecta para familia grande. Tres zonas de cama independientes.' },
-    { id:'C004', key:'TC-CCT', modelo:'Carthago C-Tourer T143',   unidades:2, tipo:'Autocaravana', año:2020, capacidad:4, precio_diario:8500, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:false, descripcion:'Gama premium con materiales de lujo y garaje trasero.' },
-    { id:'C005', key:'TC-CAR', modelo:'Carado CV600',              unidades:4, tipo:'Furgoneta',    año:2022, capacidad:2, precio_diario:3800, ac:false, calefaccion:true,  cocina:true, bano:false, estado:'Mantenimiento', disponible:false, descripcion:'En revisión anual.' },
-    { id:'C006', key:'TC-BLD', modelo:'Bürstner Lyseo TD690',     unidades:3, tipo:'Autocaravana', año:2023, capacidad:4, precio_diario:6500, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true,  descripcion:'Diseño moderno con techo elevable y cocina de inducción.' },
-    { id:'C007', key:'TC-HYM', modelo:'Hymer B-ML T580',          unidades:4, tipo:'Autocaravana', año:2019, capacidad:2, precio_diario:4800, ac:false, calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true,  descripcion:'Autocaravana compacta para pareja con baño integrado.' },
-    { id:'C008', key:'TC-PCA', modelo:'Pössl Campster',            unidades:6, tipo:'Furgoneta',    año:2023, capacidad:2, precio_diario:3500, ac:false, calefaccion:false, cocina:true, bano:false, estado:'Activo',        disponible:true,  descripcion:'La más compacta. Sin calefacción, ideal primavera-otoño.' },
-  ],
-  reservas: [],
-  _nextId: 1,
-};
+function cerrarModalCli() {
+  document.getElementById('modal-cli').classList.remove('open');
+  limpiarModal();
+}
 
-/* ── AGENTS ── */
-const TC_AGENTS = {
-  leo:      { id:'leo',      name:'Leo',  role:'Bienvenida · TodoCamping',           avatar:'L', color:'#1e40af', colorDark:'#1e3a8a' },
-  cami:     { id:'cami',     name:'Cami', role:'Asistente informativo · TodoCamping', avatar:'C', color:'#2d7a4f', colorDark:'#1e5534' },
-  reservas: { id:'reservas', name:'Remi', role:'Agente de reservas · TodoCamping',    avatar:'R', color:'#b45309', colorDark:'#92400e' },
-};
+document.getElementById('modal-cli').addEventListener('click', function(e) {
+  if (e.target === this) cerrarModalCli();
+});
 
-const TC_HOY = (() => {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-})();
+function switchTab(tab) {
+  CLI_TAB = tab;
+  const esLogin = (tab === 'login');
+  document.getElementById('mtab-login').classList.toggle('active', esLogin);
+  document.getElementById('mtab-registro').classList.toggle('active', !esLogin);
+  document.getElementById('mcampo-nombre').style.display = esLogin ? 'none' : 'block';
+  document.getElementById('mcampo-pass2').style.display  = esLogin ? 'none' : 'block';
+  document.getElementById('mbtn-submit').textContent     = esLogin ? 'Ingresar' : 'Crear cuenta';
+  document.getElementById('modal-sub').textContent       = esLogin
+    ? 'Ingresá para consultar con nuestros asistentes'
+    : 'Creá tu cuenta para gestionar tus reservas';
+  limpiarModal();
+}
 
-/* ── SYSTEM PROMPTS ── */
-const TC_PROMPTS = {
-leo: `Eres Leo, el asistente de bienvenida de TodoCamping — empresa uruguaya de alquiler de campers y autocaravanas.
-Montevideo, Av. del Turismo 45 · L-V 9-19h · Sáb 10-14h · +598 2 234 56 78 · hola@todocamping.com.uy.
-FECHA DE HOY: ${TC_HOY}.
-MISIÓN: Detectar la intención y derivar al agente correcto con "derivar_agente".
-TONO: cercano, breve, directo. Tuteas. Español neutro. Saludo máximo 2 líneas.
-DERIVAR A "informativo": info sobre modelos, precios, disponibilidad, equipamiento.
-DERIVAR A "reservas": reservar, pagar, consultar/modificar/cancelar reservas.
-NO DERIVAR: saludo puro, info de contacto, fuera de scope, intención ambigua (haz UNA pregunta).
-VALIDACIÓN FECHAS: si alguna fecha es anterior a ${TC_HOY}, no continúes ni derives hasta que el usuario confirme fechas futuras.
-IMPORTANTE: Usa SIEMPRE la herramienta "derivar_agente" para derivar.`,
+function limpiarModal() {
+  ['mcli-nombre','mcli-email','mcli-pass','mcli-pass2'].forEach(function(id) {
+    var el = document.getElementById(id); if (el) el.value = '';
+  });
+  document.getElementById('mcli-error').style.display = 'none';
+  document.getElementById('mcli-ok').style.display    = 'none';
+}
 
-cami: `Eres Cami, la asistente informativa de campers de TodoCamping.
-FECHA DE HOY: ${TC_HOY}. MONEDA: Pesos uruguayos ($UY). Nunca uses euros ni otras monedas.
-MISIÓN: Ayudar a elegir el camper adecuado con info precisa del catálogo.
-REGLA: Toda info de campers proviene EXCLUSIVAMENTE de "consultar_campers". Nunca inventes datos.
-VALIDACIÓN FECHAS: Si el usuario menciona fechas anteriores a ${TC_HOY}, detén el flujo.
-FLUJO: Entiende qué busca → consultar_campers → recomienda 1-3 opciones → si quiere reservar: "pasar_a_reservas".`,
+async function submitCli() {
+  var email = document.getElementById('mcli-email').value.trim();
+  var pass  = document.getElementById('mcli-pass').value;
+  var errDiv = document.getElementById('mcli-error');
+  var okDiv  = document.getElementById('mcli-ok');
+  errDiv.style.display = 'none'; okDiv.style.display = 'none';
 
-reservas: `Eres Remi, el agente de reservas de TodoCamping. Gestionas el ciclo completo: crear, consultar, modificar, cancelar reservas.
-FECHA DE HOY: ${TC_HOY}. MONEDA: Pesos uruguayos ($UY). Nunca uses euros ni otras monedas.
-REGLA CRÍTICA: SIEMPRE llama a "verificar_disponibilidad" antes de confirmar disponibilidad. NUNCA ejecutes acciones sin confirmación explícita.
-ORDEN NUEVA RESERVA:
-1. Pedí: modelo + fecha_inicio + fecha_fin (YYYY-MM-DD). Validá fechas.
-2. "verificar_disponibilidad". Solo si hay disponibilidad continuá.
-3. Pedí datos: nombre, documento, teléfono, email.
-4. Mostrá resumen con precio. Esperá "sí confirmo".
-5. "crear_reserva" → mostrá ID.
-Si el usuario pide specs o comparativas → "pasar_a_cami".`,
-};
-
-/* ── TOOLS ── */
-const TC_TOOLS = {
-  leo: [{
-    name: 'derivar_agente', description: 'Deriva al agente correcto.',
-    input_schema: { type:'object', properties: {
-      agente_destino: { type:'string', enum:['informativo','reservas'] },
-      mensaje_usuario: { type:'string' },
-      contexto: { type:'object', properties: { resumen:{type:'string'}, modelo:{type:'string'}, fechas:{type:'string'}, pax:{type:'integer'}, presupuesto:{type:'string'} }, required:['resumen'] },
-    }, required:['agente_destino','mensaje_usuario','contexto'] },
-  }],
-  cami: [
-    { name:'consultar_campers', description:'Consulta base de datos de campers.', input_schema:{ type:'object', properties:{ estado:{type:'string'}, disponible:{type:'boolean'}, tipo:{type:'string'}, capacidad_min:{type:'integer'}, capacidad_max:{type:'integer'}, precio_max:{type:'number'}, precio_min:{type:'number'}, tiene_ac:{type:'boolean'}, tiene_bano:{type:'boolean'}, tiene_calefaccion:{type:'boolean'}, modelo:{type:'string'} } } },
-    { name:'pasar_a_reservas', description:'Pasa al agente de reservas.', input_schema:{ type:'object', properties:{ mensaje_usuario:{type:'string'}, contexto:{ type:'object', properties:{ resumen:{type:'string'}, modelo:{type:'string'}, fechas:{type:'string'}, pax:{type:'integer'} }, required:['resumen'] } }, required:['mensaje_usuario','contexto'] } },
-  ],
-  reservas: [
-    { name:'verificar_disponibilidad', description:'Verifica disponibilidad de un camper para fechas.', input_schema:{ type:'object', properties:{ modelo:{type:'string'}, fecha_inicio:{type:'string'}, fecha_fin:{type:'string'} }, required:['modelo','fecha_inicio','fecha_fin'] } },
-    { name:'buscar_disponibilidad_alternativa', description:'Busca campers alternativos disponibles.', input_schema:{ type:'object', properties:{ fecha_inicio:{type:'string'}, fecha_fin:{type:'string'}, camper_modelo:{type:'string'}, num_personas:{type:'integer'} }, required:['fecha_inicio','fecha_fin'] } },
-    { name:'crear_reserva', description:'Crea reserva tras confirmación.', input_schema:{ type:'object', properties:{ camper_modelo:{type:'string'}, cliente_nombre:{type:'string'}, cliente_documento:{type:'string'}, cliente_telefono:{type:'string'}, cliente_email:{type:'string'}, fecha_inicio:{type:'string'}, fecha_fin:{type:'string'}, num_personas:{type:'integer'}, notas:{type:'string'} }, required:['camper_modelo','cliente_nombre','cliente_documento','cliente_telefono','cliente_email','fecha_inicio','fecha_fin'] } },
-    { name:'consultar_reserva', description:'Busca reserva por email o ID.', input_schema:{ type:'object', properties:{ email:{type:'string'}, id_reserva:{type:'string'} } } },
-    { name:'consultar_reservas_por_cliente', description:'Lista reservas por nombre de cliente.', input_schema:{ type:'object', properties:{ nombre:{type:'string'} }, required:['nombre'] } },
-    { name:'consultar_reservas_por_camper', description:'Lista reservas de un camper.', input_schema:{ type:'object', properties:{ modelo:{type:'string'}, solo_activas:{type:'boolean'} }, required:['modelo'] } },
-    { name:'consultar_reservas_por_fecha', description:'Lista reservas en un rango de fechas.', input_schema:{ type:'object', properties:{ fecha_inicio:{type:'string'}, fecha_fin:{type:'string'} }, required:['fecha_inicio','fecha_fin'] } },
-    { name:'listar_reservas_activas', description:'Lista todas las reservas activas.', input_schema:{ type:'object', properties:{}, required:[] } },
-    { name:'modificar_reserva', description:'Modifica una reserva. Solo tras confirmación.', input_schema:{ type:'object', properties:{ id_reserva:{type:'string'}, camper_modelo:{type:'string'}, fecha_inicio:{type:'string'}, fecha_fin:{type:'string'}, cliente_telefono:{type:'string'}, cliente_email:{type:'string'}, estado_reserva:{type:'string',enum:['Pendiente','Confirmada','Cancelada','Completada']}, observaciones:{type:'string'} }, required:['id_reserva'] } },
-    { name:'cancelar_reserva', description:'Cancela una reserva. Solo tras confirmación.', input_schema:{ type:'object', properties:{ id_reserva:{type:'string'}, motivo:{type:'string'} }, required:['id_reserva'] } },
-    { name:'eliminar_reserva', description:'Elimina permanentemente. Solo tras confirmación.', input_schema:{ type:'object', properties:{ id_reserva:{type:'string'} }, required:['id_reserva'] } },
-    { name:'pasar_a_cami', description:'Pasa al agente informativo Cami.', input_schema:{ type:'object', properties:{ mensaje_usuario:{type:'string'}, contexto:{ type:'object', properties:{ resumen:{type:'string'}, fechas:{type:'string'}, pax:{type:'integer'}, presupuesto:{type:'string'} }, required:['resumen'] } }, required:['mensaje_usuario','contexto'] } },
-  ],
-};
-
-/* ── SUPABASE ── */
-let tcSb = null;
-function tcInitSupabase() {
-  if (TC_CONFIG.SUPABASE_URL && TC_CONFIG.SUPABASE_ANON_KEY && window.supabase) {
-    tcSb = window.supabase.createClient(TC_CONFIG.SUPABASE_URL, TC_CONFIG.SUPABASE_ANON_KEY);
+  if (!email || !/^[^@]+@[^@]+\.[^@]+$/.test(email)) {
+    errDiv.textContent = 'Ingresá un email válido.'; errDiv.style.display = 'block'; return;
   }
-}
-
-/* ── VALIDADORES ── */
-function tcValidarEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(e).trim()); }
-function tcValidarTel(t) { const d = String(t).replace(/[\s\-\+\(\)\.]/g,''); return d.length>=7 && d.length<=15 && /^\d+$/.test(d); }
-function tcValidarDoc(d) { const l = String(d).trim().replace(/[\.\-\s]/g,''); return l.length>=5 && l.length<=20 && /^[A-Za-z0-9]+$/.test(l); }
-function tcParseFecha(s) {
-  const p = (s||'').split(' ')[0].split('-').map(Number);
-  if (p.length!==3||p.some(isNaN)) return null;
-  return new Date(p[0],p[1]-1,p[2]);
-}
-function tcValidarFechas(fi, ff) {
-  const hoy = new Date(); hoy.setHours(0,0,0,0);
-  const a = tcParseFecha(fi), b = tcParseFecha(ff);
-  if (!a) return { ok:false, error:'Fecha de inicio inválida. Usá el formato YYYY-MM-DD.' };
-  if (!b) return { ok:false, error:'Fecha de fin inválida. Usá el formato YYYY-MM-DD.' };
-  if (a < hoy) {
-    const sug = new Date(a); sug.setFullYear(hoy.getFullYear()); if(sug<hoy) sug.setFullYear(hoy.getFullYear()+1);
-    return { ok:false, error:`La fecha de inicio ya pasó. ¿Querías decir ${sug.getFullYear()}-${String(sug.getMonth()+1).padStart(2,'0')}-${String(sug.getDate()).padStart(2,'0')}?` };
+  if (pass.length < 6) {
+    errDiv.textContent = 'La contraseña debe tener al menos 6 caracteres.'; errDiv.style.display = 'block'; return;
   }
-  if (b <= a) return { ok:false, error:'La fecha de fin debe ser posterior a la de inicio.' };
-  return { ok:true };
-}
 
-/* ── FIND CAMPER ── */
-async function tcFindCamper(q) {
-  if (!q) return null;
-  if (tcSb) {
-    try {
-      const ql = q.toLowerCase();
-      let { data } = await tcSb.from('campers').select('*').ilike('key', q).limit(1);
-      if (data?.[0]) return data[0];
-      ({ data } = await tcSb.from('campers').select('*').ilike('modelo', `%${q}%`).limit(1));
-      if (data?.[0]) return data[0];
-    } catch(e) {}
+  var btn = document.getElementById('mbtn-submit');
+  btn.disabled = true; btn.textContent = '...';
+  await initSBCli();
+
+  try {
+    if (CLI_TAB === 'login') {
+      var res = await SB_CLI.auth.signInWithPassword({ email: email, password: pass });
+      if (res.error) throw new Error(
+        res.error.message.includes('Invalid login credentials')
+          ? 'Email o contraseña incorrectos.'
+          : res.error.message
+      );
+      CLI_USER = res.data.user;
+      var nombre = (CLI_USER.user_metadata && CLI_USER.user_metadata.nombre) || email.split('@')[0];
+      okDiv.textContent = '¡Bienvenido/a, ' + nombre + '!';
+      okDiv.style.display = 'block';
+      actualizarNavCli(nombre);
+      setTimeout(function() { cerrarModalCli(); desbloquearChat(); }, 1200);
+
+    } else {
+      var nombre = document.getElementById('mcli-nombre').value.trim();
+      var pass2  = document.getElementById('mcli-pass2').value;
+      if (!nombre) throw new Error('Ingresá tu nombre completo.');
+      if (pass !== pass2) throw new Error('Las contraseñas no coinciden.');
+      var res2 = await SB_CLI.auth.signUp({ email: email, password: pass, options: { data: { nombre: nombre } } });
+      if (res2.error) throw new Error(
+        res2.error.message.includes('already registered')
+          ? 'Ya existe una cuenta con ese email. Ingresá en la pestaña "Ingresar".'
+          : res2.error.message
+      );
+      CLI_USER = res2.data.user;
+      okDiv.textContent = '¡Cuenta creada! Ya podés consultar con nuestros asistentes.';
+      okDiv.style.display = 'block';
+      actualizarNavCli(nombre);
+      setTimeout(function() { cerrarModalCli(); desbloquearChat(); }, 1500);
+    }
+  } catch(e) {
+    errDiv.textContent = e.message; errDiv.style.display = 'block';
   }
-  const ql = q.toLowerCase();
-  return TC_MOCK.campers.find(c=>c.key.toLowerCase()===ql) || TC_MOCK.campers.find(c=>c.modelo.toLowerCase().includes(ql)) || null;
+  btn.disabled = false;
+  btn.textContent = CLI_TAB === 'login' ? 'Ingresar' : 'Crear cuenta';
 }
 
-/* ── TOOL EXECUTORS ── */
-async function tcExecConsultarCampers(f) {
-  let data = [...TC_MOCK.campers];
-  if (tcSb) {
-    try {
-      let q = tcSb.from('campers').select('*');
-      if (f.estado)            q = q.eq('estado', f.estado);
-      if (f.disponible!=null)  q = q.eq('disponible', f.disponible);
-      if (f.tipo)              q = q.eq('tipo', f.tipo);
-      if (f.capacidad_min)     q = q.gte('capacidad', f.capacidad_min);
-      if (f.capacidad_max)     q = q.lte('capacidad', f.capacidad_max);
-      if (f.precio_max)        q = q.lte('precio_diario', f.precio_max);
-      if (f.precio_min)        q = q.gte('precio_diario', f.precio_min);
-      if (f.tiene_ac)          q = q.eq('ac', true);
-      if (f.tiene_bano)        q = q.eq('bano', true);
-      if (f.tiene_calefaccion) q = q.eq('calefaccion', true);
-      if (f.modelo)            q = q.ilike('modelo', `%${f.modelo}%`);
-      const { data: d, error } = await q.order('precio_diario', { ascending: true });
-      if (!error && d) data = d;
-    } catch(e) {}
-  } else {
-    if (f.estado)            data = data.filter(c=>c.estado===f.estado);
-    if (f.disponible!=null)  data = data.filter(c=>c.disponible===f.disponible);
-    if (f.tipo)              data = data.filter(c=>c.tipo===f.tipo);
-    if (f.capacidad_min)     data = data.filter(c=>c.capacidad>=f.capacidad_min);
-    if (f.capacidad_max)     data = data.filter(c=>c.capacidad<=f.capacidad_max);
-    if (f.precio_max)        data = data.filter(c=>c.precio_diario<=f.precio_max);
-    if (f.precio_min)        data = data.filter(c=>c.precio_diario>=f.precio_min);
-    if (f.tiene_ac)          data = data.filter(c=>c.ac);
-    if (f.tiene_bano)        data = data.filter(c=>c.bano);
-    if (f.tiene_calefaccion) data = data.filter(c=>c.calefaccion);
-    if (f.modelo)            data = data.filter(c=>c.modelo.toLowerCase().includes(f.modelo.toLowerCase()));
-    data.sort((a,b)=>a.precio_diario-b.precio_diario);
-  }
-  return data.length ? { total:data.length, campers:data } : { resultado:'Sin coincidencias.', campers:[] };
+function actualizarNavCli(nombre) {
+  var btn = document.getElementById('btn-nav-cli');
+  if (!btn) return;
+  btn.textContent = '&#128100; ' + nombre;
+  btn.style.background = 'var(--green-dark)';
 }
 
-async function tcExecVerificarDisp({ modelo, fecha_inicio, fecha_fin }) {
-  const fv = tcValidarFechas(fecha_inicio, fecha_fin);
-  if (!fv.ok) return { disponible:false, error:fv.error };
-  const camper = await tcFindCamper(modelo);
-  if (!camper) return { disponible:false, motivo:`Camper "${modelo}" no encontrado.` };
-  if (camper.estado !== 'Activo') return { disponible:false, motivo:`El camper está en ${camper.estado}.` };
-  if (!camper.disponible) return { disponible:false, motivo:'El camper no está disponible.' };
-  let ocupadas = 0;
-  if (tcSb) {
-    try {
-      const { count } = await tcSb.from('reservas').select('*',{count:'exact',head:true}).eq('camper_key',camper.key).in('estado_reserva',['Confirmada','Pendiente']).lte('fecha_inicio',fecha_fin).gte('fecha_fin',fecha_inicio);
-      ocupadas = count || 0;
-    } catch(e) {}
-  } else {
-    ocupadas = TC_MOCK.reservas.filter(r=>r.camper_key===camper.key&&['Confirmada','Pendiente'].includes(r.estado_reserva)&&r.fecha_inicio<=fecha_fin&&r.fecha_fin>=fecha_inicio).length;
-  }
-  const disp = (camper.unidades||1) - ocupadas;
-  return { disponible:disp>0, modelo:camper.modelo, key:camper.key, precio_por_noche:camper.precio_diario, moneda:'$UY', unidades_totales:camper.unidades||1, unidades_disponibles:Math.max(0,disp) };
+function desbloquearChat() {
+  // Ocultar botón bloqueado
+  var bloq = document.getElementById('chat-bloqueado');
+  if (bloq) bloq.style.display = 'none';
+  // Mostrar widget del chat
+  var widget = document.getElementById('tc-chat-widget');
+  var bubble = document.getElementById('tc-chat-bubble');
+  if (widget) { widget.classList.remove('tc-hidden'); }
+  if (bubble) { bubble.classList.remove('tc-hidden'); bubble.click(); }
 }
+</script>
 
-async function tcExecCrearReserva(args) {
-  const fv = tcValidarFechas(args.fecha_inicio, args.fecha_fin);
-  if (!fv.ok) return { error:fv.error };
-  if (!tcValidarEmail(args.cliente_email)) return { error:`Email inválido: "${args.cliente_email}".` };
-  if (args.cliente_documento && !tcValidarDoc(args.cliente_documento)) return { error:`Documento inválido: "${args.cliente_documento}".` };
-  if (args.cliente_telefono && !tcValidarTel(args.cliente_telefono)) return { error:`Teléfono inválido: "${args.cliente_telefono}". Debe tener entre 7 y 15 dígitos.` };
-  const camper = await tcFindCamper(args.camper_modelo);
-  if (!camper) return { error:`Camper "${args.camper_modelo}" no encontrado.` };
-  const fi = tcParseFecha(args.fecha_inicio), ff = tcParseFecha(args.fecha_fin);
-  const noches = Math.round((ff-fi)/86400000);
-  if (noches <= 0) return { error:'La fecha de fin debe ser posterior a la de inicio.' };
-  const precio_total = camper.precio_diario * noches;
-  if (tcSb) {
-    try {
-      const { count } = await tcSb.from('reservas').select('*',{count:'exact',head:true});
-      const ref = `RES-${String((count||0)+1).padStart(4,'0')}`;
-      const { data, error } = await tcSb.from('reservas').insert({ camper_id:camper.id, camper_key:camper.key, reserva_ref:ref, cliente_nombre:args.cliente_nombre, cliente_documento:args.cliente_documento||null, cliente_telefono:args.cliente_telefono||null, cliente_email:args.cliente_email, fecha_inicio:args.fecha_inicio.split(' ')[0], fecha_fin:args.fecha_fin.split(' ')[0], num_personas:args.num_personas||null, estado_reserva:'Pendiente', precio_total, notas:args.notas||null }).select().single();
-      if (error) return { error:error.message };
-      return { ok:true, id_reserva:ref, modelo:camper.modelo, precio_total, noches, moneda:'$UY' };
-    } catch(e) {}
-  }
-  const ref = `RES-${String(TC_MOCK._nextId++).padStart(4,'0')}`;
-  TC_MOCK.reservas.push({ id:ref, reserva_ref:ref, camper_key:camper.key, camper_modelo:camper.modelo, cliente_nombre:args.cliente_nombre, cliente_documento:args.cliente_documento||null, cliente_telefono:args.cliente_telefono||null, cliente_email:args.cliente_email, fecha_inicio:args.fecha_inicio.split(' ')[0], fecha_fin:args.fecha_fin.split(' ')[0], num_personas:args.num_personas||null, estado_reserva:'Pendiente', precio_total, notas:args.notas||null });
-  return { ok:true, id_reserva:ref, modelo:camper.modelo, precio_total, noches, moneda:'$UY' };
-}
-
-async function tcExecConsultarReserva({ email, id_reserva }) {
-  if (tcSb) {
-    try {
-      let q = tcSb.from('reservas').select('*');
-      if (id_reserva) q = q.eq('reserva_ref', id_reserva);
-      else if (email)  q = q.ilike('cliente_email', email);
-      const { data } = await q.limit(10);
-      return data?.length ? { reservas:data } : { resultado:'No se encontraron reservas.' };
-    } catch(e) {}
-  }
-  let found = TC_MOCK.reservas;
-  if (id_reserva) found = found.filter(r=>r.reserva_ref===id_reserva||r.id===id_reserva);
-  else if (email)  found = found.filter(r=>r.cliente_email?.toLowerCase()===email.toLowerCase());
-  return found.length ? { reservas:found } : { resultado:'No se encontraron reservas.' };
-}
-
-async function tcExecBuscarAlt({ fecha_inicio, fecha_fin, camper_modelo, num_personas }) {
-  let campers = TC_MOCK.campers.filter(c=>c.estado==='Activo'&&c.disponible);
-  if (num_personas) campers = campers.filter(c=>c.capacidad>=num_personas);
-  if (tcSb) { try { let q=tcSb.from('campers').select('*').eq('estado','Activo').eq('disponible',true); if(num_personas)q=q.gte('capacidad',num_personas); const{data}=await q.order('precio_diario',{ascending:true}); if(data)campers=data; } catch(e){} }
-  const disp = [];
-  for (const c of campers) {
-    if (camper_modelo && c.modelo.toLowerCase().includes(camper_modelo.toLowerCase())) continue;
-    let ocu = 0;
-    if (tcSb) { try { const{count}=await tcSb.from('reservas').select('*',{count:'exact',head:true}).eq('camper_key',c.key).in('estado_reserva',['Confirmada','Pendiente']).lte('fecha_inicio',fecha_fin).gte('fecha_fin',fecha_inicio); ocu=count||0; } catch(e){} }
-    else { ocu=TC_MOCK.reservas.filter(r=>r.camper_key===c.key&&['Confirmada','Pendiente'].includes(r.estado_reserva)&&r.fecha_inicio<=fecha_fin&&r.fecha_fin>=fecha_inicio).length; }
-    if ((c.unidades||1)-ocu>0) disp.push({ modelo:c.modelo, camper_key:c.key, precio_diario:c.precio_diario, capacidad:c.capacidad });
-  }
-  return disp.length ? { disponibles_en_esas_fechas:disp, total:disp.length } : { resultado:'No hay alternativas disponibles.' };
-}
-
-async function tcExecListarActivas() {
-  if (tcSb) { try { const{data}=await tcSb.from('reservas').select('*').in('estado_reserva',['Confirmada','Pendiente']).order('fecha_inicio',{ascending:true}); return{reservas:data||[],total:(data||[]).length}; } catch(e){} }
-  const f = TC_MOCK.reservas.filter(r=>['Confirmada','Pendiente'].includes(r.estado_reserva));
-  return { reservas:f, total:f.length };
-}
-
-async function tcExecConsultarPorCliente({ nombre }) {
-  if (tcSb) { try { const{data}=await tcSb.from('reservas').select('*').ilike('cliente_nombre',`%${nombre}%`).order('fecha_inicio',{ascending:true}); return data?.length?{reservas:data,total:data.length}:{resultado:`Sin reservas para "${nombre}".`}; } catch(e){} }
-  const f = TC_MOCK.reservas.filter(r=>r.cliente_nombre?.toLowerCase().includes(nombre.toLowerCase()));
-  return f.length ? {reservas:f,total:f.length} : {resultado:`Sin reservas para "${nombre}".`};
-}
-
-async function tcExecConsultarPorCamper({ modelo, solo_activas }) {
-  if (tcSb) { try { const{data:c}=await tcSb.from('campers').select('key').ilike('modelo',`%${modelo}%`).limit(1).single(); if(!c) return{resultado:'Camper no encontrado.'}; let q=tcSb.from('reservas').select('*').eq('camper_key',c.key); if(solo_activas!==false)q=q.in('estado_reserva',['Confirmada','Pendiente']); const{data}=await q.order('fecha_inicio',{ascending:true}); return data?.length?{reservas:data,total:data.length}:{resultado:`Sin reservas.`}; } catch(e){} }
-  const c=TC_MOCK.campers.find(x=>x.modelo.toLowerCase().includes(modelo.toLowerCase())); if(!c) return{resultado:'Camper no encontrado.'};
-  let f=TC_MOCK.reservas.filter(r=>r.camper_key===c.key); if(solo_activas!==false)f=f.filter(r=>['Confirmada','Pendiente'].includes(r.estado_reserva));
-  return f.length?{reservas:f,total:f.length}:{resultado:`Sin reservas.`};
-}
-
-async function tcExecConsultarPorFecha({ fecha_inicio, fecha_fin }) {
-  if (tcSb) { try { const{data}=await tcSb.from('reservas').select('*').lte('fecha_inicio',fecha_fin).gte('fecha_fin',fecha_inicio).order('fecha_inicio',{ascending:true}); return data?.length?{reservas:data,total:data.length}:{resultado:'Sin reservas.'}; } catch(e){} }
-  const f=TC_MOCK.reservas.filter(r=>r.fecha_inicio<=fecha_fin&&r.fecha_fin>=fecha_inicio);
-  return f.length?{reservas:f,total:f.length}:{resultado:'Sin reservas.'};
-}
-
-async function tcExecModificar(args) {
-  const{id_reserva,camper_modelo,fecha_inicio,fecha_fin,cliente_telefono,cliente_email,estado_reserva,observaciones}=args;
-  if (tcSb) {
-    try {
-      const u={};
-      if(fecha_inicio)u.fecha_inicio=fecha_inicio; if(fecha_fin)u.fecha_fin=fecha_fin;
-      if(cliente_telefono)u.cliente_telefono=cliente_telefono; if(cliente_email)u.cliente_email=cliente_email;
-      if(estado_reserva)u.estado_reserva=estado_reserva; if(observaciones)u.notas=observaciones;
-      if(camper_modelo){const{data:c}=await tcSb.from('campers').select('id,key').ilike('modelo',`%${camper_modelo}%`).limit(1).single();if(c){u.camper_id=c.id;u.camper_key=c.key;}}
-      const{data,error}=await tcSb.from('reservas').update(u).eq('reserva_ref',id_re
+</body>
+</html>
