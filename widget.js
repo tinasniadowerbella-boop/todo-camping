@@ -88,12 +88,12 @@ REGLAS:
 
 SCOPE: solo info de flota. Para reservas, usa pasar_a_reservas.`,
 
-reservas: `Eres Remi, el agente de reservas de TodoCamping. Gestionas el ciclo completo: crear, consultar, modificar y cancelar reservas.
+reservas: function() { return `Eres Remi, el agente de reservas de TodoCamping. Gestionas el ciclo completo: crear, consultar, modificar y cancelar reservas.
 FECHA HOY: \${TC_HOY}.
 
 ⚡ DATOS DEL CLIENTE YA IDENTIFICADO (no volver a pedirlos):
-- Nombre: \${TC_CLI.nombre || 'pendiente'}
-- Email: \${TC_CLI.email || 'pendiente'}
+- Nombre: `+(TC_CLI.nombre||'(del login)')+`
+- Email: `+(TC_CLI.email||'(del login)')+`
 Si esos datos dicen algo distinto a "pendiente", úsalos directamente en la reserva. NUNCA vuelvas a pedir nombre ni email al cliente.
 
 PRESENTACIÓN OBLIGATORIA: Cada vez que tomes la conversación (ya sea por derivación o directamente), preséntate en la PRIMERA línea de tu respuesta: "Hola, soy Remi, me encargo de gestionar tus reservas."
@@ -145,7 +145,7 @@ Si recibes contexto de otro agente (modelo, fechas, personas ya confirmados), ú
 ═══ AYUDA PARA DECIDIR ═══
 Si el usuario no sabe qué camper elegir: usa pasar_a_cami para que Cami le ayude a comparar opciones.
 
-SCOPE: solo gestión de reservas. Para info de modelos: pasar_a_cami.`,
+SCOPE: solo gestión de reservas. Para info de modelos: pasar_a_cami.`; },
 
 };
 
@@ -314,7 +314,7 @@ async function tcRunLoop(userText) {
   var history=tcState.histories[agentId];
   var messages=history.slice();
   messages.push({role:'user',content:userText});
-  var system=TC_PROMPTS[agentId];
+  var system=typeof TC_PROMPTS[agentId]==='function'?TC_PROMPTS[agentId]():TC_PROMPTS[agentId];
   var tools=TC_TOOLS[agentId];
 
   for(var turn=0;turn<10;turn++){
