@@ -134,15 +134,10 @@ app.get('/api/migrate', async (req, res) => {
 
 // GET /api/admin/fixlogs — arregla permisos logs_sistema y hace seed
 app.get('/api/admin/fixlogs', async (req, res) => {
-  const key = SUPABASE_SERV_KEY || SUPABASE_ANON_KEY;
-  const headers = {
-    'Content-Type': 'application/json',
-    'apikey': key,
-    'Authorization': `Bearer ${key}`,
-  };
+  const headers = { ...sbAdminHeaders(), 'Prefer': 'return=minimal' };
   const results = [];
 
-  // Lista de SQLs a ejecutar en orden
+  // Lista de SQLs a ejecutar en orden (skipped — service_role bypasea RLS)
   const sqls = [
     `CREATE TABLE IF NOT EXISTS public.logs_sistema (
       id             BIGSERIAL PRIMARY KEY,
@@ -236,10 +231,11 @@ app.get('/api/admin/fixlogs', async (req, res) => {
     try {
       const r = await fetch(`${SUPABASE_URL}/rest/v1/logs_sistema`, {
         method: 'POST',
-        headers: { ...headers, 'Prefer': 'return=minimal' },
+        headers: sbAdminHeaders(),
         body: JSON.stringify(batch),
       });
-      if (r.status === 201 || r.status === 200) total += batch.length;
+      const batchStatus = r.status;
+      if (batchStatus === 201 || batchStatus === 200) total += batch.length;
       else {
         const t = await r.text();
         results.push({ paso: `batch ${i}`, status: r.status, err: t.substring(0,150) });
@@ -380,7 +376,7 @@ app.get('/api/admin/seed', async (req, res) => {
     try {
       const r = await fetch(`${SUPABASE_URL}/rest/v1/logs_sistema`, {
         method: 'POST',
-        headers: { ...headers, 'Prefer': 'return=minimal' },
+        headers: sbAdminHeaders(),
         body: JSON.stringify(batch),
       });
       results.push({ paso: `logs batch ${i}-${i+batch.length}`, status: r.status });
