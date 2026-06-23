@@ -84,7 +84,17 @@ REGLAS:
 5. Fechas válidas si son >= ${TC_HOY}
 6. Cuando el usuario quiera reservar: usá derivar_agente con agente_destino="reservas" pasando modelo, fechas, personas y precio. Hacelo SIN texto previo ni avisos.`,
 
-reservas: function() { return `Eres Flo, asistente de TodoCamping. Módulo interno: gestión de reservas.
+reservas: function() {
+  var rc = tcReservaEnCurso;
+  var datosAcumulados = '';
+  if(rc.modelo)    datosAcumulados += '\n- Camper: ' + rc.modelo;
+  if(rc.fecha_inicio) datosAcumulados += '\n- Fecha inicio: ' + rc.fecha_inicio;
+  if(rc.fecha_fin)    datosAcumulados += '\n- Fecha fin: ' + rc.fecha_fin;
+  if(rc.num_personas) datosAcumulados += '\n- Personas: ' + rc.num_personas;
+  if(rc.cedula)    datosAcumulados += '\n- Cédula: ' + rc.cedula;
+  if(rc.telefono)  datosAcumulados += '\n- Teléfono: ' + rc.telefono;
+  var yaConfirmado = rc.confirmado ? '\n\n🔴 EL USUARIO YA CONFIRMÓ EL RESUMEN. Ejecutá crear_reserva AHORA MISMO con todos los datos acumulados. NO preguntes nada.' : '';
+  return `Eres Flo, asistente de TodoCamping. Módulo interno: gestión de reservas.
 FECHA HOY: ${TC_HOY}.
 
 ⛔ NUNCA te presentes con nombre. NUNCA menciones Remi, Leo, Cami. Continuá directo.
@@ -93,6 +103,9 @@ MONEDA: Precios en PESOS URUGUAYOS. Formato: "$3.500 UYU/noche".
 DATOS DEL CLIENTE (ya identificado al hacer login — NO volver a pedirlos):
 - Nombre: `+(TC_CLI.nombre||'NO DISPONIBLE')+`
 - Email: `+(TC_CLI.email||'NO DISPONIBLE')+`
+
+DATOS DE RESERVA YA RECOLECTADOS EN ESTA SESIÓN:`+datosAcumulados+`
+`+yaConfirmado+`
 
 ═══ FLUJO NUEVA RESERVA ═══
 1. Si falta modelo, fecha_inicio o fecha_fin → pedí solo lo que falta, de a uno
@@ -259,7 +272,7 @@ async function tcExecCrearReserva(args) {
       notas:args.notas||null
     }).select().single();
     if(ins.error) return{error:'Error al guardar: '+ins.error.message};
-    return{ok:true,id_reserva:ref,modelo:camper.modelo,precio_total:precio_total,noches:noches,moneda:'pesos uruguayos (UYU)',email_cliente:args.cliente_email};
+    tcResetReserva(); return{ok:true,id_reserva:ref,modelo:camper.modelo,precio_total:precio_total,noches:noches,moneda:'pesos uruguayos (UYU)',email_cliente:args.cliente_email};
   }catch(e){console.error('Supabase insert error:',e);}}
   var ref='RES-'+String(TC_MOCK._nextId++).padStart(4,'0');
   TC_MOCK.reservas.push({id:ref,reserva_ref:ref,camper_key:camper.key,camper_modelo:camper.modelo,cliente_nombre:args.cliente_nombre,cliente_documento:args.cliente_documento||null,cliente_telefono:args.cliente_telefono||null,cliente_email:args.cliente_email,fecha_inicio:args.fecha_inicio.split(' ')[0],fecha_fin:args.fecha_fin.split(' ')[0],num_personas:args.num_personas||null,estado_reserva:'Pendiente',precio_total:precio_total});
@@ -382,8 +395,26 @@ async function tcRunLoop(userText) {
         else if(block.name==='pasar_a_reservas')                 {handoff={agente:'reservas',contexto:block.input.contexto,mensajeVisible:block.input.mensaje_usuario};output={ok:true};}
         else if(block.name==='pasar_a_cami')                     {handoff={agente:'cami',contexto:block.input.contexto,mensajeVisible:block.input.mensaje_usuario};output={ok:true};}
         else if(block.name==='consultar_campers')                {output=await tcExecConsultarCampers(block.input);}
-        else if(block.name==='verificar_disponibilidad')         {output=await tcExecVerificarDisp(block.input);}
-        else if(block.name==='crear_reserva')                    {output=await tcExecCrearReserva(block.input);}
+        else if(block.name==='verificar_disponibilidad'){
+          output=await tcExecVerificarDisp(block.input);
+          // Guardar datos en tcReservaEnCurso para el atajo directo
+          if(block.input.modelo)       tcReservaEnCurso.modelo=block.input.modelo;
+          if(block.input.fecha_inicio) tcReservaEnCurso.fecha_inicio=block.input.fecha_inicio.split(' ')[0];
+          if(block.input.fecha_fin)    tcReservaEnCurso.fecha_fin=block.input.fecha_fin.split(' ')[0];
+        }
+        else if(block.name==='crear_reserva'){
+          // Merge datos del modelo con lo acumulado
+          var inp2=Object.assign({},block.input);
+          if(!inp2.cliente_nombre && TC_CLI.nombre) inp2.cliente_nombre=TC_CLI.nombre;
+          if(!inp2.cliente_email  && TC_CLI.email)  inp2.cliente_email=TC_CLI.email;
+          if(!inp2.cliente_documento && tcReservaEnCurso.cedula)   inp2.cliente_documento=tcReservaEnCurso.cedula;
+          if(!inp2.cliente_telefono  && tcReservaEnCurso.telefono) inp2.cliente_telefono=tcReservaEnCurso.telefono;
+          if(!inp2.camper_modelo && tcReservaEnCurso.modelo)       inp2.camper_modelo=tcReservaEnCurso.modelo;
+          if(!inp2.fecha_inicio  && tcReservaEnCurso.fecha_inicio) inp2.fecha_inicio=tcReservaEnCurso.fecha_inicio;
+          if(!inp2.fecha_fin     && tcReservaEnCurso.fecha_fin)    inp2.fecha_fin=tcReservaEnCurso.fecha_fin;
+          if(inp2.num_personas) tcReservaEnCurso.num_personas=inp2.num_personas;
+          output=await tcExecCrearReserva(inp2);
+        }
         else if(block.name==='consultar_reserva')                {output=await tcExecConsultarReserva(block.input);}
         else if(block.name==='listar_reservas_activas')          {output=await tcExecListarActivas();}
         else if(block.name==='modificar_reserva')                {output=await tcExecModificarReserva(block.input);}
@@ -486,6 +517,58 @@ async function tcHandleSend(){
   var text=inp.value.trim();if(!text)return;
   inp.value='';
   tcAddUserMsg(text);tcSetTyping(true);tcSetDisabled(true);
+
+  // Acumular datos de reserva del mensaje del usuario
+  if(tcState.current==='reservas'){
+    var cedMatch=text.replace(/[^0-9]/g,'');
+    // Detectar cédula: exactamente 8 dígitos
+    if(!tcReservaEnCurso.cedula && /^\d{8}$/.test(cedMatch)) {
+      tcReservaEnCurso.cedula = cedMatch;
+    }
+    // Detectar teléfono: 8-9 dígitos (distinto de cédula)
+    else if(!tcReservaEnCurso.telefono && /^\d{8,9}$/.test(cedMatch) && cedMatch!==tcReservaEnCurso.cedula) {
+      tcReservaEnCurso.telefono = cedMatch;
+    }
+    // Detectar confirmación del resumen
+    var confirmWords=['si','sí','ok','okey','dale','perfecto','confirmo','correcto','yes','adelante','va','bien','exacto','genial','listo','claro','bueno','todo bien'];
+    var textNorm=text.toLowerCase().trim().replace(/[^a-záéíóúüñ\s]/gi,'').trim();
+    if(!tcReservaEnCurso.confirmado && confirmWords.some(function(w){return textNorm===w||textNorm.startsWith(w+' ')||textNorm.endsWith(' '+w);})) {
+      tcReservaEnCurso.confirmado = true;
+    }
+  }
+
+  // ATAJO DIRECTO: si confirmó y tenemos todos los datos, crear reserva sin pasar por Claude
+  var rc=tcReservaEnCurso;
+  if(tcState.current==='reservas' && rc.confirmado && rc.cedula && rc.telefono && rc.modelo && rc.fecha_inicio && rc.fecha_fin){
+    try{
+      var resArgs={
+        camper_modelo: rc.modelo,
+        cliente_nombre: TC_CLI.nombre||'',
+        cliente_email:  TC_CLI.email||'',
+        cliente_documento: rc.cedula,
+        cliente_telefono:  rc.telefono,
+        fecha_inicio: rc.fecha_inicio,
+        fecha_fin:    rc.fecha_fin,
+        num_personas: rc.num_personas||null,
+      };
+      var resOut=await tcExecCrearReserva(resArgs);
+      tcSetTyping(false);
+      if(resOut.ok){
+        tcAddAgentMsg('✅ ¡Reserva confirmada! Tu código es **'+resOut.id_reserva+'**.
+
+Te llegará un email a '+resOut.email_cliente+'. Presentá tu cédula al retirar el camper. ¿Hay algo más en que pueda ayudarte?');
+      } else {
+        tcAddAgentMsg('Hubo un problema al crear la reserva: '+(resOut.error||'error desconocido')+'. ¿Querés intentarlo de nuevo?');
+      }
+      tcSetDisabled(false);
+      document.getElementById('tc-user-input').focus();
+      return;
+    }catch(e2){
+      console.warn('[TC reserva directa]', e2);
+      // si falla el atajo, caer al flujo normal
+    }
+  }
+
   try{
     var r=await tcRunLoop(text);
     tcSetTyping(false);
@@ -508,6 +591,10 @@ function tcSetCliente(nombre, email) {
   TC_CLI.nombre = nombre;
   TC_CLI.email  = email;
 }
+
+// Datos acumulados de la reserva en curso — Remi los lee al armar su prompt
+var tcReservaEnCurso = {};
+function tcResetReserva() { tcReservaEnCurso = {}; }
 
 async function tcIniciar(){
   tcInitSupabase();tcUpdateTheme(TC_AGENTS.leo);
