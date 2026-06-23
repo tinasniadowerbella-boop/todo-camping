@@ -1132,133 +1132,179 @@
 <script src="/widget.js"></script>
 
 
-<!-- ══ OVERLAY IDENTIFICACION CLIENTE ════════════════════════ -->
-<!-- Inputs trampa anti-autocompletado -->
-<input type="text" style="display:none" aria-hidden="true" tabindex="-1" />
-<input type="password" style="display:none" aria-hidden="true" tabindex="-1" />
-
-<div id="modal-cli" role="dialog" aria-modal="true">
-  <div class="modal-box" style="max-width:380px;">
-    <div style="text-align:center;margin-bottom:22px;">
-      <div style="font-size:40px;">🏕️</div>
-      <h2 style="font-size:19px;color:var(--green-dark);margin:8px 0 4px;">¡Hola! Antes de empezar</h2>
-      <p style="font-size:13px;color:#6b7280;margin:0;">Decinos tu nombre y email para poder ayudarte.</p>
+<!-- ══ MODAL CLIENTE AUTH ══════════════════════════════════════ -->
+<div id="modal-cli">
+  <div class="modal-box">
+    <button class="modal-close" onclick="cerrarModalCli()">&#215;</button>
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:36px;">&#127957;&#65039;</div>
+      <h2 style="font-size:18px;color:var(--green-dark);margin:8px 0 2px;">TodoCamping</h2>
+      <p id="modal-sub" style="font-size:13px;color:#6b7280;">Ingresá para consultar con nuestros asistentes</p>
     </div>
-    <div class="mfield">
-      <label>Nombre *</label>
-      <input id="mcli-nombre" type="text" placeholder="Tu nombre"
-        autocomplete="off" autocorrect="off" spellcheck="false" />
+    <div class="modal-tabs">
+      <button class="mtab active" id="mtab-login"    onclick="switchTab('login')">Ingresar</button>
+      <button class="mtab"        id="mtab-registro" onclick="switchTab('registro')">Registrarme</button>
+    </div>
+    <div id="mcampo-nombre" class="mfield" style="display:none;">
+      <label>Nombre completo *</label>
+      <input id="mcli-nombre" type="text" placeholder="Tu nombre" />
     </div>
     <div class="mfield">
       <label>Email *</label>
-      <input id="mcli-email" type="text" inputmode="email" placeholder="tu@email.com"
-        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+      <input id="mcli-email" type="email" placeholder="tu@email.com" />
     </div>
-    <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:18px;">
-      <input id="mcli-acepto" type="checkbox" style="margin-top:3px;width:15px;height:15px;flex-shrink:0;" />
-      <label for="mcli-acepto" style="font-size:12px;color:#6b7280;cursor:pointer;line-height:1.4;">
-        Acepto que TodoCamping use mis datos para gestionar mi consulta.
-      </label>
+    <div class="mfield">
+      <label>Contraseña *</label>
+      <input id="mcli-pass" type="password" placeholder="Mínimo 6 caracteres" />
+    </div>
+    <div id="mcampo-pass2" class="mfield" style="display:none;">
+      <label>Confirmar contraseña *</label>
+      <input id="mcli-pass2" type="password" placeholder="Repetí tu contraseña" />
     </div>
     <div class="merror" id="mcli-error"></div>
-    <button class="mbtn" id="mbtn-submit" onclick="submitCli()">Comenzar consulta</button>
+    <div class="mok"    id="mcli-ok"></div>
+    <button class="mbtn" id="mbtn-submit" onclick="submitCli()">Ingresar</button>
+    <p style="text-align:center;font-size:11px;color:#9ca3af;margin-top:14px;">
+      Tus datos se guardan de forma segura. No enviamos spam.
+    </p>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* ── CLIENTE OVERLAY ─────────────────────────────────────────── */
-var CLI_NOMBRE = null;
-var CLI_EMAIL  = null;
+/* ── CLIENTE AUTH ─────────────────────────────────────────────── */
+var SB_CLI = null;
+var CLI_USER = null;
+var CLI_TAB = 'login';
+
+async function initSBCli() {
+  if (SB_CLI) return;
+  const cfg = await fetch('/api/config').then(r => r.json());
+  // persistSession:false → sesión solo en memoria, limpia al cerrar/recargar
+  SB_CLI = supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
+  });
+}
 
 function abrirModalCli() {
+  initSBCli();
   document.getElementById('modal-cli').classList.add('open');
-  setTimeout(function() {
-    document.getElementById('mcli-nombre').focus();
-  }, 100);
+  switchTab('login');
 }
 
 function cerrarModalCli() {
   document.getElementById('modal-cli').classList.remove('open');
+  limpiarModal();
 }
 
 document.getElementById('modal-cli').addEventListener('click', function(e) {
   if (e.target === this) cerrarModalCli();
 });
 
-// Enter en los campos avanza o envía
-['mcli-nombre','mcli-email'].forEach(function(id) {
-  document.getElementById(id).addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') submitCli();
+function switchTab(tab) {
+  CLI_TAB = tab;
+  const esLogin = (tab === 'login');
+  document.getElementById('mtab-login').classList.toggle('active', esLogin);
+  document.getElementById('mtab-registro').classList.toggle('active', !esLogin);
+  document.getElementById('mcampo-nombre').style.display = esLogin ? 'none' : 'block';
+  document.getElementById('mcampo-pass2').style.display  = esLogin ? 'none' : 'block';
+  document.getElementById('mbtn-submit').textContent     = esLogin ? 'Ingresar' : 'Crear cuenta';
+  document.getElementById('modal-sub').textContent       = esLogin
+    ? 'Ingresá para consultar con nuestros asistentes'
+    : 'Creá tu cuenta para gestionar tus reservas';
+  limpiarModal();
+}
+
+function limpiarModal() {
+  ['mcli-nombre','mcli-email','mcli-pass','mcli-pass2'].forEach(function(id) {
+    var el = document.getElementById(id); if (el) el.value = '';
   });
-});
+  document.getElementById('mcli-error').style.display = 'none';
+  document.getElementById('mcli-ok').style.display    = 'none';
+}
 
-function submitCli() {
-  var nombre = document.getElementById('mcli-nombre').value.trim();
-  var email  = document.getElementById('mcli-email').value.trim();
-  var acepto = document.getElementById('mcli-acepto').checked;
+async function submitCli() {
+  var email = document.getElementById('mcli-email').value.trim();
+  var pass  = document.getElementById('mcli-pass').value;
   var errDiv = document.getElementById('mcli-error');
-  errDiv.style.display = 'none';
+  var okDiv  = document.getElementById('mcli-ok');
+  errDiv.style.display = 'none'; okDiv.style.display = 'none';
 
-  if (!nombre) {
-    errDiv.textContent = 'Por favor ingresá tu nombre.';
-    errDiv.style.display = 'block';
-    document.getElementById('mcli-nombre').focus();
-    return;
-  }
   if (!email || !/^[^@]+@[^@]+\.[^@]+$/.test(email)) {
-    errDiv.textContent = 'Ingresá un email válido (ej: tu@gmail.com).';
-    errDiv.style.display = 'block';
-    document.getElementById('mcli-email').focus();
-    return;
+    errDiv.textContent = 'Ingresá un email válido.'; errDiv.style.display = 'block'; return;
   }
-  if (!acepto) {
-    errDiv.textContent = 'Aceptá los términos para continuar.';
-    errDiv.style.display = 'block';
-    return;
+  if (pass.length < 6) {
+    errDiv.textContent = 'La contraseña debe tener al menos 6 caracteres.'; errDiv.style.display = 'block'; return;
   }
 
-  CLI_NOMBRE = nombre;
-  CLI_EMAIL  = email;
+  var btn = document.getElementById('mbtn-submit');
+  btn.disabled = true; btn.textContent = '...';
+  await initSBCli();
 
-  // Pasar nombre/email al widget
-  if (typeof tcSetCliente === 'function') {
-    tcSetCliente(nombre, email);
+  try {
+    if (CLI_TAB === 'login') {
+      var res = await SB_CLI.auth.signInWithPassword({ email: email, password: pass });
+      if (res.error) throw new Error(
+        res.error.message.includes('Invalid login credentials')
+          ? 'Email o contraseña incorrectos.'
+          : res.error.message
+      );
+      CLI_USER = res.data.user;
+      var nombre = (CLI_USER.user_metadata && CLI_USER.user_metadata.nombre) || email.split('@')[0];
+      okDiv.textContent = '¡Bienvenido/a, ' + nombre + '!';
+      okDiv.style.display = 'block';
+      actualizarNavCli(nombre);
+      setTimeout(function() { cerrarModalCli(); desbloquearChat(); }, 1200);
+
+    } else {
+      var nombre = document.getElementById('mcli-nombre').value.trim();
+      var pass2  = document.getElementById('mcli-pass2').value;
+      if (!nombre) throw new Error('Ingresá tu nombre completo.');
+      if (pass !== pass2) throw new Error('Las contraseñas no coinciden.');
+      var res2 = await SB_CLI.auth.signUp({ email: email, password: pass, options: { data: { nombre: nombre } } });
+      if (res2.error) throw new Error(
+        res2.error.message.includes('already registered')
+          ? 'Ya existe una cuenta con ese email. Ingresá en la pestaña "Ingresar".'
+          : res2.error.message
+      );
+      CLI_USER = res2.data.user;
+      okDiv.textContent = '¡Cuenta creada! Ya podés consultar con nuestros asistentes.';
+      okDiv.style.display = 'block';
+      actualizarNavCli(nombre);
+      setTimeout(function() { cerrarModalCli(); desbloquearChat(); }, 1500);
+    }
+  } catch(e) {
+    errDiv.textContent = e.message; errDiv.style.display = 'block';
   }
-
-  actualizarNavCli(nombre);
-  cerrarModalCli();
-  desbloquearChat();
+  btn.disabled = false;
+  btn.textContent = CLI_TAB === 'login' ? 'Ingresar' : 'Crear cuenta';
 }
 
 function actualizarNavCli(nombre) {
   var btn = document.getElementById('btn-nav-cli');
   if (!btn) return;
-  btn.innerHTML = '&#128100; ' + nombre;
+  btn.textContent = '&#128100; ' + nombre;
   btn.style.background = 'var(--green-dark)';
-  btn.onclick = function() {};  // ya logueado, no hace nada
 }
 
 function desbloquearChat() {
+  // Ocultar botón "Quiero consultar"
   var bloq = document.getElementById('chat-bloqueado');
   if (bloq) bloq.style.display = 'none';
-
+  // Mostrar widget del chat directamente (abierto)
   var widget = document.getElementById('tc-chat-widget');
   if (widget) {
     widget.classList.remove('tc-hidden');
     widget.classList.add('tc-visible');
   }
+  // Ocultar burbuja (el widget ya está abierto)
   var bubble = document.getElementById('tc-chat-bubble');
   if (bubble) bubble.style.display = 'none';
-
-  // Scroll suave a la sección chat
-  var chatSec = document.getElementById('chat');
-  if (chatSec) chatSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
+  // Foco en el input
   setTimeout(function() {
     var inp = document.getElementById('tc-user-input');
     if (inp) inp.focus();
-  }, 400);
+  }, 300);
 }
 </script>
 
