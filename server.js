@@ -131,6 +131,125 @@ app.get('/api/migrate', async (req, res) => {
 
 
 
+
+// GET /api/admin/fixlogs — arregla permisos logs_sistema y hace seed
+app.get('/api/admin/fixlogs', async (req, res) => {
+  const key = SUPABASE_SERV_KEY || SUPABASE_ANON_KEY;
+  const headers = {
+    'Content-Type': 'application/json',
+    'apikey': key,
+    'Authorization': `Bearer ${key}`,
+  };
+  const results = [];
+
+  // Lista de SQLs a ejecutar en orden
+  const sqls = [
+    `CREATE TABLE IF NOT EXISTS public.logs_sistema (
+      id             BIGSERIAL PRIMARY KEY,
+      tipo_evento    TEXT NOT NULL,
+      session_id     TEXT,
+      cliente_email  TEXT,
+      cliente_nombre TEXT,
+      agente         TEXT,
+      duracion_ms    INTEGER,
+      datos          JSONB,
+      timestamp      TIMESTAMPTZ DEFAULT NOW()
+    )`,
+    `ALTER TABLE public.logs_sistema ENABLE ROW LEVEL SECURITY`,
+    `DO $$ BEGIN
+       IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename='logs_sistema' AND policyname='logs insert anon') THEN
+         CREATE POLICY "logs insert anon" ON public.logs_sistema FOR INSERT WITH CHECK (true);
+       END IF;
+     END $$`,
+    `DO $$ BEGIN
+       IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename='logs_sistema' AND policyname='logs select anon') THEN
+         CREATE POLICY "logs select anon" ON public.logs_sistema FOR SELECT USING (true);
+       END IF;
+     END $$`,
+    `GRANT SELECT, INSERT ON public.logs_sistema TO anon`,
+    `GRANT SELECT, INSERT ON public.logs_sistema TO authenticated`,
+    `GRANT USAGE ON SEQUENCE IF EXISTS public.logs_sistema_id_seq TO anon`,
+  ];
+
+  for (const sql of sqls) {
+    try {
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/rpc/exec_sql`, {
+        method: 'POST', headers,
+        body: JSON.stringify({ sql }),
+      });
+      const txt = await r.text();
+      results.push({ sql: sql.substring(0,60), status: r.status, resp: txt.substring(0,100) });
+    } catch(e) {
+      results.push({ sql: sql.substring(0,60), error: e.message });
+    }
+  }
+
+  // Ahora insertar seed de logs directamente
+  const now = new Date();
+  const clientes = [
+    { nombre: 'Valentina López',   email: 'valentina@gmail.com' },
+    { nombre: 'Mateo García',      email: 'mateo.garcia@hotmail.com' },
+    { nombre: 'Sofía Martínez',    email: 'sofia.m@gmail.com' },
+    { nombre: 'Nicolás Rodríguez', email: 'nicolas.r@outlook.com' },
+    { nombre: 'Camila Fernández',  email: 'camila.f@gmail.com' },
+    { nombre: 'Lucas Pérez',       email: 'lucas.perez@gmail.com' },
+    { nombre: 'Isabella Torres',   email: 'isa.torres@gmail.com' },
+    { nombre: 'Tomás Ramírez',     email: 'tomas.r@hotmail.com' },
+    { nombre: 'Lucía Díaz',        email: 'lucia.d@gmail.com' },
+    { nombre: 'Emilio Sánchez',    email: 'emilio.s@gmail.com' },
+    { nombre: 'Florencia Ruiz',    email: 'flor.ruiz@gmail.com' },
+    { nombre: 'Agustín Morales',   email: 'agus.m@gmail.com' },
+  ];
+
+  const logsData = [];
+  for (let daysAgo = 6; daysAgo >= 0; daysAgo--) {
+    const baseDate = new Date(now);
+    baseDate.setDate(baseDate.getDate() - daysAgo);
+    const nSessions = daysAgo === 0 ? 3 : 3 + Math.floor(Math.random() * 3);
+    for (let s = 0; s < nSessions; s++) {
+      const cliente = clientes[(daysAgo * 3 + s) % clientes.length];
+      const sessionId = `sess-seed-${daysAgo}-${s}`;
+      const h = 9 + Math.floor(Math.random() * 9);
+      const m = Math.floor(Math.random() * 60);
+      const t0 = new Date(baseDate); t0.setHours(h, m, 0, 0);
+
+      logsData.push({ tipo_evento:'chat_inicio', session_id:sessionId, cliente_email:cliente.email, cliente_nombre:cliente.nombre, timestamp:t0.toISOString() });
+
+      const nMsgs = 4 + Math.floor(Math.random() * 9);
+      for (let i = 0; i < nMsgs; i++) {
+        const mt = new Date(t0.getTime() + (i+1) * (20000 + Math.random()*50000));
+        logsData.push({ tipo_evento:'chat_mensaje', session_id:sessionId, cliente_email:cliente.email, agente: i<2?'leo':(Math.random()>0.4?'reservas':'cami'), duracion_ms: 600+Math.floor(Math.random()*2800), datos:{num_mensaje:i+1}, timestamp:mt.toISOString() });
+      }
+
+      // ~45% termina en reserva
+      if (nMsgs > 5 && Math.random() > 0.55) {
+        const rt = new Date(t0.getTime() + nMsgs * 55000);
+        logsData.push({ tipo_evento:'reserva_creada', session_id:sessionId, cliente_email:cliente.email, agente:'reservas', datos:{num_mensajes:nMsgs, tiempo_ms:nMsgs*55000}, timestamp:rt.toISOString() });
+      }
+    }
+  }
+
+  // Insertar en lotes de 40
+  let total = 0;
+  for (let i = 0; i < logsData.length; i += 40) {
+    const batch = logsData.slice(i, i+40);
+    try {
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/logs_sistema`, {
+        method: 'POST',
+        headers: { ...headers, 'Prefer': 'return=minimal' },
+        body: JSON.stringify(batch),
+      });
+      if (r.status === 201 || r.status === 200) total += batch.length;
+      else {
+        const t = await r.text();
+        results.push({ paso: `batch ${i}`, status: r.status, err: t.substring(0,150) });
+      }
+    } catch(e) { results.push({ paso:`batch ${i}`, error: e.message }); }
+  }
+
+  res.json({ ok: true, logs_insertados: total, total_generados: logsData.length, sql_results: results });
+});
+
 // GET /api/admin/seed — crea tabla logs_sistema + datos de prueba
 app.get('/api/admin/seed', async (req, res) => {
   const key = SUPABASE_SERV_KEY || SUPABASE_ANON_KEY;
