@@ -20,14 +20,14 @@ fetch('/api/config').then(function(r){return r.json();}).then(function(cfg){
 
 var TC_MOCK = {
   campers: [
-    { id:'C001', key:'TC-ACS', modelo:'Adria Coral 670 SL',       unidades:3, tipo:'Autocaravana', capacidad:4, precio_diario:95,  ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true  },
-    { id:'C002', key:'TC-WCB', modelo:'Weinsberg CaraBus 600 MQ', unidades:5, tipo:'Furgoneta',    capacidad:2, precio_diario:65,  ac:false, calefaccion:true,  cocina:true, bano:false, estado:'Activo',        disponible:true  },
-    { id:'C003', key:'TC-KSI', modelo:'Knaus Sun I 650 MEG',      unidades:2, tipo:'Autocaravana', capacidad:6, precio_diario:110, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true  },
-    { id:'C004', key:'TC-CCT', modelo:'Carthago C-Tourer T143',   unidades:2, tipo:'Autocaravana', capacidad:4, precio_diario:130, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:false },
-    { id:'C005', key:'TC-CAR', modelo:'Carado CV600',              unidades:4, tipo:'Furgoneta',    capacidad:2, precio_diario:58,  ac:false, calefaccion:true,  cocina:true, bano:false, estado:'Mantenimiento', disponible:false },
-    { id:'C006', key:'TC-BLD', modelo:'Burstner Lyseo TD690',     unidades:3, tipo:'Autocaravana', capacidad:4, precio_diario:105, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true  },
-    { id:'C007', key:'TC-HYM', modelo:'Hymer B-ML T580',          unidades:4, tipo:'Autocaravana', capacidad:2, precio_diario:78,  ac:false, calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true  },
-    { id:'C008', key:'TC-PCA', modelo:'Possl Campster',            unidades:6, tipo:'Furgoneta',    capacidad:2, precio_diario:55,  ac:false, calefaccion:false, cocina:true, bano:false, estado:'Activo',        disponible:true  },
+    { id:'C001', key:'TC-ACS', modelo:'Adria Coral 670 SL',       unidades:3, tipo:'Autocaravana', capacidad:4, precio_diario:4200, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true  },
+    { id:'C002', key:'TC-WCB', modelo:'Weinsberg CaraBus 600 MQ', unidades:5, tipo:'Furgoneta',    capacidad:2, precio_diario:3500, ac:false, calefaccion:true,  cocina:true, bano:false, estado:'Activo',        disponible:true  },
+    { id:'C003', key:'TC-KSI', modelo:'Knaus Sun I 650 MEG',      unidades:2, tipo:'Autocaravana', capacidad:6, precio_diario:5800, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true  },
+    { id:'C004', key:'TC-CCT', modelo:'Carthago C-Tourer T143',   unidades:2, tipo:'Autocaravana', capacidad:4, precio_diario:7200, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:false },
+    { id:'C005', key:'TC-CAR', modelo:'Carado CV600',              unidades:4, tipo:'Furgoneta',    capacidad:2, precio_diario:3500, ac:false, calefaccion:true,  cocina:true, bano:false, estado:'Mantenimiento', disponible:false },
+    { id:'C006', key:'TC-BLD', modelo:'Burstner Lyseo TD690',     unidades:3, tipo:'Autocaravana', capacidad:4, precio_diario:4900, ac:true,  calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true  },
+    { id:'C007', key:'TC-HYM', modelo:'Hymer B-ML T580',          unidades:4, tipo:'Autocaravana', capacidad:2, precio_diario:3800, ac:false, calefaccion:true,  cocina:true, bano:true,  estado:'Activo',        disponible:true  },
+    { id:'C008', key:'TC-PCA', modelo:'Possl Campster',            unidades:6, tipo:'Furgoneta',    capacidad:2, precio_diario:3500, ac:false, calefaccion:false, cocina:true, bano:false, estado:'Activo',        disponible:true  },
   ],
   reservas: [],
   _nextId: 1,
@@ -245,7 +245,7 @@ async function tcExecCrearReserva(args) {
   var fv=tcValidarFechas(args.fecha_inicio,args.fecha_fin);
   if(!fv.ok) return {error:fv.error};
   if(!tcValidarEmail(args.cliente_email)) return {error:'Email invalido: "'+args.cliente_email+'". Debe tener formato usuario@dominio.com'};
-  if(args.cliente_documento&&!tcValidarDoc(args.cliente_documento)) return {error:'Documento invalido: "'+args.cliente_documento+'". Acepta DNI, pasaporte, cedula (5-20 caracteres alfanumericos).'};
+  // Validación de documento ya realizada arriba (cédula 8 dígitos)
   if(args.cliente_telefono&&!tcValidarTel(args.cliente_telefono)) return {error:'Telefono invalido: "'+args.cliente_telefono+'". Debe tener entre 7 y 15 digitos.'};
   var camper=await tcFindCamper(args.camper_modelo);
   if(!camper) return {error:'Camper "'+args.camper_modelo+'" no encontrado.'};
@@ -257,7 +257,31 @@ async function tcExecCrearReserva(args) {
   var noches=Math.round((ff-fi)/86400000);
   if(noches<=0) return {error:'Fecha fin debe ser posterior a inicio.'};
   var precio_total=camper.precio_diario*noches;
-  if(tcSb){try{var cnt=await tcSb.from('reservas').select('*',{count:'exact',head:true});var ref='RES-'+String((cnt.count||0)+1).padStart(4,'0');var ins=await tcSb.from('reservas').insert({camper_id:camper.id,camper_key:camper.key,reserva_ref:ref,cliente_nombre:args.cliente_nombre,cliente_documento:args.cliente_documento||null,cliente_telefono:args.cliente_telefono||null,cliente_email:args.cliente_email,fecha_inicio:args.fecha_inicio.split(' ')[0],fecha_fin:args.fecha_fin.split(' ')[0],num_personas:args.num_personas||null,estado_reserva:'Pendiente',precio_total:precio_total,notas:args.notas||null}).select().single();if(ins.error)return{error:ins.error.message};return{ok:true,id_reserva:ref,modelo:camper.modelo,precio_total:precio_total,noches:noches,moneda:'pesos uruguayos (UYU)',email_cliente:args.cliente_email};}catch(e){}}
+  if(tcSb){try{
+    // Buscar camper_id real en Supabase (el MOCK usa IDs ficticios)
+    var camperReal = await tcSb.from('campers').select('id').eq('key', camper.key).single();
+    var camper_id_real = (camperReal.data && camperReal.data.id) ? camperReal.data.id : null;
+    if(!camper_id_real) return {error:'No se encontró el camper en la base de datos. Código: '+camper.key};
+    var cnt=await tcSb.from('reservas').select('*',{count:'exact',head:true});
+    var ref='RES-'+String((cnt.count||0)+1).padStart(4,'0');
+    var ins=await tcSb.from('reservas').insert({
+      camper_id:camper_id_real,
+      camper_key:camper.key,
+      reserva_ref:ref,
+      cliente_nombre:args.cliente_nombre,
+      cliente_documento:args.cliente_documento||null,
+      cliente_telefono:args.cliente_telefono||null,
+      cliente_email:args.cliente_email,
+      fecha_inicio:args.fecha_inicio.split(' ')[0],
+      fecha_fin:args.fecha_fin.split(' ')[0],
+      num_personas:args.num_personas||null,
+      estado_reserva:'Pendiente',
+      precio_total:precio_total,
+      notas:args.notas||null
+    }).select().single();
+    if(ins.error) return{error:'Error al guardar: '+ins.error.message};
+    return{ok:true,id_reserva:ref,modelo:camper.modelo,precio_total:precio_total,noches:noches,moneda:'pesos uruguayos (UYU)',email_cliente:args.cliente_email};
+  }catch(e){console.error('Supabase insert error:',e);}}
   var ref='RES-'+String(TC_MOCK._nextId++).padStart(4,'0');
   TC_MOCK.reservas.push({id:ref,reserva_ref:ref,camper_key:camper.key,camper_modelo:camper.modelo,cliente_nombre:args.cliente_nombre,cliente_documento:args.cliente_documento||null,cliente_telefono:args.cliente_telefono||null,cliente_email:args.cliente_email,fecha_inicio:args.fecha_inicio.split(' ')[0],fecha_fin:args.fecha_fin.split(' ')[0],num_personas:args.num_personas||null,estado_reserva:'Pendiente',precio_total:precio_total});
   return {ok:true,id_reserva:ref,modelo:camper.modelo,precio_total:precio_total,noches:noches,moneda:'pesos uruguayos (UYU)',email_cliente:args.cliente_email};
