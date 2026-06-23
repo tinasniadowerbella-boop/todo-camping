@@ -208,18 +208,18 @@ app.get('/api/admin/fixlogs', async (req, res) => {
       const m = Math.floor(Math.random() * 60);
       const t0 = new Date(baseDate); t0.setHours(h, m, 0, 0);
 
-      logsData.push({ tipo_evento:'chat_inicio', session_id:sessionId, cliente_email:cliente.email, cliente_nombre:cliente.nombre, timestamp:t0.toISOString() });
+      logsData.push({ tipo_evento:'chat_inicio', session_id:sessionId, cliente_email:cliente.email, cliente_nombre:cliente.nombre, agente:null, duracion_ms:null, datos:null, timestamp:t0.toISOString() });
 
       const nMsgs = 4 + Math.floor(Math.random() * 9);
       for (let i = 0; i < nMsgs; i++) {
         const mt = new Date(t0.getTime() + (i+1) * (20000 + Math.random()*50000));
-        logsData.push({ tipo_evento:'chat_mensaje', session_id:sessionId, cliente_email:cliente.email, agente: i<2?'leo':(Math.random()>0.4?'reservas':'cami'), duracion_ms: 600+Math.floor(Math.random()*2800), datos:{num_mensaje:i+1}, timestamp:mt.toISOString() });
+        logsData.push({ tipo_evento:'chat_mensaje', session_id:sessionId, cliente_email:cliente.email, cliente_nombre:cliente.nombre, agente: i<2?'leo':(Math.random()>0.4?'reservas':'cami'), duracion_ms: 600+Math.floor(Math.random()*2800), datos:{num_mensaje:i+1}, timestamp:mt.toISOString() });
       }
 
       // ~45% termina en reserva
       if (nMsgs > 5 && Math.random() > 0.55) {
         const rt = new Date(t0.getTime() + nMsgs * 55000);
-        logsData.push({ tipo_evento:'reserva_creada', session_id:sessionId, cliente_email:cliente.email, agente:'reservas', datos:{num_mensajes:nMsgs, tiempo_ms:nMsgs*55000}, timestamp:rt.toISOString() });
+        logsData.push({ tipo_evento:'reserva_creada', session_id:sessionId, cliente_email:cliente.email, cliente_nombre:cliente.nombre, agente:'reservas', duracion_ms:null, datos:{num_mensajes:nMsgs, tiempo_ms:nMsgs*55000}, timestamp:rt.toISOString() });
       }
     }
   }
