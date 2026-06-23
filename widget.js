@@ -110,7 +110,7 @@ MONEDA: Todos los precios en PESOS URUGUAYOS. El precio es el número exacto del
 3. Llama a verificar_disponibilidad. Si hay stock, avanza directamente al paso 4. Si NO hay stock, llama a buscar_disponibilidad_alternativa, muestra las alternativas y espera que el usuario ELIJA UNA antes de continuar.
 4. Solo si hay disponibilidad confirmada: pide ÚNICAMENTE los datos que faltan. Como ya tenés nombre y email del login, solo pedí:
    a) Cédula de identidad uruguaya — EXACTAMENTE 8 dígitos numéricos (ej: 12345678). Si el cliente ingresa menos o más de 8 dígitos, o letras, rechazalo y pedilo de nuevo. No aceptar pasaportes ni otros documentos.
-   b) Teléfono de contacto (uruguayo, 8-9 dígitos)
+   b) Teléfono de contacto — solo dígitos, entre 8 y 9 números (ej: 099123456). Si tiene letras o formato incorrecto, rechazalo y pedilo de nuevo.
    NO vuelvas a pedir nombre ni email — ya los tenés.
    NO preguntes "¿estos datos son a tu nombre?" — asumí que sí.
 5. Una vez que tenés TODOS los datos (nombre + email + documento + teléfono), muestra resumen y pide confirmación UNA SOLA VEZ:
@@ -182,7 +182,7 @@ function tcInitSupabase() {
 }
 
 function tcValidarEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(e).trim()); }
-function tcValidarTel(t)   { var d=String(t).replace(/[\s\-\+\(\)\.]/g,''); return d.length>=7&&d.length<=15&&/^\d+$/.test(d); }
+function tcValidarTel(t)   { var d=String(t).replace(/[\s\-\+\(\)\.]/g,''); return d.length>=8&&d.length<=9&&/^\d+$/.test(d); }
 function tcValidarDoc(d)   { var l=String(d).trim().replace(/[\.\-\s]/g,''); return l.length>=5&&l.length<=20&&/^[A-Za-z0-9]+$/.test(l); }
 
 function tcParseFecha(s) {
@@ -418,6 +418,10 @@ async function tcPerformHandoff(handoff) {
   if(ctx.presupuesto) brief+=' Presupuesto: '+ctx.presupuesto+'.';
   brief+=' Cliente identificado — Nombre: '+(TC_CLI.nombre||'pendiente')+' | Email: '+(TC_CLI.email||'pendiente')+'.';
   brief+=' REGLAS: NO te presentés. NO mencionés nombres de agentes. Continuá la conversación como Flo directamente. Solo pedí cédula (8 dígitos) y teléfono — nombre y email ya los tenés.]';
+  // Limpiar historial del agente destino y precargarlo con el contexto del handoff
+  // Esto asegura que en los turnos siguientes el agente recuerde todo
+  tcState.histories[destId] = [];
+
   tcSetTyping(true);
   try{
     var r=await tcRunLoop(brief);
@@ -426,7 +430,7 @@ async function tcPerformHandoff(handoff) {
     if(r.handoff)await tcPerformHandoff(r.handoff);
   }catch(e){
     tcSetTyping(false);
-    tcAddError('Error al conectar: '+e.message);
+    tcAddError('Error: '+e.message);
   }
 }
 
