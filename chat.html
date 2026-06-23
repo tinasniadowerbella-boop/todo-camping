@@ -474,13 +474,13 @@ IMPORTANTE: Cuando decidas derivar, usa SIEMPRE la herramienta "derivar_agente".
 
 cami: `Eres Cami, la asistente informativa de campers de TodoCamping.
 ⚠️ FECHA DE HOY: ${HOY}. Cualquier fecha anterior a esta ES DEL PASADO.
-MONEDA: Todos los precios están en PESOS URUGUAYOS ($UY). Siempre mostrá los precios con el símbolo $UY (ej: $UY 95/noche). Nunca uses € ni otras monedas.
+MONEDA: Todos los precios están en PESOS URUGUAYOS ($UY) y son de varios MILES por noche (ej: $UY 3.500/noche, $UY 5.800/noche). Mostrá SIEMPRE el número EXACTO de "precio_diario" que devuelve la herramienta, sin convertir, dividir ni redondear. PROHIBIDO mostrar precios de 2 dígitos (ej: $55, $78): si te da eso, estás equivocándote. Usá separador de miles con punto. Nunca uses € ni otras monedas.
 
 MISIÓN: Ayudar a elegir el camper adecuado con información precisa del catálogo. No cierras reservas ni cobras.
 
 TONO: cercana, clara, profesional. Tuteas. Español neutro. Sin emojis en exceso. Respuestas breves.
 
-REGLA ANTI-ALUCINACIÓN: Toda información de campers (precio, disponibilidad, specs) proviene EXCLUSIVAMENTE de la herramienta "consultar_campers". Nunca inventes datos.
+REGLA ANTI-ALUCINACIÓN: Toda información de campers (precio, disponibilidad, specs) proviene EXCLUSIVAMENTE de la herramienta "consultar_campers". El precio que mostrás es LITERALMENTE el valor "precio_diario" de la herramienta — nunca lo transformes ni inventes un número distinto.
 
 ⚠️ VALIDACIÓN DE FECHAS (OBLIGATORIO): Compará siempre con HOY (${HOY}). Si el usuario menciona fechas anteriores a ${HOY}, DETENÉ el flujo y decí: "Esas fechas ya pasaron (hoy es ${HOY}). ¿Querías decir [misma fecha en año futuro]?" Esperá confirmación antes de continuar o hacer handoff. NUNCA pases fechas pasadas a Remi.
 
@@ -519,7 +519,7 @@ VALIDACIONES:
 - Documento: entre 5 y 20 caracteres alfanuméricos.
 - Teléfono: entre 7 y 15 dígitos.
 
-MONEDA: Todos los precios en PESOS URUGUAYOS ($UY). Nunca uses € ni otras monedas.
+MONEDA: Todos los precios en PESOS URUGUAYOS ($UY), de varios MILES por noche (ej: $UY 3.500). Mostrá SIEMPRE el valor EXACTO que devuelven las herramientas (precio_diario, precio_total) sin convertir ni inventar. PROHIBIDO mostrar precios de 2 dígitos. Separador de miles con punto. Nunca uses € ni otras monedas.
 
 CREATE → recoge datos → "verificar_disponibilidad" → muestra resumen con precio → espera "sí confirmo" → "crear_reserva" → muestra confirmación con ID.
 
@@ -1293,15 +1293,15 @@ async function runLoop(userText) {
         let output;
 
         if (block.name === 'derivar_agente') {
-          handoff = { agente: block.input.agente_destino, contexto: block.input.contexto, mensajeVisible: block.input.mensaje_usuario };
+          handoff = { agente: block.input.agente_destino, contexto: block.input.contexto || {}, mensajeVisible: block.input.mensaje_usuario || '' };
           output  = { ok: true };
 
         } else if (block.name === 'pasar_a_reservas') {
-          handoff = { agente: 'reservas', contexto: block.input.contexto, mensajeVisible: block.input.mensaje_usuario };
+          handoff = { agente: 'reservas', contexto: block.input.contexto || {}, mensajeVisible: block.input.mensaje_usuario || '' };
           output  = { ok: true };
 
         } else if (block.name === 'pasar_a_cami') {
-          handoff = { agente: 'cami', contexto: block.input.contexto, mensajeVisible: block.input.mensaje_usuario };
+          handoff = { agente: 'cami', contexto: block.input.contexto || {}, mensajeVisible: block.input.mensaje_usuario || '' };
           output  = { ok: true };
 
         } else if (block.name === 'consultar_campers') {
@@ -1369,12 +1369,18 @@ async function performHandoff(handoff) {
   const destId  = AGENTE_ID_MAP[handoff.agente] || handoff.agente;
   const destDef = AGENTS[destId];
 
+  if (!destDef) {
+    addError(`No pude conectar con el agente "${handoff.agente}". Probá de nuevo.`);
+    state.current = 'leo';
+    return;
+  }
+
   addHandoffEvent(`Conectando con ${destDef.name}...`);
   state.current = destId;
   updateTheme(destDef);
 
-  const ctx = handoff.contexto;
-  let brief = `[El usuario fue derivado desde otro agente. Contexto: ${ctx.resumen}.`;
+  const ctx = handoff.contexto || {};
+  let brief = `[El usuario fue derivado desde otro agente. Contexto: ${ctx.resumen || 'sin resumen previo'}.`;
   if (ctx.modelo)      brief += ` Modelo en mente: ${ctx.modelo}.`;
   if (ctx.fechas)      brief += ` Fechas ya confirmadas: ${ctx.fechas}.`;
   if (ctx.pax)         brief += ` Personas: ${ctx.pax}.`;
