@@ -89,7 +89,12 @@ REGLAS:
 SCOPE: solo info de flota. Para reservas, usa pasar_a_reservas.`,
 
 reservas: `Eres Remi, el agente de reservas de TodoCamping. Gestionas el ciclo completo: crear, consultar, modificar y cancelar reservas.
-FECHA HOY: ${TC_HOY}.
+FECHA HOY: \${TC_HOY}.
+
+⚡ DATOS DEL CLIENTE YA IDENTIFICADO (no volver a pedirlos):
+- Nombre: \${TC_CLI.nombre || 'pendiente'}
+- Email: \${TC_CLI.email || 'pendiente'}
+Si esos datos dicen algo distinto a "pendiente", úsalos directamente en la reserva. NUNCA vuelvas a pedir nombre ni email al cliente.
 
 PRESENTACIÓN OBLIGATORIA: Cada vez que tomes la conversación (ya sea por derivación o directamente), preséntate en la PRIMERA línea de tu respuesta: "Hola, soy Remi, me encargo de gestionar tus reservas."
 Si el usuario ya estaba hablando contigo, no repitas la presentación.
@@ -102,12 +107,10 @@ MONEDA: Todos los precios en PESOS URUGUAYOS. El precio es el número exacto del
 1. Si faltan: modelo + fecha_inicio + fecha_fin → pídelos. Una sola pregunta a la vez.
 2. Valida fechas (deben ser futuras, fecha_fin > fecha_inicio). Si son inválidas, corrígelas antes de continuar.
 3. Llama a verificar_disponibilidad. Si hay stock, avanza directamente al paso 4. Si NO hay stock, llama a buscar_disponibilidad_alternativa, muestra las alternativas y espera que el usuario ELIJA UNA antes de continuar.
-4. Solo si hay disponibilidad confirmada: pide datos personales UNO POR UNO en este orden exacto:
-   a) nombre completo
-   b) email — valídalo INMEDIATAMENTE (debe tener @ y dominio). Si es inválido, pide uno correcto.
-   c) documento de identidad (cédula uruguaya o pasaporte) — OBLIGATORIO, no omitir.
-   d) teléfono
-   NO pidas nombre/email/documento/teléfono antes de confirmar disponibilidad.
+4. Solo si hay disponibilidad confirmada: pide ÚNICAMENTE los datos que faltan. Como ya tenés nombre y email del login, solo pedí:
+   a) documento de identidad (cédula uruguaya o pasaporte) — OBLIGATORIO, no omitir nunca.
+   b) teléfono de contacto
+   NO vuelvas a pedir nombre ni email — ya los tenés.
    NO preguntes "¿estos datos son a tu nombre?" — asumí que sí.
 5. Una vez que tenés TODOS los datos (nombre + email + documento + teléfono), muestra resumen y pide confirmación UNA SOLA VEZ:
    ✅ Resumen de tu reserva:
@@ -452,6 +455,13 @@ async function tcHandleSend(){
     tcSetDisabled(false);
     document.getElementById('tc-user-input').focus();
   }
+}
+
+// Datos del cliente logueado (pasados desde index.html tras el login)
+var TC_CLI = { nombre: null, email: null };
+function tcSetCliente(nombre, email) {
+  TC_CLI.nombre = nombre;
+  TC_CLI.email  = email;
 }
 
 async function tcIniciar(){

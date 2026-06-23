@@ -1257,6 +1257,7 @@ async function submitCli() {
       okDiv.textContent = '¡Bienvenido/a, ' + nombre + '!';
       okDiv.style.display = 'block';
       actualizarNavCli(nombre);
+      if (typeof tcSetCliente === 'function') tcSetCliente(nombre, email);
       setTimeout(function() { cerrarModalCli(); desbloquearChat(); }, 1200);
 
     } else {
@@ -1274,6 +1275,7 @@ async function submitCli() {
       okDiv.textContent = '¡Cuenta creada! Ya podés consultar con nuestros asistentes.';
       okDiv.style.display = 'block';
       actualizarNavCli(nombre);
+      if (typeof tcSetCliente === 'function') tcSetCliente(nombre, email);
       setTimeout(function() { cerrarModalCli(); desbloquearChat(); }, 1500);
     }
   } catch(e) {
