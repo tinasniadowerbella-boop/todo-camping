@@ -1104,7 +1104,7 @@
     <div id="tc-header-avatar">L</div>
     <div id="tc-header-info">
       <strong id="tc-header-name">Leo</strong>
-      <span id="tc-header-role">Bienvenida Â· TodoCamping</span>
+      <span id="tc-header-role">Bienvenida · TodoCamping</span>
     </div>
     <div id="tc-status-dot"></div>
     <button id="tc-chat-close" title="Minimizar">→</button>
@@ -1115,7 +1115,7 @@
     </div>
   </div>
   <div id="tc-chat-input-area">
-    <input type="search" id="tc-user-input" placeholder="Escribe tu mensaje..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" name="chat-message" />
+    <input type="search" id="tc-user-input" placeholder="Escribe tu mensaje..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
     <button id="tc-send-btn" aria-label="Enviar">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="22" y1="2" x2="11" y2="13"></line>
@@ -1133,7 +1133,7 @@
 
 
 <!-- ══ MODAL CLIENTE AUTH ══════════════════════════════════════ -->
-<div id="modal-cli">
+<div id="modal-cli" role="dialog" aria-modal="true">
   <div class="modal-box">
     <button class="modal-close" onclick="cerrarModalCli()">&#215;</button>
     <div style="text-align:center;margin-bottom:20px;">
@@ -1142,28 +1142,31 @@
       <p id="modal-sub" style="font-size:13px;color:#6b7280;">Ingresá para consultar con nuestros asistentes</p>
     </div>
     <div class="modal-tabs">
-      <button class="mtab active" id="mtab-login"    onclick="switchTab('login')">Ingresar</button>
-      <button class="mtab"        id="mtab-registro" onclick="switchTab('registro')">Registrarme</button>
+      <button type="button" class="mtab active" id="mtab-login"    onclick="switchTab('login')">Ingresar</button>
+      <button type="button" class="mtab"        id="mtab-registro" onclick="switchTab('registro')">Registrarme</button>
     </div>
-    <div id="mcampo-nombre" class="mfield" style="display:none;">
-      <label>Nombre completo *</label>
-      <input id="mcli-nombre" type="text" placeholder="Tu nombre" />
-    </div>
-    <div class="mfield">
-      <label>Email *</label>
-      <input id="mcli-email" type="email" placeholder="tu@email.com" />
-    </div>
-    <div class="mfield">
-      <label>Contraseña *</label>
-      <input id="mcli-pass" type="password" placeholder="Mínimo 6 caracteres" />
-    </div>
-    <div id="mcampo-pass2" class="mfield" style="display:none;">
-      <label>Confirmar contraseña *</label>
-      <input id="mcli-pass2" type="password" placeholder="Repetí tu contraseña" />
-    </div>
-    <div class="merror" id="mcli-error"></div>
-    <div class="mok"    id="mcli-ok"></div>
-    <button class="mbtn" id="mbtn-submit" onclick="submitCli()">Ingresar</button>
+    <!-- form real: el browser sabe que es login y ofrece guardar contraseña ACA, no en el chat -->
+    <form id="form-cli" action="javascript:void(0)" onsubmit="submitCli()" autocomplete="on">
+      <div id="mcampo-nombre" class="mfield" style="display:none;">
+        <label>Nombre completo *</label>
+        <input id="mcli-nombre" name="name" type="text" placeholder="Tu nombre" autocomplete="name" />
+      </div>
+      <div class="mfield">
+        <label>Email *</label>
+        <input id="mcli-email" name="email" type="email" placeholder="tu@email.com" autocomplete="email" />
+      </div>
+      <div class="mfield">
+        <label>Contraseña *</label>
+        <input id="mcli-pass" name="password" type="password" placeholder="Mínimo 6 caracteres" autocomplete="current-password" />
+      </div>
+      <div id="mcampo-pass2" class="mfield" style="display:none;">
+        <label>Confirmar contraseña *</label>
+        <input id="mcli-pass2" name="confirm-password" type="password" placeholder="Repetí tu contraseña" autocomplete="new-password" />
+      </div>
+      <div class="merror" id="mcli-error"></div>
+      <div class="mok"    id="mcli-ok"></div>
+      <button type="submit" class="mbtn" id="mbtn-submit">Ingresar</button>
+    </form>
     <p style="text-align:center;font-size:11px;color:#9ca3af;margin-top:14px;">
       Tus datos se guardan de forma segura. No enviamos spam.
     </p>
