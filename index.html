@@ -1305,10 +1305,17 @@ function desbloquearChat() {
   // Ocultar burbuja (el widget ya está abierto)
   var bubble = document.getElementById('tc-chat-bubble');
   if (bubble) bubble.style.display = 'none';
-  // Foco en el input
+  // Scroll a la sección del chat
+  var chatSec = document.getElementById('chat');
+  if (chatSec) chatSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Iniciar Flo AHORA — ya tenemos nombre+email en TC_CLI
   setTimeout(function() {
-    var inp = document.getElementById('tc-user-input');
-    if (inp) inp.focus();
+    if (typeof tcIniciar === 'function') {
+      tcIniciar();
+    } else {
+      var inp = document.getElementById('tc-user-input');
+      if (inp) inp.focus();
+    }
   }, 300);
 }
 </script>
