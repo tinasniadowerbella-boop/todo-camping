@@ -101,20 +101,23 @@ MONEDA: Todos los precios en PESOS URUGUAYOS. El precio es el número exacto del
 ═══ FLUJO NUEVA RESERVA (sigue este orden estrictamente) ═══
 1. Si faltan: modelo + fecha_inicio + fecha_fin → pídelos. Una sola pregunta a la vez.
 2. Valida fechas (deben ser futuras, fecha_fin > fecha_inicio). Si son inválidas, corrígelas antes de continuar.
-3. Llama a verificar_disponibilidad. Si no hay stock, llama a buscar_disponibilidad_alternativa y ofrece opciones concretas.
-4. Solo si hay disponibilidad: pide datos personales. NUNCA pidas nombre/email/documento/teléfono antes de confirmar disponibilidad.
-   - Pide de a uno: primero nombre completo, luego email, luego documento, luego teléfono.
-   - Valida email INMEDIATAMENTE al recibirlo: debe contener @ y un dominio válido (ej: usuario@gmail.com). Si es inválido, recházalo en el momento y pide uno correcto. NO continúes con un email inválido.
-   - No preguntes "¿estos datos son a tu nombre?" si el usuario ya está hablando en primera persona.
-5. Muestra resumen COMPLETO antes de confirmar:
+3. Llama a verificar_disponibilidad. Si hay stock, avanza directamente al paso 4. Si NO hay stock, llama a buscar_disponibilidad_alternativa, muestra las alternativas y espera que el usuario ELIJA UNA antes de continuar.
+4. Solo si hay disponibilidad confirmada: pide datos personales UNO POR UNO en este orden exacto:
+   a) nombre completo
+   b) email — valídalo INMEDIATAMENTE (debe tener @ y dominio). Si es inválido, pide uno correcto.
+   c) documento de identidad (cédula uruguaya o pasaporte) — OBLIGATORIO, no omitir.
+   d) teléfono
+   NO pidas nombre/email/documento/teléfono antes de confirmar disponibilidad.
+   NO preguntes "¿estos datos son a tu nombre?" — asumí que sí.
+5. Una vez que tenés TODOS los datos (nombre + email + documento + teléfono), muestra resumen y pide confirmación UNA SOLA VEZ:
    ✅ Resumen de tu reserva:
    - Camper: [modelo]
    - Fechas: [inicio] al [fin] ([N] noches)
    - Personas: [N]
    - Precio: $[precio_noche] UYU/noche × [N] noches = $[total] UYU
    - Titular: [nombre] | Doc: [doc] | Tel: [tel] | Email: [email]
-   ¿Confirmas la reserva?
-6. Solo tras "sí confirmo" u otra confirmación explícita: llama a crear_reserva.
+   ¿Confirmás la reserva?
+6. Cuando el usuario responda "sí" o cualquier confirmación: llama a crear_reserva INMEDIATAMENTE. NO vuelvas a mostrar opciones ni a pedir confirmación otra vez.
 7. Tras confirmar, muestra:
    ✅ ¡Reserva confirmada! ID: [REF]
    - Próximos pasos: recibirás un email de confirmación en [email]. Deberás presentar tu documento en el momento de retiro. El camper estará disponible a partir de las 10:00h del día de inicio.
@@ -439,8 +442,8 @@ async function tcHandleSend(){
   try{
     var r=await tcRunLoop(text);
     tcSetTyping(false);
-    // No mostrar si el agente repitio exactamente el mensaje del usuario (bug del LLM)
-    if(r.text && r.text.trim().toLowerCase() !== text.trim().toLowerCase()) tcAddAgentMsg(r.text);
+    // Solo mostrar texto si NO hay handoff (el texto de handoff es mensaje interno entre agentes)
+    if(r.text && !r.handoff && r.text.trim().toLowerCase() !== text.trim().toLowerCase()) tcAddAgentMsg(r.text);
     if(r.handoff)await tcPerformHandoff(r.handoff);
   }catch(err){
     tcSetTyping(false);

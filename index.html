@@ -1286,7 +1286,7 @@ async function submitCli() {
 function actualizarNavCli(nombre) {
   var btn = document.getElementById('btn-nav-cli');
   if (!btn) return;
-  btn.textContent = '&#128100; ' + nombre;
+  btn.innerHTML = '👤 ' + nombre;
   btn.style.background = 'var(--green-dark)';
 }
 
