@@ -1028,8 +1028,13 @@ async function execCrearReserva(args) {
       return { ok:true, id_reserva:reserva_ref, modelo:camper.modelo, precio_total, noches, moneda:'$UY' };
     } catch(e) {
       console.error('[crear_reserva] excepcion:', e.message, e);
-      /* fallback a mock en caso de error de conexion */
+      return { error: 'No se pudo guardar la reserva (error de conexión con la base de datos). La reserva NO quedó registrada; intentá de nuevo o escribí a soporte@todocamping.com.uy.' };
     }
+  }
+
+  // Si hay Supabase configurado pero el cliente no inicializó, no inventamos un éxito (evita confirmar reservas que no se guardan).
+  if (CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY) {
+    return { error: 'No se pudo conectar con la base de datos (cliente no inicializado). La reserva NO quedó registrada; recargá la página e intentá de nuevo.' };
   }
 
   const reserva_ref = `RES-${String(MOCK_DB._nextId++).padStart(4, '0')}`;

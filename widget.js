@@ -251,14 +251,37 @@ async function tcExecCrearReserva(args) {
   var noches=Math.round((ff-fi)/86400000);
   if(noches<=0) return {error:'Fecha fin debe ser posterior a inicio.'};
   var precio_total=camper.precio_diario*noches;
-  if(tcSb){try{var cnt=await tcSb.from('reservas').select('*',{count:'exact',head:true});var ref='RES-'+String((cnt.count||0)+1).padStart(4,'0');var ins=await tcSb.from('reservas').insert({camper_id:camper.id,camper_key:camper.key,reserva_ref:ref,cliente_nombre:args.cliente_nombre,cliente_documento:args.cliente_documento||null,cliente_telefono:args.cliente_telefono||null,cliente_email:args.cliente_email,fecha_inicio:args.fecha_inicio.split(' ')[0],fecha_fin:args.fecha_fin.split(' ')[0],num_personas:args.num_personas||null,estado_reserva:'Pendiente',precio_total:precio_total,notas:args.notas||null}).select().single();if(ins.error)return{error:ins.error.message};return{ok:true,id_reserva:ref,modelo:camper.modelo,precio_total:precio_total,noches:noches,moneda:'pesos uruguayos (UYU)',email_cliente:args.cliente_email};}catch(e){}}
+  if(tcSb){
+    // GUARDADO REAL EN SUPABASE. Solo se confirma al cliente si la fila quedó persistida.
+    try{
+      var ins=null,lastErr=null;
+      for(var intento=0;intento<5;intento++){
+        var cnt=await tcSb.from('reservas').select('*',{count:'exact',head:true});
+        if(cnt.error)return{error:'No se pudo acceder a las reservas: '+cnt.error.message+'. La reserva NO quedó registrada.'};
+        var ref='RES-'+String((cnt.count||0)+1+intento).padStart(4,'0');
+        ins=await tcSb.from('reservas').insert({camper_id:camper.id,camper_key:camper.key,reserva_ref:ref,cliente_nombre:args.cliente_nombre,cliente_documento:args.cliente_documento||null,cliente_telefono:args.cliente_telefono||null,cliente_email:args.cliente_email,fecha_inicio:args.fecha_inicio.split(' ')[0],fecha_fin:args.fecha_fin.split(' ')[0],num_personas:args.num_personas||null,estado_reserva:'Pendiente',precio_total:precio_total,notas:args.notas||null}).select().single();
+        if(!ins.error)break;
+        lastErr=ins.error;
+        if(ins.error.code!=='23505')break; // 23505 = colisión de reserva_ref -> reintentar
+      }
+      if(ins&&!ins.error&&ins.data)return{ok:true,id_reserva:ins.data.reserva_ref,modelo:camper.modelo,precio_total:precio_total,noches:noches,moneda:'pesos uruguayos (UYU)',email_cliente:args.cliente_email};
+      return{error:'No se pudo guardar la reserva'+((lastErr&&lastErr.message)?': '+lastErr.message:'')+'. La reserva NO quedó registrada; por favor reintentá o escribí a soporte@todocamping.com.'};
+    }catch(e){
+      return{error:'No se pudo guardar la reserva (error de conexión con la base de datos). La reserva NO quedó registrada; reintentá en unos segundos o escribí a soporte@todocamping.com.'};
+    }
+  }
+  // Si hay Supabase configurado pero el cliente no inicializó, NO inventamos un éxito.
+  if(TC_CONFIG.SUPABASE_URL&&TC_CONFIG.SUPABASE_ANON_KEY){
+    return{error:'No se pudo conectar con la base de datos (cliente no inicializado). La reserva NO quedó registrada; recargá la página e intentá de nuevo.'};
+  }
+  // Modo DEMO real (sin Supabase configurado): reserva sólo en memoria, marcada como demo.
   var ref='RES-'+String(TC_MOCK._nextId++).padStart(4,'0');
   TC_MOCK.reservas.push({id:ref,reserva_ref:ref,camper_key:camper.key,camper_modelo:camper.modelo,cliente_nombre:args.cliente_nombre,cliente_documento:args.cliente_documento||null,cliente_telefono:args.cliente_telefono||null,cliente_email:args.cliente_email,fecha_inicio:args.fecha_inicio.split(' ')[0],fecha_fin:args.fecha_fin.split(' ')[0],num_personas:args.num_personas||null,estado_reserva:'Pendiente',precio_total:precio_total});
-  return {ok:true,id_reserva:ref,modelo:camper.modelo,precio_total:precio_total,noches:noches,moneda:'pesos uruguayos (UYU)',email_cliente:args.cliente_email};
+  return {ok:true,id_reserva:ref,modelo:camper.modelo,precio_total:precio_total,noches:noches,moneda:'pesos uruguayos (UYU)',email_cliente:args.cliente_email,demo:true};
 }
 
 async function tcExecConsultarReserva(args) {
-  if(tcSb){try{var q=tcSb.from('reservas').select('*');if(args.id_reserva)q=q.eq('reserva_ref',args.id_reserva);else if(args.email)q=q.ilike('cliente_email',args.email);var r=await q.limit(10);return r.data&&r.data.length?{reservas:r.data}:{resultado:'No se encontraron reservas con esos datos.'};}catch(e){}}
+  if(tcSb){try{var q=tcSb.from('reservas').select('*');if(args.id_reserva)q=q.eq('reserva_ref',args.id_reserva);else if(args.email)q=q.ilike('cliente_email',args.email);var r=await q.limit(10);if(r.error)return{error:'No se pudo consultar la reserva: '+r.error.message};return r.data&&r.data.length?{reservas:r.data}:{resultado:'No se encontraron reservas con esos datos.'};}catch(e){return{error:'No se pudo consultar la reserva (error de conexión con la base de datos).'};}}
   var f=TC_MOCK.reservas;
   if(args.id_reserva)f=f.filter(function(r){return r.reserva_ref===args.id_reserva||r.id===args.id_reserva;});
   else if(args.email)f=f.filter(function(r){return r.cliente_email&&r.cliente_email.toLowerCase()===args.email.toLowerCase();});
@@ -266,13 +289,13 @@ async function tcExecConsultarReserva(args) {
 }
 
 async function tcExecListarActivas() {
-  if(tcSb){try{var r=await tcSb.from('reservas').select('*').in('estado_reserva',['Confirmada','Pendiente']).order('fecha_inicio',{ascending:true});return{reservas:r.data||[],total:(r.data||[]).length};}catch(e){}}
+  if(tcSb){try{var r=await tcSb.from('reservas').select('*').in('estado_reserva',['Confirmada','Pendiente']).order('fecha_inicio',{ascending:true});if(r.error)return{error:'No se pudieron listar las reservas: '+r.error.message};return{reservas:r.data||[],total:(r.data||[]).length};}catch(e){return{error:'No se pudieron listar las reservas (error de conexión con la base de datos).'};}}
   var f=TC_MOCK.reservas.filter(function(r){return['Confirmada','Pendiente'].includes(r.estado_reserva);});
   return{reservas:f,total:f.length};
 }
 
 async function tcExecModificarReserva(args) {
-  if(tcSb){try{var updates={};if(args.fecha_inicio)updates.fecha_inicio=args.fecha_inicio;if(args.fecha_fin)updates.fecha_fin=args.fecha_fin;if(args.cliente_telefono)updates.cliente_telefono=args.cliente_telefono;if(args.cliente_email)updates.cliente_email=args.cliente_email;if(args.estado_reserva)updates.estado_reserva=args.estado_reserva;if(args.observaciones)updates.notas=args.observaciones;if(args.camper_modelo){var c=await tcSb.from('campers').select('id,key').ilike('modelo','%'+args.camper_modelo+'%').limit(1).single();if(c.data){updates.camper_id=c.data.id;updates.camper_key=c.data.key;}}var r=await tcSb.from('reservas').update(updates).eq('reserva_ref',args.id_reserva).select().single();if(r.error)return{error:r.error.message};return{ok:true,reserva:r.data,mensaje:'Reserva '+args.id_reserva+' actualizada correctamente.'};}catch(e){}}
+  if(tcSb){try{var updates={};if(args.fecha_inicio)updates.fecha_inicio=args.fecha_inicio;if(args.fecha_fin)updates.fecha_fin=args.fecha_fin;if(args.cliente_telefono)updates.cliente_telefono=args.cliente_telefono;if(args.cliente_email)updates.cliente_email=args.cliente_email;if(args.estado_reserva)updates.estado_reserva=args.estado_reserva;if(args.observaciones)updates.notas=args.observaciones;if(args.camper_modelo){var c=await tcSb.from('campers').select('id,key').ilike('modelo','%'+args.camper_modelo+'%').limit(1).single();if(c.data){updates.camper_id=c.data.id;updates.camper_key=c.data.key;}}var r=await tcSb.from('reservas').update(updates).eq('reserva_ref',args.id_reserva).select().single();if(r.error)return{error:r.error.message};return{ok:true,reserva:r.data,mensaje:'Reserva '+args.id_reserva+' actualizada correctamente.'};}catch(e){return{error:'No se pudo modificar la reserva (error de conexión con la base de datos). Verificá si el cambio se aplicó antes de reintentar.'};}}
   var idx=TC_MOCK.reservas.findIndex(function(r){return r.reserva_ref===args.id_reserva||r.id===args.id_reserva;});
   if(idx===-1) return{error:'Reserva '+args.id_reserva+' no encontrada.'};
   var r=TC_MOCK.reservas[idx];
@@ -283,7 +306,7 @@ async function tcExecModificarReserva(args) {
 }
 
 async function tcExecCancelar(args) {
-  if(tcSb){try{var u={estado_reserva:'Cancelada'};if(args.motivo)u.notas=args.motivo;var r=await tcSb.from('reservas').update(u).eq('reserva_ref',args.id_reserva);if(r.error)return{error:r.error.message};return{ok:true,id_reserva:args.id_reserva,estado:'Cancelada',mensaje:'Reserva cancelada. El historial se conserva.'};}catch(e){}}
+  if(tcSb){try{var u={estado_reserva:'Cancelada'};if(args.motivo)u.notas=args.motivo;var r=await tcSb.from('reservas').update(u).eq('reserva_ref',args.id_reserva);if(r.error)return{error:r.error.message};return{ok:true,id_reserva:args.id_reserva,estado:'Cancelada',mensaje:'Reserva cancelada. El historial se conserva.'};}catch(e){return{error:'No se pudo cancelar la reserva (error de conexión con la base de datos). Verificá el estado antes de reintentar.'};}}
   var r=TC_MOCK.reservas.find(function(x){return x.reserva_ref===args.id_reserva||x.id===args.id_reserva;});
   if(!r) return{error:'Reserva '+args.id_reserva+' no encontrada.'};
   r.estado_reserva='Cancelada';if(args.motivo)r.notas=args.motivo;
