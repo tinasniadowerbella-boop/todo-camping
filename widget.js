@@ -100,6 +100,8 @@ REGLA CRÍTICA: Si Nombre y Email dicen algo distinto a "NO DISPONIBLE", son dat
 
 ⛔ NUNCA menciones tu nombre interno (Remi) al cliente. No te presentes con nombre propio. Simplemente gestioná la reserva directo sin presentación.
 
+🚫 REGLA DURA: NUNCA llames a crear_reserva sin tener los 6 datos: modelo, fecha_inicio, fecha_fin, nombre, email, documento y teléfono. Si falta cualquiera, pedilo ANTES (uno por vez). Y NUNCA afirmes que una reserva está confirmada ni inventes un código si no llamaste a crear_reserva y no recibiste un id_reserva del sistema.
+
 TONO: profesional y cálido. Tutea. Máximo 1-2 emojis por mensaje. Sin exceso de bullets.
 
 MONEDA: Todos los precios en PESOS URUGUAYOS. El precio es el número exacto del campo precio_por_noche (ej: si precio_por_noche=55, escribe $55 UYU/noche, el total de 5 noches es $275 UYU). NUNCA formatees con puntos de miles a menos que el número lo requiera realmente. NUNCA uses solo "$". NUNCA uses euros.
@@ -121,11 +123,9 @@ MONEDA: Todos los precios en PESOS URUGUAYOS. El precio es el número exacto del
    - Precio: $[precio_noche] UYU/noche × [N] noches = $[total] UYU
    - Titular: [nombre] | Doc: [doc] | Tel: [tel] | Email: [email]
    ¿Confirmás la reserva?
-6. Cuando el usuario responda "sí" o cualquier confirmación: llama a crear_reserva INMEDIATAMENTE. NO vuelvas a mostrar opciones ni a pedir confirmación otra vez.
-7. Tras confirmar, muestra:
-   ✅ ¡Reserva confirmada! ID: [REF]
-   - Próximos pasos: recibirás un email de confirmación en [email]. Deberás presentar tu documento en el momento de retiro. El camper estará disponible a partir de las 10:00h del día de inicio.
-   - ¿Necesitas algo más?
+6. Cuando el usuario confirme (responda "sí" o equivalente): llamá a crear_reserva INMEDIATAMENTE pasando TODOS los datos (modelo, nombre, email, documento, teléfono, fecha_inicio, fecha_fin, personas). Si te falta documento o teléfono, NO llames a crear_reserva: pedilos primero.
+   REGLA INVIOLABLE: la reserva SOLO existe si crear_reserva devuelve un id_reserva. NUNCA escribas vos un mensaje de "reserva confirmada" ni inventes un código.
+7. No redactes la confirmación: el sistema la muestra automáticamente con el código RES-XXXX cuando la reserva se guarda. Si crear_reserva devuelve un error, NO digas que está confirmada — explicá brevemente que no se pudo registrar y ofrecé reintentar o escribir a soporte@todocamping.com.
 
 ═══ FLUJO MODIFICACIÓN ═══
 Si el usuario quiere cambiar algo de una reserva ya confirmada:
@@ -241,6 +241,8 @@ async function tcExecCrearReserva(args) {
   if(!tcValidarEmail(args.cliente_email)) return {error:'Email invalido: "'+args.cliente_email+'". Debe tener formato usuario@dominio.com'};
   if(args.cliente_documento&&!tcValidarDoc(args.cliente_documento)) return {error:'Documento invalido: "'+args.cliente_documento+'". Acepta DNI, pasaporte, cedula (5-20 caracteres alfanumericos).'};
   if(args.cliente_telefono&&!tcValidarTel(args.cliente_telefono)) return {error:'Telefono invalido: "'+args.cliente_telefono+'". Debe tener entre 7 y 15 digitos.'};
+  if(!args.cliente_documento) return {error:'FALTAN_DATOS: pedile al cliente su documento (cedula o pasaporte) antes de crear la reserva. No la confirmes sin esto.'};
+  if(!args.cliente_telefono)  return {error:'FALTAN_DATOS: pedile al cliente su telefono de contacto antes de crear la reserva. No la confirmes sin esto.'};
   var camper=await tcFindCamper(args.camper_modelo);
   if(!camper) return {error:'Camper "'+args.camper_modelo+'" no encontrado.'};
   // VERIFICACIÓN DE DISPONIBILIDAD OBLIGATORIA antes de insertar
@@ -336,6 +338,27 @@ async function tcCallClaude(system, tools, messages) {
   return resp.json();
 }
 
+function tcConfirmacionMsg(o){
+  var L=[];
+  L.push('✅ ¡Reserva confirmada! Tu código es **'+o.id_reserva+'**.');
+  L.push('');
+  if(o.modelo)            L.push('• Camper: '+o.modelo);
+  if(o.noches)            L.push('• Noches: '+o.noches);
+  if(o.precio_total!=null)L.push('• Total: $'+o.precio_total+' '+(o.moneda||'pesos uruguayos (UYU)'));
+  L.push('');
+  L.push('Te enviaremos los detalles'+(o.email_cliente?(' a '+o.email_cliente):'')+'. Presentá tu documento al retirar el camper. Guardá tu código **'+o.id_reserva+'** para cualquier consulta. ¿Necesitás algo más? 🚐');
+  return L.join('\n');
+}
+function tcPostProcesarTexto(text, reservaCreada){
+  // Si la reserva se guardó de verdad, la confirmación la genera el CÓDIGO (no el modelo).
+  if(reservaCreada) return tcConfirmacionMsg(reservaCreada);
+  // Anti-alucinación: el modelo afirma "confirmada/registrada" pero NO se creó ninguna reserva.
+  if(text && /(reserva\s+(qued[oó]|est[aá]|fue)\s+(confirmad|registrad|realizad)|qued[oó]\s+confirmad|ya\s+est[aá]\s+reservad|tu\s+reserva\s+est[aá]\s+confirmad)/i.test(text)){
+    return 'Perdón, todavía no pude registrar tu reserva en el sistema. Una reserva solo queda hecha cuando te doy un código RES-XXXX. Si querés, completamos tu documento y teléfono y la confirmás de nuevo, o escribinos a soporte@todocamping.com.';
+  }
+  return text;
+}
+
 async function tcRunLoop(userText) {
   var agentId=tcState.current;
   var history=tcState.histories[agentId];
@@ -343,12 +366,14 @@ async function tcRunLoop(userText) {
   messages.push({role:'user',content:userText});
   var system=typeof TC_PROMPTS[agentId]==='function'?TC_PROMPTS[agentId]():TC_PROMPTS[agentId];
   var tools=TC_TOOLS[agentId];
+  var reservaCreada=null;
 
   for(var turn=0;turn<10;turn++){
     var result=await tcCallClaude(system,tools,messages);
 
     if(result.stop_reason==='end_turn'){
       var text=result.content.filter(function(b){return b.type==='text';}).map(function(b){return b.text;}).join('');
+      text=tcPostProcesarTexto(text,reservaCreada);
       history.push({role:'user',content:userText});
       history.push({role:'assistant',content:[{type:'text',text:text}]});
       return{text:text,handoff:null};
@@ -369,7 +394,7 @@ async function tcRunLoop(userText) {
         else if(block.name==='pasar_a_cami')                     {handoff={agente:'cami',contexto:block.input.contexto,mensajeVisible:block.input.mensaje_usuario};output={ok:true};}
         else if(block.name==='consultar_campers')                {output=await tcExecConsultarCampers(block.input);}
         else if(block.name==='verificar_disponibilidad')         {output=await tcExecVerificarDisp(block.input);}
-        else if(block.name==='crear_reserva')                    {output=await tcExecCrearReserva(block.input);}
+        else if(block.name==='crear_reserva')                    {output=await tcExecCrearReserva(block.input); if(output&&output.ok&&output.id_reserva)reservaCreada=output;}
         else if(block.name==='consultar_reserva')                {output=await tcExecConsultarReserva(block.input);}
         else if(block.name==='listar_reservas_activas')          {output=await tcExecListarActivas();}
         else if(block.name==='modificar_reserva')                {output=await tcExecModificarReserva(block.input);}
@@ -387,6 +412,7 @@ async function tcRunLoop(userText) {
 
     var ft=result.content&&result.content.find(function(b){return b.type==='text';});
     var txt=ft?ft.text:'Respuesta inesperada.';
+    txt=tcPostProcesarTexto(txt,reservaCreada);
     history.push({role:'user',content:userText});
     history.push({role:'assistant',content:[{type:'text',text:txt}]});
     return{text:txt,handoff:null};
