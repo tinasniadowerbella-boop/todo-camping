@@ -674,7 +674,7 @@
     </div>
     <div class="agents-grid">
       <div class="agent-card">
-        <div class="agent-avatar" style="background:#e8f5ee;">🏕¤</div>
+        <div class="agent-avatar" style="background:#e8f5ee;">🤖</div>
         <div class="agent-info">
           <div class="agent-role">Orquestador</div>
           <h3>Leo</h3>
@@ -682,7 +682,7 @@
         </div>
       </div>
       <div class="agent-card">
-        <div class="agent-avatar" style="background:#dbeafe;">🏕</div>
+        <div class="agent-avatar" style="background:#dbeafe;">💚</div>
         <div class="agent-info">
           <div class="agent-role">Información</div>
           <h3>Cami</h3>
@@ -724,7 +724,7 @@
           </div>
         </div>
         <div class="chat-feat">
-          <div class="feat-icon">🏕</div>
+          <div class="feat-icon">🔒</div>
           <div class="feat-text">
             <h4>Reserva segura</h4>
             <p>Cuando quieras reservar, Remi toma el relevo y gestiona todo el proceso.</p>
@@ -779,13 +779,13 @@
     </div>
     <div class="contact-grid">
       <div class="contact-card">
-        <div class="contact-icon">🏕</div>
+        <div class="contact-icon">📍</div>
         <h3>Dirección</h3>
         <p>José Ellauri 331</p>
         <span>Montevideo, Uruguay</span>
       </div>
       <div class="contact-card">
-        <div class="contact-icon">🏕</div>
+        <div class="contact-icon">📞</div>
         <h3>Teléfono</h3>
         <p>+598 2 234 56 78</p>
         <span>Lun→Vie 9:00→19:00</span>
@@ -797,7 +797,7 @@
         <span>Te respondemos en &lt;2h</span>
       </div>
       <div class="contact-card">
-        <div class="contact-icon">🏕</div>
+        <div class="contact-icon">🕐</div>
         <h3>Horario</h3>
         <p>Lun→Vie 9:00→19:00</p>
         <span>Sábados 10:00→14:00</span>
@@ -832,7 +832,7 @@
     { key:"TC-PCA", modelo:"Pössl Campster",            tipo:"Furgoneta",    año:2023, cap:2, precio:3500,  unidades:6, disponible:true,  ac:false, bano:false, calef:false,cocina:true,  desc:"La más compacta. Ideal primavera→otoño." },
   ];
 
-  const EMOJIS = { Autocaravana: '🏕', Furgoneta: '🚐' };
+  const EMOJIS = { Autocaravana: '🚌', Furgoneta: '🚐' };
 
   function getBadge(c) {
     if (c.estado === 'Mantenimiento') return '<span class="card-badge badge-mant">Mantenimiento</span>';
@@ -856,15 +856,15 @@
           <div class="card-type">${c.tipo} Â· ${c.año}</div>
           <div class="card-name">${c.modelo}</div>
           <div class="card-specs">
-            <div class="spec-tag">🏕¥ ${c.cap} personas</div>
-            <div class="spec-tag">🏕 hasta 7m</div>
+            <div class="spec-tag">👥 ${c.cap} personas</div>
+            <div class="spec-tag">📏 hasta 7m</div>
             <div class="spec-tag">→½ Diesel</div>
           </div>
           <div class="card-equip">
             ${equipDot(c.ac,    '→ï¸')}
-            ${equipDot(c.bano,  '🏕¿')}
-            ${equipDot(c.calef, '🏕¥')}
-            ${equipDot(c.cocina,'🏕³')}
+            ${equipDot(c.bano,  '🚿')}
+            ${equipDot(c.calef, '🔥')}
+            ${equipDot(c.cocina,'🍳')}
           </div>
           <div class="card-footer">
             <div class="card-price">$${c.precio.toLocaleString()} <span>/ día</span></div>
