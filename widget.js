@@ -498,15 +498,19 @@ async function tcHandleSend(){
   var inp=document.getElementById('tc-user-input');
   var text=inp.value.trim();if(!text)return;
   inp.value='';
+  if(!TC_CHAT_INICIO_LOGGED){TC_CHAT_INICIO_LOGGED=true;tcLog('chat_inicio',{primer_mensaje:text.slice(0,80)});}
   tcAddUserMsg(text);tcSetTyping(true);tcSetDisabled(true);
+  var _tcT0=Date.now();
   try{
     var r=await tcRunLoop(text);
     tcSetTyping(false);
+    tcLog('chat_mensaje',{chars:text.length},Date.now()-_tcT0);
     // Solo mostrar texto si NO hay handoff (el texto de handoff es mensaje interno entre agentes)
     if(r.text && !r.handoff && r.text.trim().toLowerCase() !== text.trim().toLowerCase()) tcAddAgentMsg(r.text);
     if(r.handoff)await tcPerformHandoff(r.handoff);
   }catch(err){
     tcSetTyping(false);
+    tcLog('error_api',{error:String((err&&err.message)||err)});
     tcAddError('Error: '+err.message);
   }finally{
     tcSetDisabled(false);
@@ -516,6 +520,25 @@ async function tcHandleSend(){
 
 // Datos del cliente logueado (pasados desde index.html tras el login)
 var TC_CLI = { nombre: null, email: null };
+
+/* ─── LOGGING DE MONITOREO (logs_sistema) ─── */
+var TC_SESSION_ID = 'sess_'+Date.now()+'_'+Math.random().toString(36).substr(2,9);
+var TC_CHAT_INICIO_LOGGED = false;
+function tcLog(tipo, datos, duracion_ms){
+  try{
+    if(!tcSb) return;
+    tcSb.from('logs_sistema').insert({
+      tipo_evento:    tipo,
+      agente:         (tcState && tcState.current) ? tcState.current : 'leo',
+      session_id:     TC_SESSION_ID,
+      cliente_email:  TC_CLI.email  || null,
+      cliente_nombre: TC_CLI.nombre || null,
+      datos:          datos || null,
+      duracion_ms:    (duracion_ms!=null ? Math.round(duracion_ms) : null)
+    }).then(function(){}, function(){}); // best-effort, silencioso
+  }catch(e){}
+}
+
 function tcSetCliente(nombre, email) {
   TC_CLI.nombre = nombre;
   TC_CLI.email  = email;

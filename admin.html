@@ -174,7 +174,6 @@
   <div class="tabs">
     <div class="tab active" data-tab="reservas">📋 Reservas</div>
     <div class="tab" data-tab="monitoreo">📊 Monitoreo</div>
-    <div class="tab" data-tab="logs">🔍 Logs</div>
   </div>
 
   <!-- TAB RESERVAS -->
@@ -222,15 +221,6 @@
   </div>
 
   <!-- TAB LOGS -->
-  <div class="tab-content" id="tab-logs">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-      <p class="section-title" style="margin:0">Log de errores recientes</p>
-      <button class="btn-export" id="btn-export-csv">⬇️ Exportar CSV</button>
-    </div>
-    <div class="table-wrap">
-      <div id="tabla-logs-wrap"><div class="loading">Cargando logs…</div></div>
-    </div>
-  </div>
 </div>
 
 <script>
@@ -343,7 +333,6 @@ document.querySelectorAll('.tab').forEach(tab => {
     tab.classList.add('active');
     document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
     if (tab.dataset.tab === 'monitoreo') cargarMonitoreo();
-    if (tab.dataset.tab === 'logs') cargarLogs();
   });
 });
 
@@ -559,44 +548,7 @@ async function verificarAlertas() {
 }
 
 /* ── LOGS DE ERRORES ── */
-async function cargarLogs() {
-  const { data } = await SB.from('logs_sistema')
-    .select('*').in('tipo_evento', ['error_api','error_supabase'])
-    .order('timestamp', {ascending:false}).limit(20);
 
-  const wrap = document.getElementById('tabla-logs-wrap');
-  if (!data?.length) { wrap.innerHTML = '<div class="empty">Sin errores registrados. 🎉</div>'; return; }
-
-  wrap.innerHTML = `<table>
-    <thead><tr><th>Timestamp</th><th>Tipo</th><th>Agente</th><th>Session</th><th>Datos</th></tr></thead>
-    <tbody>${data.map(l => `<tr>
-      <td>${new Date(l.timestamp).toLocaleString('es-UY')}</td>
-      <td><span class="badge Cancelada">${l.tipo_evento}</span></td>
-      <td>${l.agente||'—'}</td>
-      <td style="font-family:monospace;font-size:11px">${(l.session_id||'—').substring(0,12)}</td>
-      <td class="log-datos" title="${JSON.stringify(l.datos||{})}">${JSON.stringify(l.datos||{})}</td>
-    </tr>`).join('')}
-    </tbody></table>`;
-}
-
-/* ── EXPORT CSV ── */
-document.getElementById('btn-export-csv').addEventListener('click', async () => {
-  const { data } = await SB.from('logs_sistema')
-    .select('*').in('tipo_evento',['error_api','error_supabase'])
-    .order('timestamp',{ascending:false}).limit(500);
-
-  if (!data?.length) return alert('No hay errores para exportar.');
-  const headers = ['timestamp','tipo_evento','agente','session_id','cliente_email','duracion_ms','datos'];
-  const rows = data.map(r => headers.map(h => {
-    const v = h === 'datos' ? JSON.stringify(r[h]||{}) : (r[h]||'');
-    return `"${String(v).replace(/"/g,'""')}"`;
-  }).join(','));
-  const csv = [headers.join(','), ...rows].join('\n');
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
-  a.download = `todocamping_errores_${new Date().toISOString().split('T')[0]}.csv`;
-  a.click();
-});
 
 /* ── AUTO-REFRESH monitoreo cada 30s ── */
 setInterval(() => {
